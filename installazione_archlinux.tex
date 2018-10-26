@@ -11,7 +11,7 @@
 \usepackage{tcolorbox}
 \usepackage{listings}
 \usepackage{xcolor}
-\newcommand{\code}[1]{\texttt{#1}}
+
 \usepackage[colorlinks = true, urlcolor=blue]{hyperref}
 \usepackage[a4paper,top=2.5cm,bottom=2cm,left=2cm,right=2cm]{geometry}
 \usepackage{colortbl}
@@ -21,34 +21,38 @@
 \chapterfont{\flushright}
 \graphicspath{{"images/"},{.}}
 
-
-
-
-\newcommand{\centcode}[1]{
-
-\definecolor{codice}{rgb}{0.5,0.1,0.1}
-
-	\begin{center}
-		\color{codice}
-		\code{#1}
-	\end{center}
-
-
-}
-
 \newcommand{\nlinea}{
 	\leavevmode
 	\\
 }
 
+\definecolor{default}{rgb}{0,0,0} % usato per il testo
+\definecolor{code}{rgb}{0.19, 0.55, 0.91} %usato per il tag code
+\definecolor{lred}{rgb}{1,0.3,0.3} %per le tabelle
+\definecolor{codeback}{rgb}{0,0,0} %lst background
+\definecolor{codefore}{rgb}{0,1,0} % lst testo
+\definecolor{fsuggerimento}{rgb}{0.01,0.85,0.77} %colore testo titolo suggerimento
+\definecolor{bsuggerimento}{rgb}{0.38,0,0.93} %colore testo sfondo suggerimento
 
-\definecolor{lred}{rgb}{1,0.3,0.3} %come fare un colore
-\definecolor{codeback}{rgb}{0,0,0}
-\definecolor{codefore}{rgb}{0,255,0}
 
 \lstdefinestyle{mystyle}{
 	backgroundcolor=\color{codeback},
-	basicstyle=\ttfamily\color{codefore}
+	basicstyle=\ttfamily\color{codefore} %TODO FIX bisogna riprendere il colore precedente
+}
+
+\newcommand{\centcode}[1]{
+	
+	\definecolor{centcode}{rgb}{0.5,0.1,0.1}
+	
+	\begin{center}
+	 	\texttt{\textcolor{centcode}{#1}}
+	\end{center}
+	
+	
+}
+
+\newcommand{\code}[1]{
+	\texttt{\textcolor{code}{#1}}
 }
 
 \lstset{
@@ -99,15 +103,19 @@
 
 	\end{LARGE}
 
-	questa guida si prefigge lo scopo di essere generale un po' orientata a chiunque si avvicini la prima volta nel mondo di Archlinux. Tuttavia è stata seguita seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle soli 3 anni di abilità acquisite su archlinux, installando tuttavia più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)\\
-
-	Se c'è comunque una consapevolezza di cui il tempo, le mie e le esperienze altrui mi hanno fatto dono è che, inevitabilmente, \textbf{ogni calcolatore gode di un esperienza unica in termini di prestazioni, estetica e praticità della configurazione distribuzione/kernel/parametri installati da colui che si appresta ad utilizzarci GNU/Linux sopra}. Questa affermazione, se pur posso assicurare abbia un alto grado di verità, tende ad entrare difficilmente nelle mentalità di chi da tempo, ormai, tende ad avere atteggiamenti da stadio anche nei confronti della più assoluta libertà che dovrebbe invece professare la community di Linux.\\
-
-	Inoltre consiglio a \textbf{tutti} coloro che si avventurano nella piccola impresa di installare archlinux, di tenere sempre sottomano la guida \textit{ultima} di tutti noi arch-user (e non solo), la \href{https://wiki.archlinux.org/index.php/Installation_guide}{wiki}: un'enorme fonte di conoscenza sul mondo linux che risolve problemi in qualsiasi ambito, o quanto meno vi aiuta a risolverli indirettamente. Tutto ciò che troverete in questa guida altro non è che un estratto di piccole sezioni della wiki che io uso sempre per installare archlinux. La guida è inoltre disponibile in moltissime lingue, tra cui l'italiano.\\
-	Ricordo inoltre che per chi volesse provare un Archlinux con installer user-friendly, esiste \href{https://antergos.com/}{Antergos}, una distro su base arch completamente personalizzabile al momento dell'installazione, molto ma molto user-friendly.\\
-	Rimane comunque consigliato, a mio avviso, non scegliere archlinux come distribuzione per approcciarsi la prima volta con il mondo GNU/Linux, ma scegliere distro più "alla mano" come \textbf{Ubuntu}, \textbf{Fedora}, \textbf{Linux Mint} o \textbf{Deepin}.\\
+	\color{default}
+	\nlinea
+	questa guida si prefigge lo scopo di essere generale un po' orientata a chiunque si avvicini la prima volta nel mondo di Archlinux. Tuttavia è stata seguita seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle soli 3 anni di abilità acquisite su archlinux, installando tuttavia più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)
+	\nlinea \nlinea
+	Se c'è comunque una consapevolezza di cui il tempo, le mie e le esperienze altrui mi hanno fatto dono è che, inevitabilmente, \textbf{ogni calcolatore gode di un esperienza unica in termini di prestazioni, estetica e praticità della configurazione distribuzione/kernel/parametri installati da colui che si appresta ad utilizzarci GNU/Linux sopra}. Questa affermazione, se pur posso assicurare abbia un alto grado di verità, tende ad entrare difficilmente nelle mentalità di chi da tempo, ormai, tende ad avere atteggiamenti da stadio anche nei confronti della più assoluta libertà che dovrebbe invece professare la community di Linux.
+	\nlinea \nlinea
+	Inoltre consiglio a \textbf{tutti} coloro che si avventurano nella piccola impresa di installare archlinux, di tenere sempre sottomano la guida \textit{ultima} di tutti noi arch-user (e non solo), la \href{https://wiki.archlinux.org/index.php/Installation_guide}{wiki}: un'enorme fonte di conoscenza sul mondo linux che risolve problemi in qualsiasi ambito, o quanto meno vi aiuta a risolverli indirettamente. Tutto ciò che troverete in questa guida altro non è che un estratto di piccole sezioni della wiki che io uso sempre per installare archlinux. La guida è inoltre disponibile in moltissime lingue, tra cui l'italiano.
+	\nlinea \nlinea
+	Ricordo inoltre che per chi volesse provare un Archlinux con installer user-friendly, esiste \href{https://antergos.com/}{Antergos}, una distro su base arch completamente personalizzabile al momento dell'installazione, molto ma molto user-friendly.
+	\nlinea
+	Rimane comunque consigliato, a mio avviso, non scegliere archlinux come distribuzione per approcciarsi la prima volta con il mondo GNU/Linux, ma scegliere distro più "alla mano" come \textbf{Ubuntu}, \textbf{Fedora}, \textbf{Linux Mint} o \textbf{Deepin}.
+	\nlinea \nlinea
 	Un ultima considerazione: questo file è in continuo aggiornamento, motivo per il quale la data, in pagina principale, non è ancora specificata.
-
 	Detto questo: buon divertimento e benvenuti nel fantastico mondo di Archlinux
 
 	\begin{figure}[h!]
@@ -198,7 +206,7 @@
 
 			La pennina è pronta per i sistemi UEFI. Questo metodo è più sicuro di dd ma funziona su meno sistemi, eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile, scaricare quindi dal proprio gestore di pacchetti l'ultima versione di \textbf{syslinux} e di \textbf{parted} ed eseguire i prossimi comandi (prima di smontare la usb):
 
-/linea
+\nlinea
 \begin{lstlisting}
 		extlinux --install usb/arch/boot/syslinux
 		dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sdX
@@ -251,7 +259,18 @@
 
 		L'utente un po' inesperto o pratico solo di installazioni Ubuntu/OSX/Windows sarà spaesato, ma nessuna paura, è tutto molto più semplice di ciò che si pensa.
 
-		Ma prima di tutto, se avete una tastiera italiana, digitate: \code{loadkeys it}, così vedrete meno madonnine volare in cielo...
+		Ma prima di tutto, se avete una tastiera italiana, digitate: \centcode{loadkeys it} 
+		\nlinea
+		se avete uno schermo hidpi digitate anche:
+		\centcode{setfont /usr/share/kbd/consolefonts/sun12x22.psfu.gz}
+		\nlinea
+		così vedrete meno madonnine volare in cielo...
+		
+		\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
+			nella cartella \code{/usr/share/kbd/consolefonts/} trovate molti altri font, scegliete solo quelli 12x22 per la leggibilità massima
+		\end{tcolorbox}
+		
+		
 
 		\section{preparazione del disco di installazione}
 
@@ -259,7 +278,12 @@
 
 			Ci vuole comunque un po' di organizzazione, bisogna sapere in anticipo in quante partizioni si vuole suddividere la propria installazione, se si è su un sistema UEFI, se si hanno più dischi e se si hanno altre installazioni da preservare.\\
 
-			La guida supporrà che il disco sia inizialmente non inizializzato, sia l'unico disco e che non si hanno altri sistemi operativi presenti. Supporrò inoltre di voler suddividere l'installazione in: root, home e swap. Un altra condizione supposta sarà quella di avere un sistema EFI con tutto quello che ne deriva.
+			La guida supporrà che il disco sia inizialmente non inizializzato, sia l'unico disco e che non si hanno altri sistemi operativi presenti. Supporrò inoltre di voler suddividere l'installazione in: root, home e swap. Un altra condizione supposta sarà quella di avere un sistema EFI con tutto quello che ne deriva.\\
+			
+					
+			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback=fsuggerimento,colbacktitle=bsuggerimento,coltitle=fsuggerimento, colupper=bsuggerimento,title={SUGGERIMENTO}]
+				 Lo spazio di Swap è uno spazio utilizzato dal sistema per sopperire alla mancanza di memoria RAM sufficente a far funzionare correttamente tutti i programmi. In genere si usa riservarne spazio uguale alla RAM per usufruire anche della funzione di ibernazione, che consente di spegnere il computer senza perdere la sessione di lavoro corrente (diversamente dalla sospensione non consuma batteria). Per pc con RAM maggiore di 4Gb non consiglio di usare la swap a meno di usare anche l'ibernazione, un alternativa può essere anche quella di usare il \textbf{file di swap} anziché la partizione. Maggiori informazioni si troveranno nella sezione che riguarda le configurazioni di sistema.
+			\end{tcolorbox}
 
 
 			Abbiamo quindi il nostro disco su \textbf{/dev/sda}, vuoto e non inizializzato in alcun modo (un disco vergine per intenderci, come quello che potremmo trovarci in una macchina virtuale). Alternativamente si può pensare che abbiamo un disco  di cui il contenuto non ci interessa, quindi le seguenti operazioni lo formatteranno completamente: \centcode{gdisk /dev/sda}
@@ -293,7 +317,7 @@
 	4
 	(invio senza scrivere niente)
 	+ZZG
-	#sostituendo a ZZ il numero di Giga che volete dare alla  swap, in genere lo si da uguale alla RAM per usufruire della funzione di ibernazione. Per pc con RAM maggiore di 4Gb non consiglio di usare la swap a meno di usare anche l'ibernazione
+	#sostituendo a ZZ il numero di Giga che volete dare alla  swap.
 	8200
 
 	w
@@ -387,6 +411,7 @@
 	umount /mnt
 	swapoff
 	sync
+	poweroff # o reboot per riavviare
 \end{lstlisting}
 
 			possiamo quindi riavviare e continuare con le configurazioni tramite l'utente root e non in ambiente di chroot
@@ -410,7 +435,7 @@
 			In ambienti linux, senza motore grafico, possiamo usare il pc al più come server. Oggi giorno la produttività dipende strettamente da ciò che vediamo e come interagiamo. Per questo motivo installiamo il server grafico, oggi Xorg, nonostante ci siano valide alternative, risulta ancora la realtà più consolidata, vi consiglio dunque di installarlo a prescindere da ciò che poi proverete. Insieme a Xorg, è consigliato installare il suo sistema di init, utile nel caso in cui non vogliate un DM o il vostro non funzioni a dovere. Quindi:\centcode{pacman -S xorg-server xorg-xinit}
 			Potete quindi impostare nel file \textit{$\sim$/xinitrc} il comando per utilizzare  il vostro DE preferito (quando ne avrete uno).
 
-			Installare i driver è anche abbastanza semplice, se avete installato arch su una macchina virtuale virtualbox, vi basterà digitare: \centcode{pacman -S virtualbox-guest-utils}, altrimenti andiamo ad identificare la vostra scheda video con \code{lspci} \centcode{lspci | grep VGA}, l'output riporterà al suo interno: \textbf{intel}, \textit{ati} o \textit{nvidia}. In base a cosa riporta andiamo ad installare i driver \textit{open} relativi:
+			Installare i driver è anche abbastanza semplice, se avete installato arch su una macchina virtuale virtualbox, vi basterà digitare: \centcode{pacman -S virtualbox-guest-utils}altrimenti andiamo ad identificare la vostra scheda video con \code{lspci} \centcode{lspci | grep VGA}l'output riporterà al suo interno: \textbf{intel}, \textit{ati} o \textit{nvidia}. In base a cosa riporta andiamo ad installare i driver \textit{open} relativi:
 \begin{lstlisting}
 	#per installare i driver intel
 	pacman -S xf86-video-intel
@@ -527,7 +552,46 @@
 		\section{Sincronizzare orologio di sistema e Hardware}
 			
 			Per sincronizzare l'orologio di sistema con quello del calcolatore si può digitare:\centcode{hwclock --systohc (--utc)}
-
+			
+		\section{tmp file system}
+			
+			nel nostro file system una cartella speciale, \code{/tmp}, che contiene file e cartelle temporaneamente creati dai programmi per il loro corretto funzionamento. Questa cartella viene montata da \textit{systemd} automaticamente in memoria \textbf{RAM } in modo da essere resettata ad ogni arresto del calcolatore.\\
+			È comunque possibile, per quei pc che non hanno un gran quantitativo di memoria disponibile, montare la cartella nello spazio di archiviazione piuttosto che in memoria volatile
+			
+			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={white},title={ATTENZIONE:},colbacktitle=red,coltitle=white,colupper=red]
+				Se installate frequentemente programmi da \textbf{AUR} con un \textbf{AUR-helper} è possibile che quest'ultimo, facendo tante scritture su \code{/tmp}, vi saturi facilmente la memoria, consiglio quindi questo procedimento a tutti i pc con meno di 8 GB di RAM.
+			\end{tcolorbox}
+			\nlinea
+			Per disabilitare il montaggio automatico basta dare:
+			\centcode{\# systemctl mask tmp.mount}
+			
+			Bisogna comunque tener conto che disabilitando questo comportamento, il contenuto della cartella dei file temporanei \textbf{non verrà più cancellato allo spegnimento del dispositivo}.
+			
+			Si può ritornare al comporamento di default specificando manualmente il montaggio in \code{/etc/fstab} aggiungendo questa linea di testo al file:
+			\centcode{tmpfs   /tmp         tmpfs   nodev,nosuid          0  0}
+			
+			Si può anche specificare una size massima per evitare che la ram venga monopolizzata dalla sola partizione di file temporanei, facendo un esempio con il limite di \code{2GB} avremmo:
+			\centcode{tmpfs   /tmp         tmpfs   nodev,nosuid,size=2G          0  0}
+			
+			Altre interessanti informazioni su \textbf{tmpfs} si trovano sulla guida di arch.
+				
+			
+		\section{Swappiness}
+			
+			Se avete installato un area di swap la vostra maggior paura sarà appunto quella che il vostro pc possa usarla senza che ce ne sia la reale necessità; non è infatti detto che il sistema operativo debba aspettare di riempire la RAM prima di usare l'area di SWAP.\\
+			In ogni caso questo aspetto del sistema si può benissimo controllare attraverso la \code{swappiness}\\
+			Si può impostare la swappiness temporaneamente o permanentemente, nel secondo caso basta modificare il file \code{/etc/sysctl.d/99-sysctl.conf} e scrivere:
+			
+			\centcode{vm.swappiness=1}
+			
+			Come funziona questo valore però? perchè 1 e non 0?\\
+			Il valore di swappiness va da \code{0 a 100} e indica il \textbf{valore di ram libera che si desidera tenere libero prima di attivare la zona SWAP}.
+			Ad esempio, normalmente il valore di swappiness è \textbf{60}, questo significa che oltre il 40\% di RAM occupata, l'area di SWAP si attiva ( non finisce tutto in swap ovviamente ma il sistema tende ad assestarsi su quel valore di RAM libera).
+			Nelle versioni antecedenti a linux 3.5, un valore di swappiness \code{0} significava "\textit{usa la swap solo in caso di stretta necessità}", oggi ne disattiva invece le funzioni.\\
+			Maggiori informazioni \href{https://www.kernel.org/doc/Documentation/sysctl/vm.txt}{qui} e \href{https://en.wikipedia.org/wiki/Swappiness}{qui}.
+			
+			
+					
 	\chapter{Desktop Environment, Display Manager, NetworkManager e servizi systemd}
 
 		Premessa: ad oggi l'unico Desktop Environment che \textbf{non} mi sento di consigliare, è \textbf{GNOME}. Molti prenderanno questa come una bestemmia e chiuderanno subito la guida, fatti loro. A mio parere \textbf{GNOME} ha ancora molte mancanze che mi fanno sempre desistere dal tenerlo installato sui miei sistemi, è inoltre l'unico sistema che, appena aperto, raggiunge il Gigabyte di ram occupata ( più o meno). In ogni caso la bellissima guida wiki ha una guida per ogni singolo DE che vogliate installare (e installare \textbf{GNOME} completo è davvero cosa di due comandi).\\
@@ -569,6 +633,14 @@
 			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
 				Su molti Desktop Environment (plasma incluso) la tastiera è impostata di default con il layout USA. Non è un problema di localizzazione, ma va risolto proprio dalle impostazioni della tastiera del DE.
 			\end{tcolorbox}
+		
+		
+			Se avete problemi con plasma, ma non volete riavviare il pc per risolverli, potete tentare il riavvio del solo D.E. premendo \code{alt-f2} e digitando quanto segue: 
+
+			\centcode{killall plasma \&\& killall kwin\_x11 \&\& kstart plasmashell \&\& kstart kwin\_x11 }
+			\nlinea
+			e premendo quindi invio.
+
 			
 		\section{Display Manager}
 			Insieme a plasma, nella sua versione completa, verrà installato il suo\textit{ D.M. (Display Manager)} \textbf{SDDM}. Un D.M. banalmente vi presenta quella schermata che vi permette facilmente l'accesso al vostro ambiente, avviando anche il server X (o qualunque altro server grafico usiate). Ciò avviene facendovi selezionare il vostro utente da GUI, insieme ad un ambiente desktop e inserendo la password. Alcuni D.M. vi impongono di scrivere anche il nome utente. In quel caso diventano banalmente delle alternative a xinit.
@@ -581,7 +653,22 @@
 			\nlinea
 			\nlinea
 			Per utilizzare invece un D.M. completo, dovrete abilitarlo come servizio di systemd.\\
-			Tornando a SDDM ad esempio, per abilitarlo dovrete scrivere: \centcode{\# systemctl enable sddm}E riavviare.\\ In generale, al posto di sddm, dovrete scrivere il dm da voi scelto (ad es. \textit{gdm, lightdm, slimdm, ecc..})
+			Tornando a SDDM ad esempio, per abilitarlo dovrete scrivere: \centcode{\# systemctl enable sddm}E riavviare.\\ In generale, al posto di sddm, dovrete scrivere il DM da voi scelto (ad es. \textit{gdm, lightdm, slimdm, ecc..})
+			
+			
+			Un alternativa potrebbe essere quella di usare \textbf{xinit}, cioè un servizio che avvia il server x e, in seguito, un DE da voi scelto. Questa procedura è consigliata a chi ha poche risorse grafiche, a chi vuole ridurre al minimo i tempi di accesso o chi deve semplificare al più possibile l'accesso per isolare e capire dei problemi.\\
+			Per accedere tramite servizio \textbf{xinit} dovete assicurarvi di avere installato il pacchetto \code{xorg-xinit}. In seguito dovrete scrivere file \code{$\sim$/.xinitrc }(varia per ogni utente dunque):\\
+			Per KDE:
+			\centcode{exec startkde} 
+			Per XFCE:
+			\centcode{exec startxfce4}
+			Per GNOME con X Server:
+			\centcode{
+				export GDK\_BACKEND=x11\\
+				exec gnome-session
+			}			
+		
+			Per altri DE, consultare le relative wiki!
 			
 		\section{NetworkManager e servizi di rete}
 			Dietro le quinte, quando nella guida si è visto l'uso di \textit{wifi-menu}, il software che vi permetteva di accedere ad internet nient'altro era che \textbf{netctl}. Se avete seguito la guida dall'inizio, sia netctl che wifi-menu continueranno a funzionare egregiamente. 
@@ -752,7 +839,7 @@
 			
 			Ancora più avanzata è la shell \textbf{fish}, che possiede per altro un proprio linguaggio di scripting, diverso da quello di bash.\\
 			
-			Lo possiamo installare digitando \centcode{pacman -S fish}
+			Lo possiamo installare digitando \centcode{\# pacman -S fish}
 			
 			Fish è un po' particolare da tanti punti di vista, ad esempio il suo file rc lo trovate in \textit{\$USER/.config/config.fish}, e per personalizzarlo dovrete usare \textbf{fish\_config}, che aprirà un server web sul vostro browser dove potrete scegliere il tema, il prompt e altre funzionalità.
 			\nlinea
@@ -814,10 +901,41 @@
 			
 			Per far partire il programma ogni qual volta aprite il terminale (altra cosa che piace molto in genere) potete inserire \code{neofetch} nell'rc del vostro terminale preferito ( $\sim$/.bashrc, $\sim$/.zshrc,$\sim$/.config/fish/config.fish, etc... )
 			
+			
+			Funzioni aggiuntive di neofetch vengono attivate installando questi pacchetti:
+			\centcode{pacman -S catimg feh imagemagick jp2a libcaca nitrogen pacman-contrib w3m xdotool}
+			\nlinea
+			
+			
+			
+		\section{Se avete installato su VirtualBox}
+			
+			Se avete installato il tutto su virtual box sicuramente avrete anche qualche cartella da condividere tra sistema e ospitante e sistema ospite, quindi potete montarlo così:
+\begin{lstlisting}
+	#creiamo una cartella dove montare i dati condivisi
+	sudo mkdir -p /media/vboxshare
+	
+	#quindi montiamola, supponiamo di aver chiamato dalle impostazioni di VirtualBox la cartella SHARED
+	sudo mount -t vboxsf SHARED /media/vboxshare
+\end{lstlisting}
+			
+			È in generale possibile, attraverso la modifica del file /etc/fstab, aggiungere un punto nuovo di montaggio da caricare all'avvio del sistema. Nel particolare possiamo farlo anche con la cartella di virtual box.\\
+			Apriamo quindi con il nostro editor preferito il file \code{/etc/fstab} e aggiungiamo una linea si fatta:
+			\centcode{<NOME PUNTO DI MONTAGGIO> <PERCORSO PUNTO DI MONTAGGIO> vboxsf defaults 0 0}
+			Nel caso di SHARED e vboxshared:
+			\centcode{SHARED	/media/vboxshared	vboxsf	defauts	0 0} 
+			\nlinea
+			Poi salviamo e, assicurandoci che non sia ancora montata la cartella, diamo un \centcode{\# mount -a} 
+			Se la cartella risulta montata in seguito al comando, allora possiamo stare certi che lo sarà ogni riavvio, altrimenti tentiamo di capire cosa c'è di sbagliato attraverso i messaggi di errore nella sintassi, oppure azzeriamo le operazioni, pena: \textbf{potremmo riuscire a non avviare più correttamente il nostro sistema operativo}.
+			
+			 \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
+			 	la procedura sopra indicata per montare all'avvio una cartella virtualbox è simile per ogni dispositivo che volessimo montare ad avvio del nostro sistema, bisogna giusto apportare qualche modifica al tipo di partizione e sostituire al \textbf{nome del punto di montaggio} il file che identifica il nostro dispositivo, in genere si tratta del file \code{/dev/sdXY}, dove \textbf{X} è una lettera che identifica il dispositivo e \textbf{Y} un numero che identifica la partizione all'interno del dispositvo. (es. /dev/sdc3, cioè disco c partizione 3)
+			 \end{tcolorbox}
+			
 		\section{Il COMANDONE da due milioni di dollari}
 			segue un elenco di comandi che include tutti i software che normalmente installo nel mio sistema ed eventuali configurazioni \textit{(sezione in aggiornamento costante)}, a voi il compito di informarvi su a cosa servono e perché dovreste o non dovreste installarli!
 \begin{lstlisting}
-	aurman -S clementine audacity visual-studio-code-bin mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it vlc ponysay lolcat redshift jdk jdk-docs atom l3afpad deluge terminator octave gimp xterm libreoffice-fresh libreoffice-fresh-it texlive-bin texlive-core texlive-bibtexextra texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science texstudio wine wine-mono winetricks wine_gecko playonlinux  steam steam-native-runtime ntfs-3g python-pip mariadb catimg feh imagemagick jp2a libcaca nitrogen w3m xdotool gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs 
+	aurman -S clementine audacity visual-studio-code-bin mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it vlc ponysay lolcat redshift jdk jdk-docs atom l3afpad deluge terminator octave gimp xterm libreoffice-fresh libreoffice-fresh-it texlive-bin texlive-core texlive-bibtexextra texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science texstudio wine wine-mono winetricks wine_gecko playonlinux  steam steam-native-runtime ntfs-3g python-pip mariadb nitrogen xdotool gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs alsa-firmware alsa-lib alsa-oss alsa-utils pulseaudio-alsa pavucontrol rar unrar zip unzip p7zip sane hplip
 	
 	sudo pip install youtube-dl
 	
