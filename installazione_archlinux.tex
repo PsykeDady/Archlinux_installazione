@@ -11,9 +11,13 @@
 \usepackage{tcolorbox}
 \usepackage{listings}
 \usepackage{xcolor}
+
+\usepackage{mathpazo}
+
 \newcommand{\code}[1]{\texttt{#1}}
-\usepackage[colorlinks = true, urlcolor=blue]{hyperref}
-\usepackage[a4paper,top=2.5cm,bottom=2cm,left=2cm,right=2cm]{geometry}
+\newcommand{\shellcode}[1]{\$$\quad$ \texttt{#1}}
+
+\usepackage[a4paper,top=2.5cm,bottom=2cm,left=3cm,right=3cm]{geometry}
 \usepackage{colortbl}
 \usepackage{tabu}
 \taburulecolor{black}
@@ -22,24 +26,25 @@
 \graphicspath{{"images/"},{.}}
 
 
+\usepackage[colorlinks=true, linkcolor=black, urlcolor=blue]{hyperref}
 
 
 \newcommand{\centcode}[1]{
 
 \definecolor{codice}{rgb}{0.5,0.1,0.1}
 
-	\begin{center}
+	\begin{quote}
 		\color{codice}
-		\code{#1}
-	\end{center}
-
-
+		\shellcode{#1}
+	\end{quote}
 }
 
 \newcommand{\nlinea}{
 	\leavevmode
 	\\
 }
+
+\newcommand{\nlcode}{\\ \$$\quad$}
 
 
 \definecolor{lred}{rgb}{1,0.3,0.3} %come fare un colore
@@ -65,41 +70,32 @@
 
 \begin{document}
 	
-	\pretitle{%
-		\begin{center}
-			\LARGE
-			\includegraphics[width=\linewidth]{arch-wallpaper.png}\\[\bigskipamount]
-		}
-		\posttitle{\end{center}}
 	
 	\begin{titlepage}
+		\begin{center}
+		 
+		\includegraphics[width=\textwidth]{arch-wallpaper.png}\\
 		
+		\vspace{3cm}
 		
+		{\huge \textsc{Guida Installazione Arch}}
 		
-		\title{Guida Installazione Arch}
+		\vspace{1.5cm}
+        {\LARGE \textit{by} PsykeDady}
 		
-		\author{by PsykeDady}
+		\vspace{1cm}
+		{\Large AAAA-MM-DD}
 		
-		\date{AAAA-MM-DD}
-		
+		\end{center}
 	\end{titlepage}
 
-	\maketitle
-	\hypersetup{colorlinks=true, linkcolor=black}
-
-	\newpage{}
+	\cleardoublepage
 	
 	
-	
-	\begin{LARGE}
-		\textbf{
-			Prefazione: a chi è indirizzata questa guida?
-		}
+	\chapter*{Prefazione}
 
-
-	\end{LARGE}
-
-	questa guida si prefigge lo scopo di essere generale un po' orientata a chiunque si avvicini la prima volta nel mondo di Archlinux. Tuttavia è stata seguita seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle soli 3 anni di abilità acquisite su archlinux, installando tuttavia più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)\\
+	\section*{A chi è indirizzata questa guida?}
+	Questa guida si prefigge lo scopo di essere generale un po' orientata a chiunque si avvicini la prima volta nel mondo di Archlinux. Tuttavia è stata seguita seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle soli 3 anni di abilità acquisite su archlinux, installando tuttavia più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)\\
 
 	Se c'è comunque una consapevolezza di cui il tempo, le mie e le esperienze altrui mi hanno fatto dono è che, inevitabilmente, \textbf{ogni calcolatore gode di un esperienza unica in termini di prestazioni, estetica e praticità della configurazione distribuzione/kernel/parametri installati da colui che si appresta ad utilizzarci GNU/Linux sopra}. Questa affermazione, se pur posso assicurare abbia un alto grado di verità, tende ad entrare difficilmente nelle mentalità di chi da tempo, ormai, tende ad avere atteggiamenti da stadio anche nei confronti della più assoluta libertà che dovrebbe invece professare la community di Linux.\\
 
@@ -116,194 +112,177 @@
 	\end{figure}
 
 
-
 		\begin{flushright}
 			\vspace*{\fill}{
 				\textit{...Linux è sinonimo di libertà e rispetto...}
 			}
 		\end{flushright}
 
-
-	\newpage{}
+    \newpage
+    \section*{Convenzioni}
+    I comandi da shell verranno identificati con il simbolo \code{\$}, che indica l'inizio della shell utente. 
+    
+    
+	\cleardoublepage
 
 	\tableofcontents
 
-	\flushleft
-	\chapter {Preparare il supporto di installazione }
+	%\flushleft
+\chapter {Preparare il supporto di installazione }
+
+\section{Metodo 1 da Linux : dd}
+
+    Il primo semplice metodo consiste del preparare la pennina con il famoso tool \textit{dd}:
+    \centcode{sudo dd if=/percorso/iso of=/dev/sdX bs=4M status=progress}
+
+    sostituendo a X la lettera del mezzo di installazione. Per ottenere il valore di X, inserire la pennina e digitare \shellcode{fdisk -l}, cercando nell'output quella che sembra essere la vostra pennina (in base a dimensioni e nome) e leggendone quindi le coordinate. 
+    
+    Importante, sostituite a X soltanto la lettera che identifica la pennina, non anche il numero che la segue e che tipicamente indica la partizione.
+
+    In seguito all'installazione, per poter riutilizzare la pennina nuovamente, dovrete azzerarla con lo stesso tool:
+    \centcode{sudo dd if=/dev/zero of=/dev/sdXY bs=4M status=progress}
+
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
+        Un uso intensivo di dd potrebbe rovinare la pennina, in quanto ne sovrascrive il contenuto bit a bit. Fare quindi attenzione, meglio utilizzare pennine a basso costo e soprattutto non molto capienti
+    \end{tcolorbox}
+
+\section{Metodo 2  da Linux:  copia su fat32 (Consigliato UEFI)}
+    Un altro metodo consiste nel copiare il contenuto della ISO in un file system FAT32, questo metodo presenta diversi vantaggi, ma funziona solo con macchine UEFI.
+
+    Create quindi due directory dove montare la ISO e la USB di installazione:
+    \centcode{mkdir \{usb,iso\}}
+    e montate quindi la iso utilizzando: \centcode{sudo mount -o loop </percorso/iso> iso}
+    A questo punto, se non lo si è ancora fatto, formattate la pennetta in fat32, supposto sia /dev/sdX il percorso della pennina, seguire queste istruzioni per formattarne il contenuto (effettuare le operazioni in ambiente \textbf{su} o aggiungere \textbf{sudo} prima di ogni comando):
+
+    \centcode{dd if=/dev/zero of=/dev/sdX \nlcode
+        \# \textit{da eseguire solo se si vuole completamente resettare la pennina} \nlcode
+        fdisk /dev/sdX \\
+        \\
+        \# \textit{si entrerà in modalità fdisk, scrivere i prossimi comandi e premere invio dopo ciascuno}
+        o\\
+        p\\
+        1\\
+        2048\\
+        \# \textit{invio senza scrivere nulla oppure scegliere una dimensione}\\
+        t\\
+        b\\
+        w \# \textit{ora si uscirà dalla modalità fdisk}\\
+        \nlcode
+        mkfs.fat /devX1 \nlcode
+        mount /dev/sdX1 usb \nlcode
+        dosfslabel /dev/sdX1 ARCH\_AAAAMM \nlcode
+        \# \textit{sostituendo ad AAAA ed MM le stesse date che trovate sulla iso}}
+    
+    In questo momento, si ha nelle cartelle usb e iso, montati rispettivamente la usb e il contenuto della iso. Ci apprestiamo dunque a copiare il contenuto della iso nella usb
+
+    \centcode{cp -r iso/* usb}
+
+    Consiglio a questo punto di sincronizzare  i dischi e smontare le cartelle, per evitare che le modifiche non vengano attuate correttamente:
+
+    \centcode{sync \nlcode umount \{usb,iso\}}
+
+    La pennina è pronta per i sistemi UEFI. Questo metodo è più sicuro di dd ma funziona su meno sistemi, eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile, scaricare quindi dal proprio gestore di pacchetti l'ultima versione di \textbf{syslinux} e di \textbf{parted} ed eseguire i prossimi comandi (prima di smontare la usb):
+
+    \centcode{extlinux --install usb/arch/boot/syslinux \nlcode
+        dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sdX \nlcode
+        parted /dev/sdX toggle 1 boot}
+
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={white},title={ATTENZIONE:},colbacktitle=red,coltitle=white,colupper=red]
+
+        quest'ultimo passo non l'ho mai applicato personalmente, ma l'ho letto sulla wiki e ve l'ho voluto riportare. Se qualcosa non dovesse funzionare, vi invito a documentarvene personalmente dalla guida ufficiale
+
+    \end{tcolorbox}
 
 
+\section{Metodo 3 da Linux : varie GUI}
+    Se non amate molto sporcarvi personalmente le mani durante queste operazioni sono disponibili moltissimi programmi che lo fanno per voi. Personalmente (ma anche la guida ufficiale) sconsiglio fortemente l'utilizzo del noto programma \textbf{uNETbootin}, in quanto tende a funzionare solo con ubuntu e derivate. Comunque sia elencherò una serie di software che ho usato io e che \textit{spesso} funzionano:
 
-		\section{Metodo 1 da Linux : dd}
-
-			Il primo semplice metodo consiste del preparare la pennina con il famoso tool \textit{dd}:
-
-			\centcode{\# dd if=/percorso/iso of=/dev/sdX bs=4M status=progress}
-
-			sostituire a X la lettera del mezzo di installazione, inserire la pennina e digitare \code{\# fdisk -l} e quindi leggere l'output fino ad arrivare a quella che sembra essere la vostra pennina, leggendone le coordinate
-
-			in seguito all'installazione, per poter riutilizzare la pennina nuovamente, dovrete azzerarla con lo stesso tool:
-			\centcode{\# dd if=/dev/zero of=/dev/sdXY bs=4M status=progress}
-
-			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
-				un uso intensivo di dd potrebbe rovinare la pennina, in quanto ne sovrascrive il contenuto bit a bit. Fare quindi attenzione, meglio utilizzare pennine a basso costo e soprattutto non molto capienti
-			\end{tcolorbox}
-
-		\section{Metodo 2  da Linux:  copia su fat32 (Consigliato UEFI)}
-			un altro metodo consiste nel copiare il contenuto della ISO in un file system FAT32, questo metodo presenta diversi vantaggi, ma funziona solo con macchine UEFI
-
-			creare quindi due directory dove montare la ISO e la USB di installazione:
-			\centcode{mkdir \{usb,iso\}}
-
-			montare la iso utilizzando: \centcode{\# mount -o loop /percorso/iso iso}
-
-			se non lo si è ancora fatto, formattare la pennetta in fat32, supposto sia /dev/sdX il percorso della pennina, seguire queste istruzioni per formattarne il contenuto (effettuare le operazioni si \textbf{su} o con \textbf{sudo}):\\
+    \begin{itemize}
+        \item \href{https://etcher.io}{Etcher}
+        \item Suse image writer
+        \item Deepin usb maker
+        \item Fedora media writer
+    \end{itemize}
 
 
-\begin{lstlisting}
-		dd if=/dev/zero of=/dev/sdX #da eseguire solo se si vuole completamente resettare la pennina
+\section{Altri S.O.}
+    
+    Anche su sistemi Windows o MacOS esiste e funziona bene \href{https://etcher.io}{etcher}. Altrimenti, potete usare alcuni dei programmi appositi.
+    
+    Su sistemi operativi OSX consiglio di usare \textbf{l'utility Disco} di sistema.
+    
+    Su sistemi operativi Windows invece consiglio l'uso di \textbf{Rufus} o \textbf{LiLi USB} (meno consigliato su sistemi UEFI comunque).
+    Se vi doveste trovare male con i primi, altri utenti archlinux mi hanno consigliato i seguenti programmi:
+    \begin{itemize}
+        \item Win32DiskImager
+        \item USBWriter
+    \end{itemize}
+    
 
-		fdisk /dev/sdX #si entrera' in modalità fdisk, scrivere e premere invio i prossimi comandi
-		o
-		p
-		1
-		2048
-		#(invio senza scrivere nulla oppure scegliere una dimensione)
-		t
-		b
-		w #si uscira' dalla modalita' fdisk
+    
+\chapter{Hello world, I'm Archlinux! Nice to meet you}
 
-		#e' possibile alternativamente a fdisk, usare cfdisk che e' piu' user-friendly
+Supponendo ora che siate riusciti da soli ad avviare il supporto attraverso le impostazioni del vostro BIOS o le impostazioni EFI del vostro sistema, o che ancora l'abbiate avviata attraverso virtualbox e che vogliate farvi una VM con sopra archlinux, possiamo quindi passare alle prime fasi dell'installazione.
 
-		mkfs.fat /devX1
+Avviando arch, se tutto va bene, dovreste ritrovarvi davanti ad una schermata simile:
 
-		mount /dev/sdX1 usb
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.75\linewidth] {prima_schermata.png}
+    \caption{ecco a voi la schermata da cui tutto avrà inizio...}
+\end{figure}
 
-		dosfslabel /dev/sdX1 ARCH_AAAAMM  #sostituendo ad AAAA ed MM le stesse date che trovate sulla iso
-\end{lstlisting}
+L'utente un po' inesperto o pratico solo di installazioni Ubuntu/OSX/Windows sarà spaesato, ma nessuna paura, è tutto molto più semplice di ciò che si pensa.
 
+Ma prima di tutto, se avete una tastiera italiana, digitate: \code{loadkeys it}, così vedrete meno madonnine volare in cielo\dots
 
+\section{Preparazione del disco di installazione}
 
-			In questo momento, si ha nelle cartelle usb e iso, montati rispettivamente la usb e il contenuto della iso. Ci apprestiamo dunque a copiare il contenuto della iso nella usb
+    La prima cosa da fare è preparare il disco di installazione, attraverso i comandi \code{blkid} o \code{fdisk -l} scopriamo quindi le coordinate del nostro disco ed eventualmente della partizione se preparata in anticipo attraverso altri sistemi operativi (può essere utile spesso preparare tutto attraverso una live di ubuntu con gparted se si è alle prime armi e si hanno dati da preservare).\\
 
-			\centcode{cp -r iso/* usb}
+    Ci vuole comunque un po' di organizzazione, bisogna sapere in anticipo in quante partizioni si vuole suddividere la propria installazione, se si è su un sistema UEFI, se si hanno più dischi e se si hanno altre installazioni da preservare.\\
 
-			Consiglio a questo punto di sincronizzare  i dischi e smontare le cartelle, per evitare che le modifiche non vengano attuate correttamente:
+    La guida supporrà che il disco sia inizialmente non inizializzato, sia l'unico disco e che non si hanno altri sistemi operativi presenti. Supporrò inoltre di voler suddividere l'installazione in: root, home e swap. Un altra condizione supposta sarà quella di avere un sistema EFI con tutto quello che ne deriva.
 
-\begin{lstlisting}
-		sync
-		umount  {usb,iso}
-\end{lstlisting}
-
-
-
-			La pennina è pronta per i sistemi UEFI. Questo metodo è più sicuro di dd ma funziona su meno sistemi, eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile, scaricare quindi dal proprio gestore di pacchetti l'ultima versione di \textbf{syslinux} e di \textbf{parted} ed eseguire i prossimi comandi (prima di smontare la usb):
-
-/linea
-\begin{lstlisting}
-		extlinux --install usb/arch/boot/syslinux
-		dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sdX
-		parted /dev/sdX toggle 1 boot
-\end{lstlisting}
-
-
-
-			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={white},title={ATTENZIONE:},colbacktitle=red,coltitle=white,colupper=red]
-
-				quest'ultimo passo non l'ho mai applicato personalmente, ma l'ho letto sulla wiki e ve l'ho voluto riportare. Se qualcosa non dovesse funzionare, vi invito  a documentarvene personalmente dalla guida ufficiale
-
-			\end{tcolorbox}
-
-
-		\section{Metodo 3 da Linux : varie GUI}
-			Se non amate molto sporcarvi personalmente le mani durante queste operazioni sono disponibili moltissimi programmi che lo fanno per voi. Personalmente (ma anche la guida ufficiale) sconsiglio fortemente l'utilizzo del noto programma \textbf{uNETbootin}, in quanto tende a funzionare solo con ubuntu e derivate. Comunque sia elencherò una serie di software che ho usato io e che \textit{spesso} funzionano:
-
-			\begin{itemize}
-				\item etcher
-				\item suse image writer
-				\item deepin usb maker
-				\item Fedora media writer
-			\end{itemize}
-
-
-		\section{Altri S.O.}
-
-			Su sistemi operativi OSX consiglio di usare \textbf{l'utility Disco} di sistema.
-			\\
-			Su sistemi operativi Windows invece consiglio l'uso di \textbf{Rufus} o \textbf{LiLi USB} (meno consigliato su sistemi UEFI comunque).
-			Se vi doveste trovare male con i primi, altri utenti archlinux mi hanno consigliato i seguenti programmi:
-			\begin{itemize}
-				\item Win32DiskImager
-				\item USBWriter
-			\end{itemize}
-
-
-	\chapter{Hello world, i'm Archlinux! Nice to meet you}
-
-		Supponendo ora che siate riusciti da soli ad avviare il supporto attraverso le impostazioni del vostro BIOS o le impostazioni EFI del vostro sistema, o che ancora l'abbiate avviata attraverso virtualbox e che vogliate farvi una VM con sopra archlinux, possiamo quindi passare alle prime fasi dell'installazione.
-
-		Avviando arch, se tutto va bene, dovreste ritrovarvi davanti ad una schermata simile:
-
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[width=0.75\linewidth] {prima_schermata.png}
-			\caption{ecco a voi la schermata da cui tutto avrà inizio...}
-		\end{figure}
-
-		L'utente un po' inesperto o pratico solo di installazioni Ubuntu/OSX/Windows sarà spaesato, ma nessuna paura, è tutto molto più semplice di ciò che si pensa.
-
-		Ma prima di tutto, se avete una tastiera italiana, digitate: \code{loadkeys it}, così vedrete meno madonnine volare in cielo...
-
-		\section{preparazione del disco di installazione}
-
-			La prima cosa da fare è preparare il disco di installazione, attraverso i comandi \code{blkid} o \code{fdisk -l} scopriamo quindi le coordinate del nostro disco ed eventualmente della partizione se preparata in anticipo attraverso altri sistemi operativi (può essere utile spesso preparare tutto attraverso una live di ubuntu con gparted se si è alle prime armi e si hanno dati da preservare).\\
-
-			Ci vuole comunque un po' di organizzazione, bisogna sapere in anticipo in quante partizioni si vuole suddividere la propria installazione, se si è su un sistema UEFI, se si hanno più dischi e se si hanno altre installazioni da preservare.\\
-
-			La guida supporrà che il disco sia inizialmente non inizializzato, sia l'unico disco e che non si hanno altri sistemi operativi presenti. Supporrò inoltre di voler suddividere l'installazione in: root, home e swap. Un altra condizione supposta sarà quella di avere un sistema EFI con tutto quello che ne deriva.
-
-
-			Abbiamo quindi il nostro disco su \textbf{/dev/sda}, vuoto e non inizializzato in alcun modo (un disco vergine per intenderci, come quello che potremmo trovarci in una macchina virtuale). Alternativamente si può pensare che abbiamo un disco  di cui il contenuto non ci interessa, quindi le seguenti operazioni lo formatteranno completamente: \centcode{gdisk /dev/sda}
-			in questo modo si entrerà in modalità gdisk, che installerà uno schema di partizioni di tipo GPT. se non si ha a che fare con UEFI, è consigliato usare \code{fdisk} o \code{cfdisk}, e avere a che fare con schema di partizioni tradizionale.\\
-			Come per \textit{fdisk} e \textit{cfdisk}, anche \textbf{gdisk} ha un alternativa user-friendly che è \textbf{cgdisk}. Prendetela in considerazione se non volete seguire le istruzioni che seguiranno ma avere accesso ad un interfaccia più pratica.
-			Se avete scelto per \code{gdisk}, premere quindi in sequenza:\\
+    Abbiamo quindi il nostro disco su \textbf{/dev/sda}, vuoto e non inizializzato in alcun modo (un disco vergine per intenderci, come quello che potremmo trovarci in una macchina virtuale). Alternativamente si può pensare che abbiamo un disco  di cui il contenuto non ci interessa, quindi le seguenti operazioni lo formatteranno completamente. Cominciamo dunque le operazioni dando \centcode{gdisk /dev/sda}
+    In questo modo si entrerà in modalità gdisk, che installerà uno schema di partizioni di tipo GPT. Se non si ha a che fare con UEFI, è consigliato usare \code{fdisk} o \code{cfdisk}, e avere a che fare con schema di partizioni tradizionale.\\
+    Come per \textit{fdisk} e \textit{cfdisk}, anche \textbf{gdisk} ha un alternativa user-friendly che è \textbf{cgdisk}. Prendetela in considerazione se non volete seguire le istruzioni che seguiranno ma avere accesso ad un interfaccia più pratica.
+    Se avete scelto per \code{gdisk}, premere quindi in sequenza:\\
 
 \begin{lstlisting}
 	o
 	n
 	1
-	(invio senza scrivere niente)
+	# (invio senza scrivere niente)
 	+200M
 	ef00
 
 	n
 	2
-	(invio senza scrivere niente)
+	# (invio senza scrivere niente)
 	+XXXG
 	# (sostituendo a XXX il numero di Giga che volete dare alla vostra root)
 	(invio senza scrivere niente)
 
 	n
 	3
-	(invio senza scrivere niente)
+	# (invio senza scrivere niente)
 	+YYYG
-	#sostituendo a YYY il numero di Giga che volete dare alla home, in genere qua si mette la maggiorparte dello spazio
-	(invio senza scrivere niente)
+	# sostituendo a YYY il numero di Giga che volete dare alla home, in genere qua si mette la maggiorparte dello spazio
+	# (invio senza scrivere niente)
 
 	n
 	4
-	(invio senza scrivere niente)
+	# (invio senza scrivere niente)
 	+ZZG
-	#sostituendo a ZZ il numero di Giga che volete dare alla  swap, in genere lo si da uguale alla RAM per usufruire della funzione di ibernazione. Per pc con RAM maggiore di 4Gb non consiglio di usare la swap a meno di usare anche l'ibernazione
+	# sostituendo a ZZ il numero di Giga che volete dare alla  swap, in genere lo si da uguale alla RAM per usufruire della funzione di ibernazione. Per pc con RAM maggiore di 4Gb non consiglio di usare la swap a meno di voler usare anche l'ibernazione
 	8200
 
 	w
 \end{lstlisting}
 
-
-
-			dopo essere usciti dalla modalità gdisk, possiamo accertarci della situazione usando il comando: \code{gdisk -l} oppure con \code{blkid}.
-			Per usare le partizioni comunque è necessario formattarle\\
-
+    dopo essere usciti dalla modalità gdisk, possiamo accertarci della situazione usando il comando: \code{gdisk -l} oppure con \code{blkid}.
+    Per usare le partizioni comunque è necessario formattarle\\
 
 \begin{lstlisting}
 	mkfs.fat /dev/sda1
@@ -312,10 +291,7 @@
 	mkswap /dev/sda4
 \end{lstlisting}
 
-
-
-			dunque possiamo iniziare a montarle:
-
+    dunque possiamo iniziare a montarle:
 
 \begin{lstlisting}
 	mount /dev/sda2 /mnt
@@ -326,43 +302,34 @@
 	swapon /dev/sda4
 \end{lstlisting}
 
+    La sezione riguardante la configurazione dei dischi finisce qua.
 
+\section{Connessione al mondo esterno e installazione dei primi pacchetti}
 
-			La sezione riguardante la configurazione dei dischi finisce qua.
+    Stop. senza internet non si va da nessuna parte.\\
 
-		\section{Installazione dei pacchetti e connessione al mondo esterno}
+    Se quindi siete connessi via cavo, basta dare \code{dhcpcd}, altrimenti archlinux fornisce una comodissima interfaccia di rete wireless, a cui potete accedere con: \centcode{wifi-menu} 
+    Scegliete quindi il vostro SSID di fiducia, scrivete la password (se ne avete una) e date \code{dhcpcd} per forzare il router a rilasciarvi un indirizzo IP. Ben fatto, siete connessi! Sicuri? Per accertarcene possiamo dare \centcode{ping -c 3 www.google.com} e, se la connessione effettivamente c'è, otterrete in output l'informazione che son stati trasmessi e ricevuti 3 pacchetti. Ora che siamo sicuri possiamo andare avanti.\\
 
-			Stop. senza internet non si va da nessuna parte.\\
+    Arch offre un modo davvero comodo di installare i pacchetti iniziali sulle nuove installazioni, attraverso lo script \textbf{pacstrap}:
+    \centcode{pacstrap /mnt base base-devel net-tools dialog netctl wpa\_supplicant grub efibootmgr}
+    se tutto va per il meglio (spero per voi) il vostro /mnt sarà adesso abbastanza popolato.
 
-			Se quindi siete connessi via cavo, basta dare \code{dhcpcd}, altrimenti archlinux fornisce una comodissima interfaccia di rete wireless, a cui potete accedere così: \centcode{
-				wifi-menu
-			} Scegliete quindi il vostro SSID di fiducia, scrivete la password (se ne avete una) e date \code{dhcpcd} per forzare il router a rilasciarvi un indirizzo ip. Ben fatto, siete connessi! Sicuri? Per accertarcene possiamo dare \centcode{ping -c 3 www.google.com} se tutto va bene, vi risponderà che son stati trasmessi e ricevuti 3 pacchetti. Ora che siamo sicuri possiamo andare avanti.\\
+\section{Prime configurazioni}
+    Creiamo quindi il vostro \texttt{fstab} che permetterà di montare le cartelle nel giusto ordine all'avvio:
+    \centcode{genfstab -pU /mnt >> /mnt/etc/fstab}
+    ed entriamo quindi in chroot attraverso un comodissimo script arch:
+    \centcode{arch-chroot /mnt}
+    settiamo la password di root: \centcode{passwd}
+    e modifichiamo il file fstab creato in precedenza sostituendo nella riga della swap, il parametro \texttt{none} scrivendo \textbf{swap}.
 
-			Arch offre un modo davvero comodo di installare i pacchetti iniziali sulle nuove installazioni, attraverso lo script \textbf{pacstrap}:\\
-			\centcode{pacstrap /mnt base base-devel net-tools dialog netctl wpa\_supplicant grub efibootmgr}
+    A questo punto configuriamo il grub: \centcode{grub-mkconfig -o /boot/grub/grub.cfg \nlcode grub-install /dev/sda}
 
-			se tutto va per il meglio (spero per voi) il vostro /mnt sarà adesso abbastanza popolato.
+    possiamo quindi dare un nome alla nostra macchina in rete:\centcode{echo "NOMEPC" > /etc/hostname}
 
-		\section{prime configurazioni}
-			creiamo quindi il vostro fstab che permetterà di montare le cartelle nel giusto ordine all'avvio:
-			\centcode{genfstab -pU /mnt >> /mnt/etc/fstab}
+    Impostiamo quindi la lingua: andando ad editare (con \code{nano}, \code{vi} o qualunque altro editor ci piace usare) il file \textit{/etc/locale.gen} decommentando le tre linee che iniziano con \textbf{it\_IT}, successivamente diamo il comando \centcode{locale-gen}
 
-			ed entriamo quindi in chroot attraverso un comodissimo script arch:
-			\centcode{arch-chroot /mnt}
-
-			settiamo la password di root: \centcode{passwd}
-			e modifichiamo il file fstab creato in precedenza sostituendo nella riga della swap, il parametro \textit{none} scrivendo \textbf{swap}
-
-			configuriamo quindi il grub: \centcode{
-			grub-mkconfig -o /boot/grub/grub.cfg \\
-			grub-install /dev/sda
-			}
-
-			possiamo quindi dare un nome alla nostra macchina in rete:\centcode{echo "NOMEPC" > /etc/hostname}
-
-			Impostiamo quindi la lingua: andando ad editare (con \code{nano}, \code{vi} o qualunque altro editor ci piace usare) il file \textit{/etc/locale.gen} decommentando le tre linee che iniziano con \textbf{it\_IT}, successivamente diamo il comando \centcode{locale-gen}
-
-			successivamente generiamo un buon \textit{/etc/locale.conf}, usiamo il nostro editor di testo preferito e scriviamo:
+    successivamente generiamo un buon \textit{/etc/locale.conf}, usiamo il nostro editor di testo preferito e scriviamo:
 
 \begin{lstlisting}
 	LANG=it_IT.UTF-8
@@ -377,7 +344,7 @@
 			e impostiamo il fuso orario di sistema con:
 			\centcode{ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime}
 
-		\section {programma di installazione terminato}
+		\section {Programma di installazione terminato}
 
 			Il sistema è installato correttamente, adesso andiamo per smontare le partizioni:
 \begin{lstlisting}
