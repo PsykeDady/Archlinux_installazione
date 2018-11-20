@@ -519,31 +519,27 @@
 			\hrule
 
 
-		\section{configurare pacman e installare aurman }
+		\section{configurare pacman e installare pakku }
 
 			Perché Archlinux? Perché complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di pacchetti \textbf{pacman} e tutto ciò che ne deriva, compreso il famoso \textbf{AUR: Arch User Repository}.
 
-			prima di tutto, abbelliamo il nostro pacman!
+			Prima di tutto, abbelliamo il nostro pacman!
 			Sempre con il nostro editor preferito (a proposito, il mio è nano, vi insegnerò anche a renderlo carino) modifichiamo il file \textit{/etc/pacman.conf}: andiamo a decommentare la riga con scritto \textbf{Color} e aggiungiamo sotto \textbf{ILoveCandy}.
 			Poi decommentiamo dove c'è scritto \textbf{multilib} e la riga di sotto se vogliamo abilitare il supporto alle librerie a 32 bit ( necessario per alcuni programmi).
 			Se volessimo aggiungere un nuovo repository lo possiamo fare seguendo il template alla fine del file, ma difficilmente ne avrete bisogno dopo che installerete un \textbf{aur-helper}.
 
-			Installiamone quindi uno: \textbf{aurman}!
+			Installiamone quindi uno: \textbf{pakku}!
 			Per lo step successivo, è \underline{\textbf{fortemente consigliato}} l'accesso con l'utente amministratore e non con root.
 
 \begin{lstlisting}
-	git clone https://aur.archlinux.org/aurman.git
-	sudo pacman -S expac python-regex
-	#se siete entrati come utenti, altrimenti senza sudo
-	cd aurman
-	#la prossima istruzione tende a bloccarsi se la linea non e' stabile, nel caso bloccate l'esecuzione con ctrl-c e rieseguitela finche' non avra' successo
-	gpg --recv-key  465022E743D71E39
+	git clone https://aur.archlinux.org/pakku.git
 	makepkg -si
-	cd ..
-	rm -rf aurman
 \end{lstlisting}
 
-			\textbf{aurman} usa la stessa sintassi di \textbf{pacman}, e potete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca pacchetti anche su \textbf{AUR}, un immenso repository di pacchetti offerti dalla comunità, ci trovate davvero di tutto dentro. \textbf{Ma non va eseguito come utente amministratore (con \code{sudo} per intenderci) né come utente root.}
+			\textbf{pakku} usa la stessa sintassi di \textbf{pacman}, e potete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca pacchetti anche su \textbf{AUR}, un immenso repository di pacchetti offerti dalla comunità, ci trovate davvero di tutto dentro. \textbf{Ma non va eseguito come utente amministratore (con \code{sudo} per intenderci) né come utente root.}
+			Tramite pakku potete visualizzare la differenza tra versione presente e quella aggiornata del software oppure visionare e modificare il PKGBUILD, è uno strumento molto potente!
+			
+			Pakku è scritto in NIM, un linguaggio di programmazione funzionale molto molto interessante :) se siete del settore vi consiglio di leggerne qualcosa sul web
 \nlinea
 	\nlinea
 			La fase iniziale di installazione è terminata, consiglio a questo punto di riavviare prima di continuare.
