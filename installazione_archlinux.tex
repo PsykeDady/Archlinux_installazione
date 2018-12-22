@@ -11,11 +11,9 @@
 \usepackage{tcolorbox}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{acronym}
 
 \usepackage{mathpazo}
-
-\newcommand{\code}[1]{\texttt{#1}}
-\newcommand{\shellcode}[1]{\$$\quad$ \texttt{#1}}
 
 \usepackage[a4paper,top=2.5cm,bottom=2cm,left=3cm,right=3cm]{geometry}
 \usepackage{colortbl}
@@ -28,13 +26,16 @@
 
 \usepackage[colorlinks=true, linkcolor=black, urlcolor=blue]{hyperref}
 
+\definecolor{code}{rgb}{0.5,0.1,0.1}
+\definecolor{background}{rgb}{0.95,0.95,0.95}
+\definecolor{rules}{rgb}{0,0,0}
+\definecolor{lred}{rgb}{0.5,0.2,0.2}
 
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\shellcode}[1]{\$$\quad$ \texttt{#1}}
 \newcommand{\centcode}[1]{
-
-\definecolor{codice}{rgb}{0.5,0.1,0.1}
-
 	\begin{quote}
-		\color{codice}
+		\color{code}
 		\shellcode{#1}
 	\end{quote}
 }
@@ -45,27 +46,21 @@
 }
 
 \newcommand{\nlcode}{\\ \$$\quad$}
-
-
-\definecolor{lred}{rgb}{1,0.3,0.3} %come fare un colore
-\definecolor{codeback}{rgb}{0,0,0}
-\definecolor{codefore}{rgb}{0,255,0}
-
-\lstdefinestyle{mystyle}{
-	backgroundcolor=\color{codeback},
-	basicstyle=\ttfamily\color{codefore}
-}
+\newcommand{\arch}{ArchLinux}
 
 \lstset{
-	style=mystyle,
+	language=bash,
 	breaklines,
-	frame=shadowbox,
-	rulesepcolor=\color{gray},
-	framexleftmargin=3mm,
+	breakautoindent,
+	xleftmargin=2em,
+	xrightmargin=2em,
+	frame=leftline,
+	rulecolor=\color{rules},
+	backgroundcolor=\color{background},
+	basicstyle=\ttfamily\color{code},
 	inputencoding=utf8,
 	extendedchars,
-	literate={à}{{\'a}}1,
-	alsoletter={.}
+	commentstyle=\itshape
 }
 
 \begin{document}
@@ -78,7 +73,7 @@
 		
 		\vspace{3cm}
 		
-		{\huge \textsc{Guida Installazione Arch}}
+		{\huge \textsc{Guida Installazione \arch}}
 		
 		\vspace{1.5cm}
         {\LARGE \textit{by} PsykeDady}
@@ -95,16 +90,16 @@
 	\chapter*{Prefazione}
 
 	\section*{A chi è indirizzata questa guida?}
-	Questa guida si prefigge lo scopo di essere generale un po' orientata a chiunque si avvicini la prima volta nel mondo di Archlinux. Tuttavia è stata seguita seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle soli 3 anni di abilità acquisite su archlinux, installando tuttavia più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)\\
+	Questa guida si prefigge lo scopo di essere generale un po' orientata a chiunque si avvicini la prima volta nel mondo di \arch. Tuttavia è stata seguita seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle soli 3 anni di abilità acquisite su archlinux, installando tuttavia più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)\\
 
 	Se c'è comunque una consapevolezza di cui il tempo, le mie e le esperienze altrui mi hanno fatto dono è che, inevitabilmente, \textbf{ogni calcolatore gode di un esperienza unica in termini di prestazioni, estetica e praticità della configurazione distribuzione/kernel/parametri installati da colui che si appresta ad utilizzarci GNU/Linux sopra}. Questa affermazione, se pur posso assicurare abbia un alto grado di verità, tende ad entrare difficilmente nelle mentalità di chi da tempo, ormai, tende ad avere atteggiamenti da stadio anche nei confronti della più assoluta libertà che dovrebbe invece professare la community di Linux.\\
 
 	Inoltre consiglio a \textbf{tutti} coloro che si avventurano nella piccola impresa di installare archlinux, di tenere sempre sottomano la guida \textit{ultima} di tutti noi arch-user (e non solo), la \href{https://wiki.archlinux.org/index.php/Installation_guide}{wiki}: un'enorme fonte di conoscenza sul mondo linux che risolve problemi in qualsiasi ambito, o quanto meno vi aiuta a risolverli indirettamente. Tutto ciò che troverete in questa guida altro non è che un estratto di piccole sezioni della wiki che io uso sempre per installare archlinux. La guida è inoltre disponibile in moltissime lingue, tra cui l'italiano.\\
-	Ricordo inoltre che per chi volesse provare un Archlinux con installer user-friendly, esiste \href{https://antergos.com/}{Antergos}, una distro su base arch completamente personalizzabile al momento dell'installazione, molto ma molto user-friendly.\\
-	Rimane comunque consigliato, a mio avviso, non scegliere archlinux come distribuzione per approcciarsi la prima volta con il mondo GNU/Linux, ma scegliere distro più "alla mano" come \textbf{Ubuntu}, \textbf{Fedora}, \textbf{Linux Mint} o \textbf{Deepin}.\\
+	Ricordo inoltre che per chi volesse provare un \arch{} con installer user-friendly, esiste \href{https://antergos.com/}{Antergos}, una distro su base Arch completamente personalizzabile al momento dell'installazione, molto ma molto user-friendly.\\
+	Rimane comunque consigliato, a mio avviso, non scegliere \arch{} come distribuzione per approcciarsi la prima volta con il mondo GNU/Linux, ma scegliere distro più "alla mano" come \textbf{Ubuntu}, \textbf{Fedora}, \textbf{Linux Mint} o \textbf{Deepin}. Se volete comunque un feeling Arch, una distribuzione userfriendly ma comunque rolling e basata sulla struttura di \arch{} è senza dubbio \textbf{Manjaro}.\\
 	Un ultima considerazione: questo file è in continuo aggiornamento, motivo per il quale la data, in pagina principale, non è ancora specificata.
 
-	Detto questo: buon divertimento e benvenuti nel fantastico mondo di Archlinux
+	Detto questo: buon divertimento e benvenuti nel fantastico mondo di \arch.
 
 	\begin{figure}[h!]
 		\flushright
@@ -114,7 +109,7 @@
 
 		\begin{flushright}
 			\vspace*{\fill}{
-				\textit{...Linux è sinonimo di libertà e rispetto...}
+				\textit{\dots Linux è sinonimo di libertà e rispetto\dots}
 			}
 		\end{flushright}
 
@@ -122,6 +117,12 @@
     \section*{Convenzioni}
     I comandi da shell verranno identificati con il simbolo \code{\$}, che indica l'inizio della shell utente. 
     
+    \section*{Acronimi}
+    \begin{acronym}
+        \acro{AUR}{Arch User Repository}
+        \acro{DE}{Desktop Environment}
+    \end{acronym}
+
     
 	\cleardoublepage
 
@@ -136,7 +137,6 @@
     \centcode{sudo dd if=/percorso/iso of=/dev/sdX bs=4M status=progress}
 
     sostituendo a X la lettera del mezzo di installazione. Per ottenere il valore di X, inserire la pennina e digitare \shellcode{fdisk -l}, cercando nell'output quella che sembra essere la vostra pennina (in base a dimensioni e nome) e leggendone quindi le coordinate. 
-    
     Importante, sostituite a X soltanto la lettera che identifica la pennina, non anche il numero che la segue e che tipicamente indica la partizione.
 
     In seguito all'installazione, per poter riutilizzare la pennina nuovamente, dovrete azzerarla con lo stesso tool:
@@ -151,27 +151,31 @@
 
     Create quindi due directory dove montare la ISO e la USB di installazione:
     \centcode{mkdir \{usb,iso\}}
-    e montate quindi la iso utilizzando: \centcode{sudo mount -o loop </percorso/iso> iso}
+    e montate quindi la iso utilizzando: 
+    \centcode{sudo mount -o loop </percorso/iso> iso}
     A questo punto, se non lo si è ancora fatto, formattate la pennetta in fat32, supposto sia /dev/sdX il percorso della pennina, seguire queste istruzioni per formattarne il contenuto (effettuare le operazioni in ambiente \textbf{su} o aggiungere \textbf{sudo} prima di ogni comando):
 
-    \centcode{dd if=/dev/zero of=/dev/sdX \nlcode
-        \# \textit{da eseguire solo se si vuole completamente resettare la pennina} \nlcode
-        fdisk /dev/sdX \\
-        \\
-        \# \textit{si entrerà in modalità fdisk, scrivere i prossimi comandi e premere invio dopo ciascuno}
-        o\\
-        p\\
-        1\\
-        2048\\
-        \# \textit{invio senza scrivere nulla oppure scegliere una dimensione}\\
-        t\\
-        b\\
-        w \# \textit{ora si uscirà dalla modalità fdisk}\\
-        \nlcode
-        mkfs.fat /devX1 \nlcode
-        mount /dev/sdX1 usb \nlcode
-        dosfslabel /dev/sdX1 ARCH\_AAAAMM \nlcode
-        \# \textit{sostituendo ad AAAA ed MM le stesse date che trovate sulla iso}}
+    
+\begin{lstlisting}
+$   dd if=/dev/zero of=/dev/sdX
+$   # da eseguire solo se si vuole completamente resettare la pennina
+$   fdisk /dev/sdX
+
+# entra in fdisk, scrivere i prossimi comandi e premere invio dopo ciascuno
+o
+p
+1
+2048
+# invio senza scrivere nulla oppure scegliere una dimensione
+t
+b
+w
+# Ora si esce da fdisk
+$   mkfs.fat /devX1
+$   mount /dev/sdX1 usb \nlcode
+$   dosfslabel /dev/sdX1 ARCH\_AAAAMM \nlcode
+$   # sostituendo ad AAAA ed MM le stesse date che trovate sulla iso
+\end{lstlisting}
     
     In questo momento, si ha nelle cartelle usb e iso, montati rispettivamente la usb e il contenuto della iso. Ci apprestiamo dunque a copiare il contenuto della iso nella usb
 
@@ -248,295 +252,365 @@ Ma prima di tutto, se avete una tastiera italiana, digitate: \code{loadkeys it},
     In questo modo si entrerà in modalità gdisk, che installerà uno schema di partizioni di tipo GPT. Se non si ha a che fare con UEFI, è consigliato usare \code{fdisk} o \code{cfdisk}, e avere a che fare con schema di partizioni tradizionale.\\
     Come per \textit{fdisk} e \textit{cfdisk}, anche \textbf{gdisk} ha un alternativa user-friendly che è \textbf{cgdisk}. Prendetela in considerazione se non volete seguire le istruzioni che seguiranno ma avere accesso ad un interfaccia più pratica.
     Se avete scelto per \code{gdisk}, premere quindi in sequenza:\\
-
 \begin{lstlisting}
-	o
-	n
-	1
-	# (invio senza scrivere niente)
-	+200M
-	ef00
+o
+n
+1
+# (invio senza scrivere niente)
++200M
+ef00
 
-	n
-	2
-	# (invio senza scrivere niente)
-	+XXXG
-	# (sostituendo a XXX il numero di Giga che volete dare alla vostra root)
-	(invio senza scrivere niente)
+n
+2
+# (invio senza scrivere niente)
++XXXG
+# (sostituendo a XXX il numero di Giga che volete dare alla vostra root)
+(invio senza scrivere niente)
 
-	n
-	3
-	# (invio senza scrivere niente)
-	+YYYG
-	# sostituendo a YYY il numero di Giga che volete dare alla home, in genere qua si mette la maggiorparte dello spazio
-	# (invio senza scrivere niente)
+n
+3
+# (invio senza scrivere niente)
++YYYG
+# sostituendo a YYY il numero di Giga che volete dare alla home, in genere qua si mette la maggiorparte dello spazio
+# (invio senza scrivere niente)
 
-	n
-	4
-	# (invio senza scrivere niente)
-	+ZZG
-	# sostituendo a ZZ il numero di Giga che volete dare alla  swap, in genere lo si da uguale alla RAM per usufruire della funzione di ibernazione. Per pc con RAM maggiore di 4Gb non consiglio di usare la swap a meno di voler usare anche l'ibernazione
-	8200
+n
+4
+# (invio senza scrivere niente)
++ZZG
+# sostituendo a ZZ il numero di Giga che volete dare alla  swap, in genere lo si da uguale alla RAM per usufruire della funzione di ibernazione. Per pc con RAM maggiore di 4Gb non consiglio di usare la swap a meno di voler usare anche l'ibernazione
+8200
 
-	w
+w
 \end{lstlisting}
 
     dopo essere usciti dalla modalità gdisk, possiamo accertarci della situazione usando il comando: \code{gdisk -l} oppure con \code{blkid}.
-    Per usare le partizioni comunque è necessario formattarle\\
-
+    Per usare le partizioni comunque è necessario formattarle:
 \begin{lstlisting}
-	mkfs.fat /dev/sda1
-	mkfs.ext4 /dev/sda2
-	mkfs.ext4 /dev/sda3
-	mkswap /dev/sda4
+$   mkfs.fat /dev/sda1
+$   mkfs.ext4 /dev/sda2
+$   mkfs.ext4 /dev/sda3
+$   mkswap /dev/sda4
 \end{lstlisting}
 
-    dunque possiamo iniziare a montarle:
-
+    e poi possiamo iniziare a montarle:
 \begin{lstlisting}
-	mount /dev/sda2 /mnt
-	mkdir -p /mnt/boot/efi
-	mkdir /mnt/home
-	mount /dev/sda1 /mnt/boot/efi
-	mount /dev/sda3 /mnt/home
-	swapon /dev/sda4
+$    mount /dev/sda2 /mnt
+$    mkdir -p /mnt/boot/efi
+$    mkdir /mnt/home
+$    mount /dev/sda1 /mnt/boot/efi
+$    mount /dev/sda3 /mnt/home
+$    swapon /dev/sda4
 \end{lstlisting}
 
     La sezione riguardante la configurazione dei dischi finisce qua.
 
 \section{Connessione al mondo esterno e installazione dei primi pacchetti}
 
-    Stop. senza internet non si va da nessuna parte.\\
+    Stop. senza internet non si va da nessuna parte.
 
-    Se quindi siete connessi via cavo, basta dare \code{dhcpcd}, altrimenti archlinux fornisce una comodissima interfaccia di rete wireless, a cui potete accedere con: \centcode{wifi-menu} 
-    Scegliete quindi il vostro SSID di fiducia, scrivete la password (se ne avete una) e date \code{dhcpcd} per forzare il router a rilasciarvi un indirizzo IP. Ben fatto, siete connessi! Sicuri? Per accertarcene possiamo dare \centcode{ping -c 3 www.google.com} e, se la connessione effettivamente c'è, otterrete in output l'informazione che son stati trasmessi e ricevuti 3 pacchetti. Ora che siamo sicuri possiamo andare avanti.\\
+    \medskip \noindent Se quindi siete connessi via cavo, basta dare 
+    \begin{lstlisting}
+$   dhcpcd
+    \end{lstlisting}
+    Se non avete il cavo di rete, archlinux fornisce una comodissima interfaccia di rete wireless, a cui potete accedere con:
+    \begin{lstlisting}
+$   wifi-menu
+    \end{lstlisting}
+    Scegliete quindi il vostro SSID di fiducia, scrivete la password (se ne avete una) e date \begin{lstlisting}
+$   dhcpcd
+    \end{lstlisting}
+    per forzare il router a rilasciarvi un indirizzo IP. Ben fatto, siete connessi! Sicuri? Per accertarcene possiamo dare 
+    \begin{lstlisting}
+$    ping -c 3 www.google.com
+    \end{lstlisting}
+    e, se la connessione effettivamente c'è, otterrete in output l'informazione che son stati trasmessi e ricevuti 3 pacchetti. Ora che siamo sicuri possiamo andare avanti.\\
 
     Arch offre un modo davvero comodo di installare i pacchetti iniziali sulle nuove installazioni, attraverso lo script \textbf{pacstrap}:
-    \centcode{pacstrap /mnt base base-devel net-tools dialog netctl wpa\_supplicant grub efibootmgr}
+    \begin{lstlisting}
+$   pacstrap /mnt base base-devel net-tools dialog netctl wpa_supplicant grub efibootmgr
+    \end{lstlisting}
     se tutto va per il meglio (spero per voi) il vostro /mnt sarà adesso abbastanza popolato.
 
 \section{Prime configurazioni}
     Creiamo quindi il vostro \texttt{fstab} che permetterà di montare le cartelle nel giusto ordine all'avvio:
-    \centcode{genfstab -pU /mnt >> /mnt/etc/fstab}
+    \begin{lstlisting}
+$   genfstab -pU /mnt >> /mnt/etc/fstab
+    \end{lstlisting}
     ed entriamo quindi in chroot attraverso un comodissimo script arch:
-    \centcode{arch-chroot /mnt}
-    settiamo la password di root: \centcode{passwd}
+    \begin{lstlisting}
+$   arch-chroot /mnt
+    \end{lstlisting}
+    settiamo la password di root: 
+    \begin{lstlisting}
+$   passwd
+    \end{lstlisting}
     e modifichiamo il file fstab creato in precedenza sostituendo nella riga della swap, il parametro \texttt{none} scrivendo \textbf{swap}.
 
-    A questo punto configuriamo il grub: \centcode{grub-mkconfig -o /boot/grub/grub.cfg \nlcode grub-install /dev/sda}
+    A questo punto configuriamo il grub: 
+    \begin{lstlisting}
+$   grub-mkconfig -o /boot/grub/grub.cfg 
+$   grub-install /dev/sda
+    \end{lstlisting}
 
-    possiamo quindi dare un nome alla nostra macchina in rete:\centcode{echo "NOMEPC" > /etc/hostname}
+    possiamo quindi dare un nome alla nostra macchina in rete:
+    \begin{lstlisting}
+$   echo "NOMEPC" > /etc/hostname
+    \end{lstlisting}
 
-    Impostiamo quindi la lingua: andando ad editare (con \code{nano}, \code{vi} o qualunque altro editor ci piace usare) il file \textit{/etc/locale.gen} decommentando le tre linee che iniziano con \textbf{it\_IT}, successivamente diamo il comando \centcode{locale-gen}
+    Impostiamo quindi la lingua: andando ad editare (con \code{nano}, \code{vi} o qualunque altro editor ci piace usare) il file \textit{/etc/locale.gen} decommentando le tre linee che iniziano con \textbf{it\_IT}, successivamente diamo il comando 
+    \begin{lstlisting}
+$   locale-gen
+    \end{lstlisting}
 
     successivamente generiamo un buon \textit{/etc/locale.conf}, usiamo il nostro editor di testo preferito e scriviamo:
 
 \begin{lstlisting}
-	LANG=it_IT.UTF-8
-	LC_COLLATE="C"
-	LC_TIME="it_IT.UTF-8"
-	LANGUAGE="it_IT:en_GB:en"
+$   LANG=it_IT.UTF-8
+$   LC_COLLATE="C"
+$   LC_TIME="it_IT.UTF-8"
+$   LANGUAGE="it_IT:en_GB:en"
 \end{lstlisting}
 
-			impostiamo la lingua del tty con:
-			\centcode{echo "KEYMAP=it" > /etc/vconsole.conf}
-
-			e impostiamo il fuso orario di sistema con:
-			\centcode{ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime}
-
-		\section {Programma di installazione terminato}
-
-			Il sistema è installato correttamente, adesso andiamo per smontare le partizioni:
+    impostiamo la lingua del tty con:
 \begin{lstlisting}
-	exit
-	umount /mnt/boot/efi
-	umount /mnt/home
-	umount /mnt
-	swapoff
-	sync
+$    echo "KEYMAP=it" > /etc/vconsole.conf
 \end{lstlisting}
-
-			possiamo quindi riavviare e continuare con le configurazioni tramite l'utente root e non in ambiente di chroot
-
-	\chapter{Configurazioni di sistema}
-
-		Dopo aver riavviato e tolto la chiavetta, dovremmo trovare la possibilità di avviare archlinux tramite grub, se così non fosse reinserite la chiavetta, rimontate le partizioni e rifate il chroot, cercando la soluzione al problema tramite la guida wiki.
-		Da qui in poi sarà supposto che voi abbiate il sistema funzionante e possiate fare il login tramite account di root.
-
-		Inserite quindi come nome \textit{root} e come password quella impostata durante le configurazioni precedenti. È quindi tempo di fare un po' di configurazioni a sistema appena installato!
-
-		\section{Connettiamoci al mondo esterno e alcuni consigli iniziali}
-
-			Come sempre la prima cosa da fare è connettersi. lo si può fare esattamente come prima tramite \code{dhcpcd} e nel caso di una wifi \code{wifi-menu}.
-
-			Il primo consiglio che innanzitutto do è quello di eseguire subito un upgrade del sistema e dei repository:\centcode{pacman -Syu}
-			Consiglio poi di installare alcuni pacchetti che nel 90\% dei casi vi saranno utili\centcode{pacman -S linux-headers os-prober git bash-completion}Nello specifico, os-prober vi serve nel caso in cui pianificate ( o abbiate ) una macchina con più sistemi operativi installati.
-
-		\section{Server e driver}
-
-			In ambienti linux, senza motore grafico, possiamo usare il pc al più come server. Oggi giorno la produttività dipende strettamente da ciò che vediamo e come interagiamo. Per questo motivo installiamo il server grafico, oggi Xorg, nonostante ci siano valide alternative, risulta ancora la realtà più consolidata, vi consiglio dunque di installarlo a prescindere da ciò che poi proverete. Insieme a Xorg, è consigliato installare il suo sistema di init, utile nel caso in cui non vogliate un DM o il vostro non funzioni a dovere. Quindi:\centcode{pacman -S xorg-server xorg-xinit}
-			Potete quindi impostare nel file \textit{$\sim$/xinitrc} il comando per utilizzare  il vostro DE preferito (quando ne avrete uno).
-
-			Installare i driver è anche abbastanza semplice, se avete installato arch su una macchina virtuale virtualbox, vi basterà digitare: \centcode{pacman -S virtualbox-guest-utils}, altrimenti andiamo ad identificare la vostra scheda video con \code{lspci} \centcode{lspci | grep VGA}, l'output riporterà al suo interno: \textbf{intel}, \textit{ati} o \textit{nvidia}. In base a cosa riporta andiamo ad installare i driver \textit{open} relativi:
+    e impostiamo il fuso orario di sistema con:
 \begin{lstlisting}
-	#per installare i driver intel
-	pacman -S xf86-video-intel
-
-	#per i driver ati
-	pacman -S xf86-video-ati
-
-	#per nvidia
-	pacman -S xf86-video-nouveau
+$   ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 \end{lstlisting}
 
-			per installare i driver proprietari vi invito invece a visitare la wiki relativa.
-			
-			Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, tanto meglio nel caso averli già pronti:
-			\centcode{pacman -S xf86-input-synaptics}
+\section {Programma di installazione terminato}
 
-		\section{Aggiunta utente, creazione cartelle utente e cifratura home }
+    Il sistema è installato correttamente, adesso andiamo per smontare le partizioni:
+\begin{lstlisting}
+$   exit
+$   umount /mnt/boot/efi
+$   umount /mnt/home
+$   umount /mnt
+$   swapoff
+$   sync
+\end{lstlisting}
 
-			È sempre bene utilizzare l'account root solo se strettamente necessario, altrimenti è meglio impostare un utente amministratore o semplice (ancora meglio).
+    possiamo quindi riavviare e continuare con le configurazioni tramite l'utente root e non in ambiente di chroot
 
-			per aggiunta di un utente amministratore digitare:
-			\centcode{useradd -m -g users -G wheel,video,audio,sys,lp,storage,scanner,games,network,disk,input -s /bin/bash <nome utente>}
+\cleardoublepage
+\chapter{Configurazioni di sistema}
 
-			per un amministratore non utente basta eliminare il gruppo \textbf{wheel} dal codice precedente.\\
-			Impostiamo quindi una password per l'utente appena creato: \centcode{passwd <nome utente>}e indichiamo al programma sudo ( che ci permette di effettuare operazioni in modalità amministratore) tramite \textit{visudo}:
+Dopo aver riavviato e tolto la chiavetta, dovremmo trovare la possibilità di avviare archlinux tramite grub, se così non fosse reinserite la chiavetta, rimontate le partizioni e rifate il chroot, cercando la soluzione al problema tramite la guida wiki.
+Da qui in poi sarà supposto che voi abbiate il sistema funzionante e possiate fare il login tramite account di root.
+
+Inserite quindi come nome \textit{root} e come password quella impostata durante le configurazioni precedenti. È quindi tempo di fare un po' di configurazioni a sistema appena installato!
+
+\section{Connettiamoci al mondo esterno e alcuni consigli iniziali}
+
+    Come sempre la prima cosa da fare è connettersi. lo si può fare esattamente come prima tramite \code{dhcpcd} e nel caso di una wifi attraverso \code{wifi-menu}.
+
+    Il primo consiglio che innanzitutto do è quello di eseguire subito un upgrade del sistema e dei repository:
+    \begin{lstlisting}
+$   pacman -Syu
+    \end{lstlisting}
+    Consiglio poi di installare alcuni pacchetti che nel 90\% dei casi vi saranno utili
+    \begin{lstlisting}
+$   pacman -S linux-headers os-prober git bash-completion
+    \end{lstlisting}
+    Nello specifico, \code{os-prober} vi serve nel caso in cui pianificate ( o abbiate ) una macchina con più sistemi operativi installati.
+
+\section{Server e driver}
+
+    In ambienti linux, senza motore grafico, possiamo usare il pc al più come server. Oggi giorno la produttività dipende strettamente da ciò che vediamo e come interagiamo. Per questo motivo installiamo il server grafico, oggi Xorg, nonostante ci siano valide alternative, risulta ancora la realtà più consolidata, vi consiglio dunque di installarlo a prescindere da ciò che poi proverete. Insieme a Xorg, è consigliato installare il suo sistema di init, utile nel caso in cui non vogliate un DM o il vostro non funzioni a dovere. Quindi:
+    \begin{lstlisting}
+$   pacman -S xorg-server xorg-xinit
+    \end{lstlisting}
+    Potete quindi impostare nel file \code{$\sim$/xinitrc} il comando per utilizzare  il vostro DE preferito (quando ne avrete uno).
+
+    Installare i driver è anche abbastanza semplice, se avete installato arch su una macchina virtuale virtualbox, vi basterà digitare: 
+    \begin{lstlisting}
+$   pacman -S virtualbox-guest-utils
+    \end{lstlisting}
+    Altrimenti andiamo ad identificare la vostra scheda video con \code{lspci} 
+    \begin{lstlisting}
+$   lspci | grep VGA
+    \end{lstlisting}
+    l'output riporterà al suo interno: \code{intel}, \code{ati} o \code{nvidia}. In base a cosa riporta andiamo ad installare i driver \code{open} relativi:
+\begin{lstlisting}
+$   # per installare i driver intel
+$   pacman -S xf86-video-intel
+
+$   # per i driver ati
+$    pacman -S xf86-video-ati
+
+$   # per nvidia
+$   pacman -S xf86-video-nouveau
+\end{lstlisting}
+
+    per installare i driver proprietari vi invito invece a visitare la wiki relativa.
+    
+    Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, tanto meglio nel caso averli già pronti:
+    \begin{lstlisting}
+$   pacman -S xf86-input-synaptics
+    \end{lstlisting}
+
+\section{Aggiunta utente, creazione cartelle utente e cifratura home }
+
+    È sempre bene utilizzare l'account root solo se strettamente necessario, altrimenti è meglio impostare un utente amministratore o semplice (ancora meglio).
+    Per aggiungere un utente amministratore digitare:
+    \begin{lstlisting}
+$   useradd -m -g users -G wheel,video,audio,sys,lp,storage,scanner,games,network,disk,input -s /bin/bash <nome utente>
+    \end{lstlisting}
+    per un amministratore non utente basta eliminare il gruppo \textbf{wheel} dal codice precedente.
+    Impostiamo quindi una password per l'utente appena creato: 
+    \begin{lstlisting}
+$   passwd <nome utente>
+    \end{lstlisting}
+    e indichiamo al programma \code{sudo} (che ci permette di effettuare operazioni in modalità amministratore) tramite \textit{visudo}:
+\begin{lstlisting}
+$   # impostiamo prima un editor di testo a noi piu' amichevole, di default e' vi
+$   export EDITOR=<nome editor>
+$   visudo
+\end{lstlisting}
+
+    A questo punto esistono due modi di impostare i permessi di amministratore, con richiesta della password (consigliato) e senza richiesta.
+    Nel primo caso decommentare la riga:
+    \begin{lstlisting}
+$   wheel ALL=(ALL) ALL
+    \end{lstlisting}
+    nel secondo decommentare: 
+    \begin{lstlisting}
+$   wheel ALL=(ALL) NOPASSWD: ALL
+    \end{lstlisting}
+
+    A questo punto configuriamo le cartelle utente, installiamo 
+    \begin{lstlisting}
+$   pacman -S xdg-user-dirs
+    \end{lstlisting}
+    Al nostro accesso con l'utente digitiamo 
+    \begin{lstlisting}
+$   xdg-user-dirs-update
+    \end{lstlisting}
+    e ci dovremmo trovare nella home tutte le cartelle utente. Nel caso non siano in italiano si può editare il file \texttt{$\sim$/.config/user-dirs.dirs} inserendo uno ad uno i nomi che desideriamo sostituire.
+    
+    \subsection*{Cifratura cartella home}
+    \textit{Il prossimo step è opzionale, se non volete eseguirlo passate direttamente alla prossima sezione}
+    
+    Potete decidere di cifrare il contenuto della vostra home, un po' come succede nei telefoni che possiedono metodo di sblocco con impronta digitale. Per farlo la prima cosa è installare alcuni pacchetti \centcode{pacman -S ecryptfs-utils keyutils rsync lsof}
+    Quindi caricare l'apposito modulo del kernel:\centcode{modprobe ecryptfs}. Potrebbe essere necessario apportare una modifica al file \textit{/etc/mkinitcpio.conf} e scriverci all'interno, nella sezione \textbf{MODULES}, il nome del modulo per forzarne il caricamento ad ogni avvio del pc. Successivamente ricompilare il servizio di avvio \centcode{mkinitpcio -p linux}Usare quindi il tool per la migrazione della home, per avviare questa fase è necessario che voi non abbiate alcun processo aperto con l'utente di cui volete cifrare la home: \centcode{ecryptfs-migrate-home -u <nome utente>}
+    Seguire le istruzioni indicate. Per completare la procedura, uscite dal vostro account root con \code{exit} ed entrate con quello dell'utente. Verificate quindi con \code{ls} che siano state criptate tutte le cartelle (dovrebbe apparire Access-your-data.desktop e un altro file di testo)
+
+    Quindi  decriptate e ri-criptate voi stessi la home usando i due tool \centcode{
+        ecryptfs-mount-private \#per decriptare\\
+        ecryptfs-umount-private \#per ricriptare
+    }
+
+    Potete usare i due comandi ogni volta che volete cifrare o decifrare la cartella home manualmente, può accadere alle volte che la cifratura non avvenga per processi aperti su file all'interno della home. Si può quindi forzare il procedimento con questo comando \centcode{umount.ecryptfs\_private}
+
+    uscite dall'account user (dopo aver smontato la cartella) e rientrate con root per maggiore comodità.
+    \nlinea
+    \nlinea
+    Ora è necessario ( a meno che non vogliate farlo a mano ogni accesso) impostare l'auto-mounting della home criptata all'accesso.
+    Facciamo un backup del file \textit{/etc/pam.d/system-auth} \centcode{cp /etc/pam.d/system-auth /etc/pam.d/system-auth.old}e apriamo \textit{/etc/pam.d/system-auth} con il nostro editor preferito.\\
+    Da adesso facciamo \textbf{MOLTA} attenzione, sbagliando qualunque cosa potremmo non poter più accedere a nessun account (a meno di aggiustare poi le cose con l'iso di arch), andiamo ad aggiungere dopo la stringa che contiene \textbf{auth required pam\_unix.so} la seguente linea:
+    \centcode{auth    required    pam\_ecryptfs.so unwrap}
+
+    Dopo la linea linea che contiene \textbf{password required pam\_unix.so} aggiungiamo: \centcode{password    optional    pam\_ecryptfs.so}
+
+    E infine dopo la linea che contiene \textbf{session required pam\_unix.so} aggiungiamo:\centcode{session required pam\_ecryptfs.so unwrap}
+    Usciamo dall'editor salvando. Per essere sicuri di aver fatto le cose a modo, apriamo un altro tty (\code{ctrl-alt-f2}) e facciamo l'accesso con l'utente. Se l'accesso avviene correttamente, e se la cartella viene correttemente decriptata, allora è tutto ok. Altrimenti ritornate immediatamente nel primo tty (\code{ctrl-alt-f1})  correggete l'errore nel file o, nel caso non ci riusciate, eliminate tutte le modifiche facendo tornare il file allo stato originale attraverso il backup.
+    Se tutto è andato a buon fine, ricordate di far uscire con exit l'utente. Se la cartella non viene ricriptata potreste avere problemi di accesso d'ora in poi, nel caso entrate con il tty e ricriptatela con il comando di \textit{umount}.
+    Ripassate quindi al tty per continuare con l'installazione.
+
+
+
+
+    \nlinea
+
+    \nlinea
+
+    \hrule
+
+
+\section{Configurare \code{pacman} e installare \code{aurman}}
+
+    Perché \arch? Perché complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di pacchetti \code{pacman} e tutto ciò che ne deriva, compreso il famoso \ac{AUR}.
+
+    Prima di tutto, abbelliamo il nostro pacman!
+    Sempre con il nostro editor preferito (a proposito, il mio è \code{nano}, vi insegnerò anche a renderlo carino) modifichiamo il file \code{/etc/pacman.conf}: andiamo a decommentare la riga con scritto \code{Color} e aggiungiamo sotto \code{ILoveCandy}.
+    Poi decommentiamo dove c'è scritto \code{multilib} e la riga di sotto se vogliamo abilitare il supporto alle librerie a 32 bit (necessario per alcuni programmi).
+    Se volessimo aggiungere un nuovo repository lo possiamo fare seguendo il template alla fine del file, ma difficilmente ne avrete bisogno dopo che installerete un \textit{aur-helper}.
+
+    Installiamone quindi uno: \code{aurman}\footnote{jschiavon consiglia \code{yay} al posto di \code{aurman}, dato che quest'ultimo non è più supportato. La procedura cambia leggermente, ma è facile individuarla alla pagina \code{GitHub} di \code{yay}.}
+    Per lo step successivo, è \underline{\textbf{fortemente consigliato}} l'accesso con l'utente amministratore e non con root.
 
 \begin{lstlisting}
-	#impostiamo prima un editor di testo a noi piu' amichevole, di default e' vi
-	export EDITOR=<nome editor>
-	visudo
+$   git clone https://aur.archlinux.org/aurman.git
+$   sudo pacman -S expac python-regex
+$   # se siete entrati come utenti, altrimenti senza sudo
+$   cd aurman
+$   # la prossima istruzione tende a bloccarsi se la linea non e' stabile, nel caso bloccate l'esecuzione con ctrl-c e rieseguitela finche' non avra' successo
+$   gpg --recv-key  465022E743D71E39
+$   makepkg -si
+$   cd ..
+$   rm -rf aurman
 \end{lstlisting}
 
-			a questo punto esistono due modi di impostare i permessi di amministratore, con richiesta della password (consigliato) e senza richiesta.
+    \code{aurman} (e anche \code{yay}) usa la stessa sintassi di \textbf{pacman}, e potete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca pacchetti anche su \ac{AUR}, un immenso repository di pacchetti offerti dalla comunità, ci trovate davvero di tutto dentro. 
+    
+    \begin{center}
+        \textbf{Ma non va eseguito come utente amministratore (con \code{sudo} per intenderci) né come utente root.}
+    \end{center}
+    
+    La fase iniziale di installazione è terminata, consiglio a questo punto di riavviare prima di continuare.
+    
+    
+\section{Sincronizzare orologio di sistema e Hardware}
+    Per sincronizzare l'orologio di sistema con quello del calcolatore si può digitare:
+    \begin{lstlisting}
+$   hwclock --systohc (--utc)
+    \end{lstlisting}
 
-			nel primo caso decommentare la riga:\centcode{wheel ALL=(ALL) ALL}
-			nel secondo decommentare: \centcode{wheel ALL=(ALL) NOPASSWD: ALL}
+\chapter{Desktop Environment, Display Manager, NetworkManager e servizi systemd}
 
-			A questo punto configuriamo le cartelle utente, installiamo \centcode{pacman -S xdg-user-dirs}. Al nostro accesso con l'utente digitiamo \centcode{xdg-user-dirs-update} e ci dovremmo trovare nella home tutte le cartelle utente. Nel caso non siano in italiano si può editare il file \textit{/home/<nome utente>/.config/user-dirs.dirs} inserendo ad uno ad uno i nomi che desideriamo sostituire.
-			\nlinea 
+\paragraph{Premessa} Ad oggi l'unico Desktop Environment che \emph{non} mi sento di consigliare, è \code{GNOME}. Molti prenderanno questa come una bestemmia e chiuderanno subito la guida, fatti loro. A mio parere \code{GNOME} ha ancora molte mancanze che mi fanno sempre desistere dal tenerlo installato sui miei sistemi, è inoltre l'unico sistema che, appena aperto, raggiunge il Gigabyte di ram occupata (più o meno)\footnote{Ultimamente anche le prestazioni di \code{GNOME} stanno migliorando molto}. In ogni caso la bellissima guida wiki ha una guida per ogni singolo DE che vogliate installare (e installare \code{GNOME} completo è davvero cosa di due comandi).\\
+La qui presente guida invece vi insegnerà a installare \code{Plasma}, un \ac{DE} molto avanzato con consumi ram/cpu nella media.\\ Per sistemi poco prestanti consiglio \textbf{XFCE}, \textbf{LXDE} o \textbf{I3WM}, che sono tre validissime alternative che con qualche tocco di eleganza hanno fatto la storia delle configurazioni e dei temi più belli del mondo Linux.\\
+Per chi ha uno schermo HIDPI consiglio ancora \textbf{PlasmaDE}, \textbf{Cinnamon} o \textbf{GNOME} \textit{(per i più impavidi che non hanno desistito dopo la mia precedente descrizione)} in quanto sono gli unici tre ad offrire un supporto nativo. In realtà ci sarebbe anche \textbf{Enlightment}, ma lo reputo un DE con qualche difetto di troppo a gestire alcuni tipi di applicazioni (come ad esempio il noto I.M. \textbf{Telegram}).
 
-			\nlinea
+\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
+D'ora in poi potrete operare tranquillamente con l'account root così come dall'account utente, usando \code{sudo} li dove viene richiesta la modalità di amministrazione.
 
-			\hrule
-			\nlinea
+Ogni qualvolta in un codice della guida vedrete il simbolo \#, dovrete scrivere quel comando come amministratori.
+\end{tcolorbox}
 
-			\nlinea
+\section{Plasma D.E.}
 
-			\textbf{Il prossimo step è opzionale, se non volete eseguirlo passate direttamente alla prossima sezione:} potete decidere di cifrare il contenuto della vostra home, un po' come succede nei telefoni che possiedono metodo di sblocco con impronta digitale. Per farlo la prima cosa è installare alcuni pacchetti \centcode{pacman -S ecryptfs-utils keyutils rsync lsof}
-			Quindi caricare l'apposito modulo del kernel:\centcode{modprobe ecryptfs}. Potrebbe essere necessario apportare una modifica al file \textit{/etc/mkinitcpio.conf} e scriverci all'interno, nella sezione \textbf{MODULES}, il nome del modulo per forzarne il caricamento ad ogni avvio del pc. Successivamente ricompilare il servizio di avvio \centcode{mkinitpcio -p linux}Usare quindi il tool per la migrazione della home, per avviare questa fase è necessario che voi non abbiate alcun processo aperto con l'utente di cui volete cifrare la home: \centcode{ecryptfs-migrate-home -u <nome utente>}
-			Seguire le istruzioni indicate. Per completare la procedura, uscite dal vostro account root con \code{exit} ed entrate con quello dell'utente. Verificate quindi con \code{ls} che siano state criptate tutte le cartelle (dovrebbe apparire Access-your-data.desktop e un altro file di testo)
-
-			Quindi  decriptate e ri-criptate voi stessi la home usando i due tool \centcode{
-				ecryptfs-mount-private \#per decriptare\\
-				ecryptfs-umount-private \#per ricriptare
-			}
-		
-			Potete usare i due comandi ogni volta che volete cifrare o decifrare la cartella home manualmente, può accadere alle volte che la cifratura non avvenga per processi aperti su file all'interno della home. Si può quindi forzare il procedimento con questo comando \centcode{umount.ecryptfs\_private}
-
-			uscite dall'account user (dopo aver smontato la cartella) e rientrate con root per maggiore comodità.
-			\nlinea
-			\nlinea
-			Ora è necessario ( a meno che non vogliate farlo a mano ogni accesso) impostare l'auto-mounting della home criptata all'accesso.
-			Facciamo un backup del file \textit{/etc/pam.d/system-auth} \centcode{cp /etc/pam.d/system-auth /etc/pam.d/system-auth.old}e apriamo \textit{/etc/pam.d/system-auth} con il nostro editor preferito.\\
-			Da adesso facciamo \textbf{MOLTA} attenzione, sbagliando qualunque cosa potremmo non poter più accedere a nessun account (a meno di aggiustare poi le cose con l'iso di arch), andiamo ad aggiungere dopo la stringa che contiene \textbf{auth required pam\_unix.so} la seguente linea:
-			\centcode{auth    required    pam\_ecryptfs.so unwrap}
-
-			Dopo la linea linea che contiene \textbf{password required pam\_unix.so} aggiungiamo: \centcode{password    optional    pam\_ecryptfs.so}
-
-			E infine dopo la linea che contiene \textbf{session required pam\_unix.so} aggiungiamo:\centcode{session required pam\_ecryptfs.so unwrap}
-			Usciamo dall'editor salvando. Per essere sicuri di aver fatto le cose a modo, apriamo un altro tty (\code{ctrl-alt-f2}) e facciamo l'accesso con l'utente. Se l'accesso avviene correttamente, e se la cartella viene correttemente decriptata, allora è tutto ok. Altrimenti ritornate immediatamente nel primo tty (\code{ctrl-alt-f1})  correggete l'errore nel file o, nel caso non ci riusciate, eliminate tutte le modifiche facendo tornare il file allo stato originale attraverso il backup.
-			Se tutto è andato a buon fine, ricordate di far uscire con exit l'utente. Se la cartella non viene ricriptata potreste avere problemi di accesso d'ora in poi, nel caso entrate con il tty e ricriptatela con il comando di \textit{umount}.
-			Ripassate quindi al tty per continuare con l'installazione.
+    In realtà installare un DE è spesso tempo di uno o due comandi, ad esempio per installare plasma completo, con tanto di applicazioni kde, basta digitare:\\
+    \centcode{\# pacman -S plasma kde-applications }
+    per un installazione minimale invece digitare:\centcode{\# pacman -S plasma-desktop}Questo installerà solo l'ambiente, poi dovrete selezionare voi ad uno ad uno i software che volete (file manager, browser, ecc).\\
+    \nlinea
 
 
-
-
-			\nlinea
-
-			\nlinea
-
-			\hrule
-
-
-		\section{configurare pacman e installare aurman }
-
-			Perché Archlinux? Perché complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di pacchetti \textbf{pacman} e tutto ciò che ne deriva, compreso il famoso \textbf{AUR: Arch User Repository}.
-
-			prima di tutto, abbelliamo il nostro pacman!
-			Sempre con il nostro editor preferito (a proposito, il mio è nano, vi insegnerò anche a renderlo carino) modifichiamo il file \textit{/etc/pacman.conf}: andiamo a decommentare la riga con scritto \textbf{Color} e aggiungiamo sotto \textbf{ILoveCandy}.
-			Poi decommentiamo dove c'è scritto \textbf{multilib} e la riga di sotto se vogliamo abilitare il supporto alle librerie a 32 bit ( necessario per alcuni programmi).
-			Se volessimo aggiungere un nuovo repository lo possiamo fare seguendo il template alla fine del file, ma difficilmente ne avrete bisogno dopo che installerete un \textbf{aur-helper}.
-
-			Installiamone quindi uno: \textbf{aurman}!
-			Per lo step successivo, è \underline{\textbf{fortemente consigliato}} l'accesso con l'utente amministratore e non con root.
-
-\begin{lstlisting}
-	git clone https://aur.archlinux.org/aurman.git
-	sudo pacman -S expac python-regex
-	#se siete entrati come utenti, altrimenti senza sudo
-	cd aurman
-	#la prossima istruzione tende a bloccarsi se la linea non e' stabile, nel caso bloccate l'esecuzione con ctrl-c e rieseguitela finche' non avra' successo
-	gpg --recv-key  465022E743D71E39
-	makepkg -si
-	cd ..
-	rm -rf aurman
-\end{lstlisting}
-
-			\textbf{aurman} usa la stessa sintassi di \textbf{pacman}, e potete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca pacchetti anche su \textbf{AUR}, un immenso repository di pacchetti offerti dalla comunità, ci trovate davvero di tutto dentro. \textbf{Ma non va eseguito come utente amministratore (con \code{sudo} per intenderci) né come utente root.}
-\nlinea
-	\nlinea
-			La fase iniziale di installazione è terminata, consiglio a questo punto di riavviare prima di continuare.
-			
-			
-		\section{Sincronizzare orologio di sistema e Hardware}
-			
-			Per sincronizzare l'orologio di sistema con quello del calcolatore si può digitare:\centcode{hwclock --systohc (--utc)}
-
-	\chapter{Desktop Environment, Display Manager, NetworkManager e servizi systemd}
-
-		Premessa: ad oggi l'unico Desktop Environment che \textbf{non} mi sento di consigliare, è \textbf{GNOME}. Molti prenderanno questa come una bestemmia e chiuderanno subito la guida, fatti loro. A mio parere \textbf{GNOME} ha ancora molte mancanze che mi fanno sempre desistere dal tenerlo installato sui miei sistemi, è inoltre l'unico sistema che, appena aperto, raggiunge il Gigabyte di ram occupata ( più o meno). In ogni caso la bellissima guida wiki ha una guida per ogni singolo DE che vogliate installare (e installare \textbf{GNOME} completo è davvero cosa di due comandi).\\
-		La qui presente guida invece vi insegnerà a installare \textbf{Plasma}, un DE molto avanzato con consumi ram/cpu nella media.\\ Per sistemi poco prestanti consiglio \textbf{XFCE}, \textbf{LXDE} o \textbf{I3WM}, che sono tre validissime alternative che con qualche tocco di eleganza hanno fatto la storia delle configurazioni e dei temi più belli del mondo Linux.\\
-		 Per chi ha uno schermo HIDPI consiglio ancora \textbf{PlasmaDE}, \textbf{Cinnamon} o \textbf{GNOME} \textit{(per i più impavidi che non hanno desistito dopo la mia precedente descrizione)} in quanto sono gli unici tre ad offrire un supporto nativo. In realtà ci sarebbe anche \textbf{Enlightment}, ma lo reputo un DE con qualche difetto di troppo a gestire alcuni tipi di applicazioni (come ad esempio il noto I.M. \textbf{Telegram}).
-		 
-		 \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
-		 	D'ora in poi potrete operare tranquillamente con l'account root così come dall'account utente, usando \code{sudo} li dove viene richiesta la modalità di amministrazione.
-		 	
-		 	Ogni qualvolta in un codice della guida vedrete il simbolo \#, dovrete scrivere quel comando come amministratori.
-		 \end{tcolorbox}
-	
-		 \section{Plasma D.E.}
-	
-		 	In realtà installare un DE è spesso tempo di uno o due comandi, ad esempio per installare plasma completo, con tanto di applicazioni kde, basta digitare:\\
-		 	\centcode{\# pacman -S plasma kde-applications }
-		 	per un installazione minimale invece digitare:\centcode{\# pacman -S plasma-desktop}Questo installerà solo l'ambiente, poi dovrete selezionare voi ad uno ad uno i software che volete (file manager, browser, ecc).\\
-		 	\nlinea
-	
-	
-			Consiglio fortemente, se avete uno smartphone android, di installare kde-connect e associarlo all' omonima applicazione smarphone:
-			\centcode{\# pacman -S kdeconnect}
-			\nlinea		
-			\nlinea
-			
-			Un altro consiglio è quello di installare l'integrazione browser di plasma, che vi consente di essere notificati quando un download finisce o di integrare il gestore multimediale di plasma al browser, il che vi permetterà di fermare la musica direttamente dalle notifiche ad esempio. Per installarlo:\centcode{\# pacman -S plasma-browser-integration}
-			
-			\nlinea
-			\nlinea
-			
-			Se usate la lingua italiana potete installarne il supporto con:\centcode{\# pacman -S kde-l10n-it}
-			
-			\nlinea
-			\nlinea
-			
-			Se, come me, siete amanti delle dock, potete installare e personalizzare latte-dock, fatta apposta per plasma:
-			\centcode{\# pacman -S latte-dock}
-			
-			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
-				Su molti Desktop Environment (plasma incluso) la tastiera è impostata di default con il layout USA. Non è un problema di localizzazione, ma va risolto proprio dalle impostazioni della tastiera del DE.
-			\end{tcolorbox}
-			
+    Consiglio fortemente, se avete uno smartphone android, di installare kde-connect e associarlo all' omonima applicazione smarphone:
+    \centcode{\# pacman -S kdeconnect}
+    \nlinea		
+    \nlinea
+    
+    Un altro consiglio è quello di installare l'integrazione browser di plasma, che vi consente di essere notificati quando un download finisce o di integrare il gestore multimediale di plasma al browser, il che vi permetterà di fermare la musica direttamente dalle notifiche ad esempio. Per installarlo:\centcode{\# pacman -S plasma-browser-integration}
+    
+    \nlinea
+    \nlinea
+    
+    Se usate la lingua italiana potete installarne il supporto con:\centcode{\# pacman -S kde-l10n-it}
+    
+    \nlinea
+    \nlinea
+    
+    Se, come me, siete amanti delle dock, potete installare e personalizzare latte-dock, fatta apposta per plasma:
+    \centcode{\# pacman -S latte-dock}
+    
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
+        Su molti Desktop Environment (plasma incluso) la tastiera è impostata di default con il layout USA. Non è un problema di localizzazione, ma va risolto proprio dalle impostazioni della tastiera del DE.
+    \end{tcolorbox}
+        
 		\section{Display Manager}
 			Insieme a plasma, nella sua versione completa, verrà installato il suo\textit{ D.M. (Display Manager)} \textbf{SDDM}. Un D.M. banalmente vi presenta quella schermata che vi permette facilmente l'accesso al vostro ambiente, avviando anche il server X (o qualunque altro server grafico usiate). Ciò avviene facendovi selezionare il vostro utente da GUI, insieme ad un ambiente desktop e inserendo la password. Alcuni D.M. vi impongono di scrivere anche il nome utente. In quel caso diventano banalmente delle alternative a xinit.
 			\nlinea
