@@ -14,14 +14,23 @@
 \usepackage{acronym}
 
 \usepackage{mathpazo}
+\usepackage{inconsolata}
 
 \usepackage[a4paper,top=2.5cm,bottom=2cm,left=3cm,right=3cm]{geometry}
 \usepackage{colortbl}
 \usepackage{tabu}
+\usepackage{booktabs}
 \taburulecolor{black}
-\usepackage{sectsty}
-\chapterfont{\flushright}
 \graphicspath{{"images/"},{.}}
+
+\usepackage{caption}
+\captionsetup[figure]{labelfont={bf,sf},name={Fig.},labelsep=period, font=small, width=.9\textwidth}
+\captionsetup[table]{labelfont={bf,sf},name={Tab.},labelsep=period, font=small, width=.9\textwidth}
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{\normalfont \filleft \huge \bfseries \sffamily}{\chaptername~\thechapter}{1em}{}
+\titleformat{\section}{\normalfont \Large \bfseries \sffamily}{\thesection:}{1em}{}
+\titleformat{\subsection}{\normalfont \large \bfseries \sffamily}{\quad\thesubsection:}{1em}{}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 
 
 \usepackage[colorlinks=true, linkcolor=black, urlcolor=blue]{hyperref}
@@ -31,6 +40,7 @@
 \definecolor{rules}{rgb}{0,0,0}
 \definecolor{lred}{rgb}{0.5,0.2,0.2}
 
+\newcommand{\header}[1]{\textbf{\sffamily #1}}
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\shellcode}[1]{\$$\quad$ \texttt{#1}}
 \newcommand{\centcode}[1]{
@@ -60,7 +70,8 @@
 	basicstyle=\ttfamily\color{code},
 	inputencoding=utf8,
 	extendedchars,
-	commentstyle=\itshape
+	commentstyle=\itshape,
+	morekeywords={sudo,pacman}
 }
 
 \begin{document}
@@ -118,9 +129,17 @@
     I comandi da shell verranno identificati con il simbolo \code{\$}, che indica l'inizio della shell utente. 
     
     \section*{Acronimi}
-    \begin{acronym}
+    \begin{acronym}[GRUB]
         \acro{AUR}{Arch User Repository}
+        \acro{CLI}{Command Line Interface}
         \acro{DE}{Desktop Environment}
+        \acro{DM}{Display Manager}
+        \acro{GPT}{GUId Partition Table}
+        \acro{GRUB}{GRand Unified Bootloader}
+        \acro{GUI}{Graphical User Interface}
+        \acro{GUId}{Globally Unique Identifier}
+        \acro{TTY}{TeleTYpewriter}
+        \acro{UEFI}{Unified Extensible Firmware Interface}
     \end{acronym}
 
     
@@ -129,37 +148,48 @@
 	\tableofcontents
 
 	%\flushleft
-\chapter {Preparare il supporto di installazione }
+\chapter {Preparare il supporto di installazione}
 
 \section{Metodo 1 da Linux : dd}
 
-    Il primo semplice metodo consiste del preparare la pennina con il famoso tool \textit{dd}:
-    \centcode{sudo dd if=/percorso/iso of=/dev/sdX bs=4M status=progress}
-
-    sostituendo a X la lettera del mezzo di installazione. Per ottenere il valore di X, inserire la pennina e digitare \shellcode{fdisk -l}, cercando nell'output quella che sembra essere la vostra pennina (in base a dimensioni e nome) e leggendone quindi le coordinate. 
+    Il primo semplice metodo consiste del preparare la pennina con il famoso tool \code{dd}:
+    \begin{lstlisting}
+$ sudo dd if=/percorso/iso of=/dev/sdX bs=4M status=progress
+    \end{lstlisting}
+    sostituendo a X la lettera del mezzo di installazione. Per ottenere il valore di X, inserire la pennina e digitare 
+    \begin{lstlisting}
+$ fdisk -l
+    \end{lstlisting}
+    cercando nell'output quella che sembra essere la vostra pennina (in base a dimensioni e nome) e leggendone quindi le coordinate. 
     Importante, sostituite a X soltanto la lettera che identifica la pennina, non anche il numero che la segue e che tipicamente indica la partizione.
 
     In seguito all'installazione, per poter riutilizzare la pennina nuovamente, dovrete azzerarla con lo stesso tool:
-    \centcode{sudo dd if=/dev/zero of=/dev/sdXY bs=4M status=progress}
-
-    \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
+    \begin{lstlisting}
+$ sudo dd if=/dev/zero of=/dev/sdX bs=4M status=progress
+    \end{lstlisting}
+    
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,title={NOTA BENE:}, colback={lightgray},colbacktitle=gray,coltitle=white,colupper=black]
         Un uso intensivo di dd potrebbe rovinare la pennina, in quanto ne sovrascrive il contenuto bit a bit. Fare quindi attenzione, meglio utilizzare pennine a basso costo e soprattutto non molto capienti
     \end{tcolorbox}
 
-\section{Metodo 2  da Linux:  copia su fat32 (Consigliato UEFI)}
-    Un altro metodo consiste nel copiare il contenuto della ISO in un file system FAT32, questo metodo presenta diversi vantaggi, ma funziona solo con macchine UEFI.
+\section{Metodo 2  da Linux:  copia su Fat32 (Consigliato UEFI)}
+    Un altro metodo consiste nel copiare il contenuto della Iso in un file system Fat32, questo metodo presenta diversi vantaggi, ma funziona solo con macchine \ac{UEFI}.
 
-    Create quindi due directory dove montare la ISO e la USB di installazione:
-    \centcode{mkdir \{usb,iso\}}
-    e montate quindi la iso utilizzando: 
-    \centcode{sudo mount -o loop </percorso/iso> iso}
-    A questo punto, se non lo si è ancora fatto, formattate la pennetta in fat32, supposto sia /dev/sdX il percorso della pennina, seguire queste istruzioni per formattarne il contenuto (effettuare le operazioni in ambiente \textbf{su} o aggiungere \textbf{sudo} prima di ogni comando):
+    Create quindi due directory dove montare la Iso e la USB di installazione:
+    \begin{lstlisting}
+$ mkdir {usb,iso}
+    \end{lstlisting}
+    e montate quindi la Iso utilizzando: 
+    \begin{lstlisting}
+$ sudo mount -o loop </percorso/iso> iso
+    \end{lstlisting}
+    A questo punto, se non lo si è ancora fatto, formattate la pennetta in Fat32, supponendo che \code{/dev/sdX} sia il percorso della pennina, seguire queste istruzioni per formattarne il contenuto (effettuare le operazioni in ambiente \code{su} o aggiungere \code{sudo} prima di ogni comando):
 
     
 \begin{lstlisting}
-$   dd if=/dev/zero of=/dev/sdX
-$   # da eseguire solo se si vuole completamente resettare la pennina
-$   fdisk /dev/sdX
+$ dd if=/dev/zero of=/dev/sdX
+$ # da eseguire solo se si vuole completamente resettare la pennina
+$ fdisk /dev/sdX
 
 # entra in fdisk, scrivere i prossimi comandi e premere invio dopo ciascuno
 o
@@ -171,60 +201,63 @@ t
 b
 w
 # Ora si esce da fdisk
-$   mkfs.fat /devX1
-$   mount /dev/sdX1 usb \nlcode
-$   dosfslabel /dev/sdX1 ARCH\_AAAAMM \nlcode
-$   # sostituendo ad AAAA ed MM le stesse date che trovate sulla iso
+$ mkfs.fat /devX1
+$ mount /dev/sdX1 usb \nlcode
+$ dosfslabel /dev/sdX1 ARCH\_AAAAMM \nlcode
+$ # sostituendo ad AAAA ed MM le stesse date che trovate sulla iso
 \end{lstlisting}
     
     In questo momento, si ha nelle cartelle usb e iso, montati rispettivamente la usb e il contenuto della iso. Ci apprestiamo dunque a copiare il contenuto della iso nella usb
 
-    \centcode{cp -r iso/* usb}
+    \begin{lstlisting}
+$ cp -r iso/* usb
+    \end{lstlisting}
 
     Consiglio a questo punto di sincronizzare  i dischi e smontare le cartelle, per evitare che le modifiche non vengano attuate correttamente:
 
-    \centcode{sync \nlcode umount \{usb,iso\}}
+    \begin{lstlisting}
+$ sync 
+$ umount {usb,iso}
+    \end{lstlisting}
 
-    La pennina è pronta per i sistemi UEFI. Questo metodo è più sicuro di dd ma funziona su meno sistemi, eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile, scaricare quindi dal proprio gestore di pacchetti l'ultima versione di \textbf{syslinux} e di \textbf{parted} ed eseguire i prossimi comandi (prima di smontare la usb):
+    La pennina è pronta per i sistemi \ac{UEFI}. Questo metodo è più sicuro di dd ma funziona su meno sistemi, eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile, scaricare quindi dal proprio gestore di pacchetti l'ultima versione di \textbf{syslinux} e di \textbf{parted} ed eseguire i prossimi comandi (prima di smontare la usb):
 
-    \centcode{extlinux --install usb/arch/boot/syslinux \nlcode
-        dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sdX \nlcode
-        parted /dev/sdX toggle 1 boot}
+    \begin{lstlisting}
+$ extlinux --install usb/arch/boot/syslinux
+$ dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sdX
+$ parted /dev/sdX toggle 1 boot
+    \end{lstlisting}
 
-    \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={white},title={ATTENZIONE:},colbacktitle=red,coltitle=white,colupper=red]
-
-        quest'ultimo passo non l'ho mai applicato personalmente, ma l'ho letto sulla wiki e ve l'ho voluto riportare. Se qualcosa non dovesse funzionare, vi invito a documentarvene personalmente dalla guida ufficiale
-
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={white},title={ATTENZIONE:},colbacktitle=code,coltitle=white,colupper=code]
+        Quest'ultimo passo non l'ho mai applicato personalmente, ma l'ho letto sulla wiki e ve l'ho voluto riportare. Se qualcosa non dovesse funzionare, vi invito a documentarvi personalmente sulla guida ufficiale.
     \end{tcolorbox}
 
 
-\section{Metodo 3 da Linux : varie GUI}
-    Se non amate molto sporcarvi personalmente le mani durante queste operazioni sono disponibili moltissimi programmi che lo fanno per voi. Personalmente (ma anche la guida ufficiale) sconsiglio fortemente l'utilizzo del noto programma \textbf{uNETbootin}, in quanto tende a funzionare solo con ubuntu e derivate. Comunque sia elencherò una serie di software che ho usato io e che \textit{spesso} funzionano:
-
+\section{Metodo 3 da Linux: GUI}
+    Se non amate molto sporcarvi personalmente le mani durante queste operazioni sono disponibili moltissimi programmi \ac{GUI} che lo fanno per voi. Personalmente (ma anche la guida ufficiale) sconsiglio fortemente l'utilizzo del noto programma \code{uNETbootin}, in quanto tende a funzionare solo con Ubuntu e derivate. Comunque sia elencherò una serie di software che ho usato io e che \emph{spesso} funzionano:
     \begin{itemize}
-        \item \href{https://etcher.io}{Etcher}
-        \item Suse image writer
-        \item Deepin usb maker
-        \item Fedora media writer
+        \item \href{https://etcher.io}{\code{Etcher}}
+        \item \code{Suse image writer}
+        \item \code{Deepin usb maker}
+        \item \code{Fedora media writer}
     \end{itemize}
 
 
 \section{Altri S.O.}
     
-    Anche su sistemi Windows o MacOS esiste e funziona bene \href{https://etcher.io}{etcher}. Altrimenti, potete usare alcuni dei programmi appositi.
+    Anche su sistemi Windows o MacOS esiste e funziona bene \href{https://etcher.io}{\code{Etcher}}. Altrimenti, potete usare alcuni dei programmi appositi.
+
+    Su sistemi operativi OSX consiglio di usare l'utility \code{Disco} di sistema.
     
-    Su sistemi operativi OSX consiglio di usare \textbf{l'utility Disco} di sistema.
-    
-    Su sistemi operativi Windows invece consiglio l'uso di \textbf{Rufus} o \textbf{LiLi USB} (meno consigliato su sistemi UEFI comunque).
-    Se vi doveste trovare male con i primi, altri utenti archlinux mi hanno consigliato i seguenti programmi:
+    Su sistemi operativi Windows invece consiglio l'uso di \code{Rufus} o \code{LiLi USB} (meno consigliato su sistemi \ac{UEFI} comunque).
+    Se vi doveste trovare male con i primi, altri utenti \arch{} mi hanno consigliato i seguenti programmi:
     \begin{itemize}
-        \item Win32DiskImager
-        \item USBWriter
+        \item \code{Win32DiskImager}
+        \item \code{USBWriter}
     \end{itemize}
     
-
     
-\chapter{Hello world, I'm Archlinux! Nice to meet you}
+\chapter{Hello world, I'm \arch! Nice to meet you}
 
 Supponendo ora che siate riusciti da soli ad avviare il supporto attraverso le impostazioni del vostro BIOS o le impostazioni EFI del vostro sistema, o che ancora l'abbiate avviata attraverso virtualbox e che vogliate farvi una VM con sopra archlinux, possiamo quindi passare alle prime fasi dell'installazione.
 
@@ -238,20 +271,28 @@ Avviando arch, se tutto va bene, dovreste ritrovarvi davanti ad una schermata si
 
 L'utente un po' inesperto o pratico solo di installazioni Ubuntu/OSX/Windows sarà spaesato, ma nessuna paura, è tutto molto più semplice di ciò che si pensa.
 
-Ma prima di tutto, se avete una tastiera italiana, digitate: \code{loadkeys it}, così vedrete meno madonnine volare in cielo\dots
+Ma prima di tutto, se avete una tastiera italiana, digitate: 
+\begin{lstlisting}
+$ loadkeys it
+\end{lstlisting}
+così vedrete meno madonnine volare in cielo\dots
 
 \section{Preparazione del disco di installazione}
 
-    La prima cosa da fare è preparare il disco di installazione, attraverso i comandi \code{blkid} o \code{fdisk -l} scopriamo quindi le coordinate del nostro disco ed eventualmente della partizione se preparata in anticipo attraverso altri sistemi operativi (può essere utile spesso preparare tutto attraverso una live di ubuntu con gparted se si è alle prime armi e si hanno dati da preservare).\\
+    La prima cosa da fare è preparare il disco di installazione, attraverso i comandi \code{blkid} o \code{fdisk -l} scopriamo quindi le coordinate del nostro disco ed eventualmente della partizione se preparata in anticipo attraverso altri sistemi operativi (può essere utile spesso preparare tutto attraverso una live di Ubuntu con \code{gparted} se si è alle prime armi e si hanno dati da preservare).
 
-    Ci vuole comunque un po' di organizzazione, bisogna sapere in anticipo in quante partizioni si vuole suddividere la propria installazione, se si è su un sistema UEFI, se si hanno più dischi e se si hanno altre installazioni da preservare.\\
+    Ci vuole comunque un po' di organizzazione, bisogna sapere in anticipo in quante partizioni si vuole suddividere la propria installazione, se si è su un sistema \ac{UEFI}, se si hanno più dischi e se si hanno altre installazioni da preservare.
 
-    La guida supporrà che il disco sia inizialmente non inizializzato, sia l'unico disco e che non si hanno altri sistemi operativi presenti. Supporrò inoltre di voler suddividere l'installazione in: root, home e swap. Un altra condizione supposta sarà quella di avere un sistema EFI con tutto quello che ne deriva.
+    La guida supporrà che il disco sia inizialmente non inizializzato, sia l'unico disco e che non ci siano altri sistemi operativi presenti. Supporrò inoltre di voler suddividere l'installazione in: \code{root}, \code{home} e \code{swap}. Un altra condizione supposta sarà quella di avere un sistema \ac{UEFI} con tutto quello che ne deriva.
 
-    Abbiamo quindi il nostro disco su \textbf{/dev/sda}, vuoto e non inizializzato in alcun modo (un disco vergine per intenderci, come quello che potremmo trovarci in una macchina virtuale). Alternativamente si può pensare che abbiamo un disco  di cui il contenuto non ci interessa, quindi le seguenti operazioni lo formatteranno completamente. Cominciamo dunque le operazioni dando \centcode{gdisk /dev/sda}
-    In questo modo si entrerà in modalità gdisk, che installerà uno schema di partizioni di tipo GPT. Se non si ha a che fare con UEFI, è consigliato usare \code{fdisk} o \code{cfdisk}, e avere a che fare con schema di partizioni tradizionale.\\
-    Come per \textit{fdisk} e \textit{cfdisk}, anche \textbf{gdisk} ha un alternativa user-friendly che è \textbf{cgdisk}. Prendetela in considerazione se non volete seguire le istruzioni che seguiranno ma avere accesso ad un interfaccia più pratica.
-    Se avete scelto per \code{gdisk}, premere quindi in sequenza:\\
+    Abbiamo quindi il nostro disco su \code{/dev/sda}, vuoto e non inizializzato in alcun modo (un disco vergine per intenderci, come quello che potremmo trovarci in una macchina virtuale). Alternativamente si può pensare che abbiamo un disco  di cui il contenuto non ci interessa, quindi le seguenti operazioni lo formatteranno completamente. Cominciamo dunque le operazioni dando 
+    \begin{lstlisting}
+$ gdisk /dev/sda
+    \end{lstlisting}
+    In questo modo si entrerà in modalità \code{gdisk}, che installerà uno schema di partizioni di tipo \ac{GPT}. Se non si ha a che fare con UEFI, è consigliato usare \code{fdisk} o \code{cfdisk}, e avere a che fare con schema di partizioni tradizionale.
+    
+    Come per \code{fdisk} e \code{cfdisk}, anche \code{gdisk} ha un alternativa user-friendly che è \code{cgdisk}. Prendetela in considerazione se non volete seguire le istruzioni che seguiranno ma avere accesso ad un interfaccia più pratica.
+    Se avete scelto per \code{gdisk}, premere quindi in sequenza:
 \begin{lstlisting}
 o
 n
@@ -283,24 +324,22 @@ n
 
 w
 \end{lstlisting}
-
     dopo essere usciti dalla modalità gdisk, possiamo accertarci della situazione usando il comando: \code{gdisk -l} oppure con \code{blkid}.
     Per usare le partizioni comunque è necessario formattarle:
 \begin{lstlisting}
-$   mkfs.fat /dev/sda1
-$   mkfs.ext4 /dev/sda2
-$   mkfs.ext4 /dev/sda3
-$   mkswap /dev/sda4
+$ mkfs.fat /dev/sda1
+$ mkfs.ext4 /dev/sda2
+$ mkfs.ext4 /dev/sda3
+$ mkswap /dev/sda4
 \end{lstlisting}
-
     e poi possiamo iniziare a montarle:
 \begin{lstlisting}
-$    mount /dev/sda2 /mnt
-$    mkdir -p /mnt/boot/efi
-$    mkdir /mnt/home
-$    mount /dev/sda1 /mnt/boot/efi
-$    mount /dev/sda3 /mnt/home
-$    swapon /dev/sda4
+$ mount /dev/sda2 /mnt
+$ mkdir -p /mnt/boot/efi
+$ mkdir /mnt/home
+$ mount /dev/sda1 /mnt/boot/efi
+$ mount /dev/sda3 /mnt/home
+$ swapon /dev/sda4
 \end{lstlisting}
 
     La sezione riguardante la configurazione dei dischi finisce qua.
@@ -311,94 +350,91 @@ $    swapon /dev/sda4
 
     \medskip \noindent Se quindi siete connessi via cavo, basta dare 
     \begin{lstlisting}
-$   dhcpcd
+$ dhcpcd
     \end{lstlisting}
     Se non avete il cavo di rete, archlinux fornisce una comodissima interfaccia di rete wireless, a cui potete accedere con:
     \begin{lstlisting}
-$   wifi-menu
+$ wifi-menu
     \end{lstlisting}
     Scegliete quindi il vostro SSID di fiducia, scrivete la password (se ne avete una) e date \begin{lstlisting}
-$   dhcpcd
+$ dhcpcd
     \end{lstlisting}
     per forzare il router a rilasciarvi un indirizzo IP. Ben fatto, siete connessi! Sicuri? Per accertarcene possiamo dare 
     \begin{lstlisting}
-$    ping -c 3 www.google.com
+$ ping -c 3 www.google.com
     \end{lstlisting}
     e, se la connessione effettivamente c'è, otterrete in output l'informazione che son stati trasmessi e ricevuti 3 pacchetti. Ora che siamo sicuri possiamo andare avanti.\\
 
-    Arch offre un modo davvero comodo di installare i pacchetti iniziali sulle nuove installazioni, attraverso lo script \textbf{pacstrap}:
+    Arch offre un modo davvero comodo di installare i pacchetti iniziali sulle nuove installazioni, attraverso lo script \code{pacstrap}:
     \begin{lstlisting}
-$   pacstrap /mnt base base-devel net-tools dialog netctl wpa_supplicant grub efibootmgr
+$ pacstrap /mnt base base-devel net-tools dialog netctl wpa_supplicant grub efibootmgr
     \end{lstlisting}
     se tutto va per il meglio (spero per voi) il vostro /mnt sarà adesso abbastanza popolato.
 
 \section{Prime configurazioni}
-    Creiamo quindi il vostro \texttt{fstab} che permetterà di montare le cartelle nel giusto ordine all'avvio:
+    Creiamo quindi il vostro \code{fstab} che permetterà di montare le cartelle nel giusto ordine all'avvio:
     \begin{lstlisting}
-$   genfstab -pU /mnt >> /mnt/etc/fstab
+$ genfstab -pU /mnt >> /mnt/etc/fstab
     \end{lstlisting}
     ed entriamo quindi in chroot attraverso un comodissimo script arch:
     \begin{lstlisting}
-$   arch-chroot /mnt
+$ arch-chroot /mnt
     \end{lstlisting}
     settiamo la password di root: 
     \begin{lstlisting}
-$   passwd
+$ passwd
     \end{lstlisting}
-    e modifichiamo il file fstab creato in precedenza sostituendo nella riga della swap, il parametro \texttt{none} scrivendo \textbf{swap}.
+    e modifichiamo il file \code{fstab} creato in precedenza sostituendo nella riga della swap, il parametro \code{none} scrivendo \code{swap}.
 
-    A questo punto configuriamo il grub: 
+    A questo punto dobbiamo configurare e installare \ac{GRUB}: 
     \begin{lstlisting}
-$   grub-mkconfig -o /boot/grub/grub.cfg 
-$   grub-install /dev/sda
+$ grub-mkconfig -o /boot/grub/grub.cfg 
+$ grub-install /dev/sda
     \end{lstlisting}
-
     possiamo quindi dare un nome alla nostra macchina in rete:
     \begin{lstlisting}
-$   echo "NOMEPC" > /etc/hostname
+$ echo "NOMEPC" > /etc/hostname
     \end{lstlisting}
 
-    Impostiamo quindi la lingua: andando ad editare (con \code{nano}, \code{vi} o qualunque altro editor ci piace usare) il file \textit{/etc/locale.gen} decommentando le tre linee che iniziano con \textbf{it\_IT}, successivamente diamo il comando 
+    Impostiamo quindi la lingua: andando ad editare (con \code{nano}, \code{vi} o qualunque altro editor ci piaccia usare, se non lo conoscete sconsiglio \code{vi} il cui funzionamento non è immediato) il file \code{/etc/locale.gen} decommentando le tre linee che iniziano con \code{it\_IT}, successivamente diamo il comando 
     \begin{lstlisting}
-$   locale-gen
+$ locale-gen
     \end{lstlisting}
-
-    successivamente generiamo un buon \textit{/etc/locale.conf}, usiamo il nostro editor di testo preferito e scriviamo:
+    successivamente generiamo un buon \code{/etc/locale.conf}, usiamo il nostro editor di testo preferito e scriviamo:
 
 \begin{lstlisting}
-$   LANG=it_IT.UTF-8
-$   LC_COLLATE="C"
-$   LC_TIME="it_IT.UTF-8"
-$   LANGUAGE="it_IT:en_GB:en"
+LANG=it_IT.UTF-8
+LC_COLLATE="C"
+LC_TIME="it_IT.UTF-8"
+LANGUAGE="it_IT:en_GB:en"
 \end{lstlisting}
 
     impostiamo la lingua del tty con:
 \begin{lstlisting}
-$    echo "KEYMAP=it" > /etc/vconsole.conf
+$ echo "KEYMAP=it" > /etc/vconsole.conf
 \end{lstlisting}
     e impostiamo il fuso orario di sistema con:
 \begin{lstlisting}
-$   ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
+$ ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 \end{lstlisting}
 
 \section {Programma di installazione terminato}
 
     Il sistema è installato correttamente, adesso andiamo per smontare le partizioni:
 \begin{lstlisting}
-$   exit
-$   umount /mnt/boot/efi
-$   umount /mnt/home
-$   umount /mnt
-$   swapoff
-$   sync
+$ exit
+$ umount /mnt/boot/efi
+$ umount /mnt/home
+$ umount /mnt
+$ swapoff
+$ sync
 \end{lstlisting}
-
-    possiamo quindi riavviare e continuare con le configurazioni tramite l'utente root e non in ambiente di chroot
+    possiamo quindi riavviare e continuare con le configurazioni tramite l'utente \code{root} e non in ambiente di \code{chroot}
 
 \cleardoublepage
 \chapter{Configurazioni di sistema}
 
-Dopo aver riavviato e tolto la chiavetta, dovremmo trovare la possibilità di avviare archlinux tramite grub, se così non fosse reinserite la chiavetta, rimontate le partizioni e rifate il chroot, cercando la soluzione al problema tramite la guida wiki.
+Dopo aver riavviato e tolto la chiavetta, dovremmo trovare la possibilità di avviare \arch{} tramite grub, se così non fosse reinserite la chiavetta, rimontate le partizioni e rifate il \code{chroot}, cercando la soluzione al problema tramite la guida wiki.
 Da qui in poi sarà supposto che voi abbiate il sistema funzionante e possiate fare il login tramite account di root.
 
 Inserite quindi come nome \textit{root} e come password quella impostata durante le configurazioni precedenti. È quindi tempo di fare un po' di configurazioni a sistema appena installato!
@@ -409,11 +445,11 @@ Inserite quindi come nome \textit{root} e come password quella impostata durante
 
     Il primo consiglio che innanzitutto do è quello di eseguire subito un upgrade del sistema e dei repository:
     \begin{lstlisting}
-$   pacman -Syu
+$ pacman -Syu
     \end{lstlisting}
     Consiglio poi di installare alcuni pacchetti che nel 90\% dei casi vi saranno utili
     \begin{lstlisting}
-$   pacman -S linux-headers os-prober git bash-completion
+$ pacman -S linux-headers os-prober git bash-completion
     \end{lstlisting}
     Nello specifico, \code{os-prober} vi serve nel caso in cui pianificate ( o abbiate ) una macchina con più sistemi operativi installati.
 
@@ -421,35 +457,35 @@ $   pacman -S linux-headers os-prober git bash-completion
 
     In ambienti linux, senza motore grafico, possiamo usare il pc al più come server. Oggi giorno la produttività dipende strettamente da ciò che vediamo e come interagiamo. Per questo motivo installiamo il server grafico, oggi Xorg, nonostante ci siano valide alternative, risulta ancora la realtà più consolidata, vi consiglio dunque di installarlo a prescindere da ciò che poi proverete. Insieme a Xorg, è consigliato installare il suo sistema di init, utile nel caso in cui non vogliate un DM o il vostro non funzioni a dovere. Quindi:
     \begin{lstlisting}
-$   pacman -S xorg-server xorg-xinit
+$ pacman -S xorg-server xorg-xinit
     \end{lstlisting}
     Potete quindi impostare nel file \code{$\sim$/xinitrc} il comando per utilizzare  il vostro DE preferito (quando ne avrete uno).
 
     Installare i driver è anche abbastanza semplice, se avete installato arch su una macchina virtuale virtualbox, vi basterà digitare: 
     \begin{lstlisting}
-$   pacman -S virtualbox-guest-utils
+$ pacman -S virtualbox-guest-utils
     \end{lstlisting}
     Altrimenti andiamo ad identificare la vostra scheda video con \code{lspci} 
     \begin{lstlisting}
-$   lspci | grep VGA
+$ lspci | grep VGA
     \end{lstlisting}
     l'output riporterà al suo interno: \code{intel}, \code{ati} o \code{nvidia}. In base a cosa riporta andiamo ad installare i driver \code{open} relativi:
 \begin{lstlisting}
-$   # per installare i driver intel
-$   pacman -S xf86-video-intel
+$ # per installare i driver intel
+$ pacman -S xf86-video-intel
 
-$   # per i driver ati
-$    pacman -S xf86-video-ati
+$ # per i driver ati
+$ pacman -S xf86-video-ati
 
-$   # per nvidia
-$   pacman -S xf86-video-nouveau
+$ # per nvidia
+$ pacman -S xf86-video-nouveau
 \end{lstlisting}
 
     per installare i driver proprietari vi invito invece a visitare la wiki relativa.
     
     Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, tanto meglio nel caso averli già pronti:
     \begin{lstlisting}
-$   pacman -S xf86-input-synaptics
+$ pacman -S xf86-input-synaptics
     \end{lstlisting}
 
 \section{Aggiunta utente, creazione cartelle utente e cifratura home }
@@ -457,107 +493,130 @@ $   pacman -S xf86-input-synaptics
     È sempre bene utilizzare l'account root solo se strettamente necessario, altrimenti è meglio impostare un utente amministratore o semplice (ancora meglio).
     Per aggiungere un utente amministratore digitare:
     \begin{lstlisting}
-$   useradd -m -g users -G wheel,video,audio,sys,lp,storage,scanner,games,network,disk,input -s /bin/bash <nome utente>
+$ useradd -m -g users -G wheel,video,audio,sys,lp,storage,scanner,games,network,disk,input -s /bin/bash <nome utente>
     \end{lstlisting}
     per un amministratore non utente basta eliminare il gruppo \textbf{wheel} dal codice precedente.
     Impostiamo quindi una password per l'utente appena creato: 
     \begin{lstlisting}
-$   passwd <nome utente>
+$ passwd <nome utente>
     \end{lstlisting}
     e indichiamo al programma \code{sudo} (che ci permette di effettuare operazioni in modalità amministratore) tramite \textit{visudo}:
 \begin{lstlisting}
-$   # impostiamo prima un editor di testo a noi piu' amichevole, di default e' vi
-$   export EDITOR=<nome editor>
-$   visudo
+$ # impostiamo prima un editor di testo a noi piu' amichevole, di default e' vi
+$ export EDITOR=<nome editor>
+$ visudo
 \end{lstlisting}
 
     A questo punto esistono due modi di impostare i permessi di amministratore, con richiesta della password (consigliato) e senza richiesta.
     Nel primo caso decommentare la riga:
     \begin{lstlisting}
-$   wheel ALL=(ALL) ALL
+$ wheel ALL=(ALL) ALL
     \end{lstlisting}
     nel secondo decommentare: 
     \begin{lstlisting}
-$   wheel ALL=(ALL) NOPASSWD: ALL
+$ wheel ALL=(ALL) NOPASSWD: ALL
     \end{lstlisting}
 
     A questo punto configuriamo le cartelle utente, installiamo 
     \begin{lstlisting}
-$   pacman -S xdg-user-dirs
+$ pacman -S xdg-user-dirs
     \end{lstlisting}
     Al nostro accesso con l'utente digitiamo 
     \begin{lstlisting}
-$   xdg-user-dirs-update
+$ xdg-user-dirs-update
     \end{lstlisting}
-    e ci dovremmo trovare nella home tutte le cartelle utente. Nel caso non siano in italiano si può editare il file \texttt{$\sim$/.config/user-dirs.dirs} inserendo uno ad uno i nomi che desideriamo sostituire.
+    e ci dovremmo trovare nella home tutte le cartelle utente. Nel caso non siano in italiano si può editare il file \code{$\sim$/.config/user-dirs.dirs} inserendo uno ad uno i nomi che desideriamo sostituire.
     
-    \subsection*{Cifratura cartella home}
-    \textit{Il prossimo step è opzionale, se non volete eseguirlo passate direttamente alla prossima sezione}
+    \subsection{Cifratura cartella home}
+    \emph{Il prossimo step è opzionale, se non volete eseguirlo passate direttamente alla prossima sezione}
     
-    Potete decidere di cifrare il contenuto della vostra home, un po' come succede nei telefoni che possiedono metodo di sblocco con impronta digitale. Per farlo la prima cosa è installare alcuni pacchetti \centcode{pacman -S ecryptfs-utils keyutils rsync lsof}
-    Quindi caricare l'apposito modulo del kernel:\centcode{modprobe ecryptfs}. Potrebbe essere necessario apportare una modifica al file \textit{/etc/mkinitcpio.conf} e scriverci all'interno, nella sezione \textbf{MODULES}, il nome del modulo per forzarne il caricamento ad ogni avvio del pc. Successivamente ricompilare il servizio di avvio \centcode{mkinitpcio -p linux}Usare quindi il tool per la migrazione della home, per avviare questa fase è necessario che voi non abbiate alcun processo aperto con l'utente di cui volete cifrare la home: \centcode{ecryptfs-migrate-home -u <nome utente>}
-    Seguire le istruzioni indicate. Per completare la procedura, uscite dal vostro account root con \code{exit} ed entrate con quello dell'utente. Verificate quindi con \code{ls} che siano state criptate tutte le cartelle (dovrebbe apparire Access-your-data.desktop e un altro file di testo)
+    Potete decidere di cifrare il contenuto della vostra home, un po' come succede nei telefoni che possiedono metodo di sblocco con impronta digitale. Per farlo la prima cosa è installare alcuni pacchetti 
+    \begin{lstlisting}
+$ pacman -S ecryptfs-utils keyutils rsync lsof
+    \end{lstlisting}
+    Quindi caricare l'apposito modulo del kernel:
+    \begin{lstlisting}
+$ modprobe ecryptfs
+    \end{lstlisting}
+    Potrebbe essere necessario apportare una modifica al file \code{/etc/mkinitcpio.conf} e scriverci all'interno, nella sezione \textbf{MODULES}, il nome del modulo per forzarne il caricamento ad ogni avvio del pc. Successivamente ricompilare il servizio di avvio 
+    \begin{lstlisting}
+$ mkinitpcio -p linux
+    \end{lstlisting}
+    Usare quindi il tool per la migrazione della home, per avviare questa fase è necessario che voi non abbiate alcun processo aperto con l'utente di cui volete cifrare la home: 
+    \begin{lstlisting}
+$ ecryptfs-migrate-home -u <nome utente>
+    \end{lstlisting}
+    Seguire le istruzioni indicate. Per completare la procedura, uscite dal vostro account root con \code{exit} ed entrate con quello dell'utente. Verificate quindi con \code{ls} che siano state criptate tutte le cartelle (dovrebbero apparire \code{Access-your-data.desktop} e un altro file di testo).
 
-    Quindi  decriptate e ri-criptate voi stessi la home usando i due tool \centcode{
-        ecryptfs-mount-private \#per decriptare\\
-        ecryptfs-umount-private \#per ricriptare
-    }
+    Quindi  decriptate e ri-criptate voi stessi la home usando i due tool 
+    \begin{lstlisting}
+$ ecryptfs-mount-private \#per decriptare
+$ ecryptfs-umount-private \#per ricriptare
+    \end{lstlisting}
 
-    Potete usare i due comandi ogni volta che volete cifrare o decifrare la cartella home manualmente, può accadere alle volte che la cifratura non avvenga per processi aperti su file all'interno della home. Si può quindi forzare il procedimento con questo comando \centcode{umount.ecryptfs\_private}
-
+    Potete usare i due comandi ogni volta che volete cifrare o decifrare la cartella \code{home} manualmente, può accadere alle volte che la cifratura non avvenga per processi aperti su file all'interno della home. Si può quindi forzare il procedimento con questo comando 
+    \begin{lstlisting}
+$ umount.ecryptfs_private
+    \end{lstlisting}
     uscite dall'account user (dopo aver smontato la cartella) e rientrate con root per maggiore comodità.
-    \nlinea
-    \nlinea
-    Ora è necessario ( a meno che non vogliate farlo a mano ogni accesso) impostare l'auto-mounting della home criptata all'accesso.
-    Facciamo un backup del file \textit{/etc/pam.d/system-auth} \centcode{cp /etc/pam.d/system-auth /etc/pam.d/system-auth.old}e apriamo \textit{/etc/pam.d/system-auth} con il nostro editor preferito.\\
-    Da adesso facciamo \textbf{MOLTA} attenzione, sbagliando qualunque cosa potremmo non poter più accedere a nessun account (a meno di aggiustare poi le cose con l'iso di arch), andiamo ad aggiungere dopo la stringa che contiene \textbf{auth required pam\_unix.so} la seguente linea:
-    \centcode{auth    required    pam\_ecryptfs.so unwrap}
+    
+    Ora è necessario (a meno che non vogliate farlo a mano ogni accesso) impostare l'auto-mounting della home criptata all'accesso.
+    Facciamo un backup del file \code{/etc/pam.d/system-auth} 
+    \begin{lstlisting}
+$ cp /etc/pam.d/system-auth /etc/pam.d/system-auth.old
+    \end{lstlisting}
+    e apriamo \code{/etc/pam.d/system-auth} con il nostro editor preferito.
+    
+    Da adesso facciamo \textbf{MOLTA} attenzione, sbagliando qualunque cosa potremmo non poter più accedere a nessun account (a meno di aggiustare poi le cose con l'iso di \arch). Andiamo ad aggiungere dopo la stringa che contiene \code{auth required pam\_unix.so} la seguente linea:
+    \begin{lstlisting}
+auth required pam_ecryptfs.so unwrap
+    \end{lstlisting}
 
-    Dopo la linea linea che contiene \textbf{password required pam\_unix.so} aggiungiamo: \centcode{password    optional    pam\_ecryptfs.so}
+    Dopo la linea linea che contiene \code{password required pam\_unix.so} aggiungiamo: 
+    \begin{lstlisting}
+password optional pam_ecryptfs.so
+    \end{lstlisting}
 
-    E infine dopo la linea che contiene \textbf{session required pam\_unix.so} aggiungiamo:\centcode{session required pam\_ecryptfs.so unwrap}
-    Usciamo dall'editor salvando. Per essere sicuri di aver fatto le cose a modo, apriamo un altro tty (\code{ctrl-alt-f2}) e facciamo l'accesso con l'utente. Se l'accesso avviene correttamente, e se la cartella viene correttemente decriptata, allora è tutto ok. Altrimenti ritornate immediatamente nel primo tty (\code{ctrl-alt-f1})  correggete l'errore nel file o, nel caso non ci riusciate, eliminate tutte le modifiche facendo tornare il file allo stato originale attraverso il backup.
-    Se tutto è andato a buon fine, ricordate di far uscire con exit l'utente. Se la cartella non viene ricriptata potreste avere problemi di accesso d'ora in poi, nel caso entrate con il tty e ricriptatela con il comando di \textit{umount}.
-    Ripassate quindi al tty per continuare con l'installazione.
-
-
-
-
-    \nlinea
-
-    \nlinea
-
-    \hrule
-
+    E infine dopo la linea che contiene \code{session required pam\_unix.so} aggiungiamo:
+    \begin{lstlisting}
+session required pam_ecryptfs.so unwrap
+    \end{lstlisting}
+    Usciamo dall'editor salvando. 
+    
+    Per essere sicuri di aver fatto le cose a modo, apriamo un altro \ac{TTY} (utilizzando la combinazione di tasti \code{ctrl-alt-f2}) e facciamo l'accesso con l'utente. Se l'accesso avviene correttamente, e se la cartella viene correttemente decriptata, allora è tutto ok. Altrimenti ritornate immediatamente nel primo \ac{TTY} (\code{ctrl-alt-f1})  correggete l'errore nel file o, nel caso non ci riusciate, eliminate tutte le modifiche facendo tornare il file allo stato originale attraverso il backup.
+    
+    Se tutto è andato a buon fine, ricordate di far uscire con \code{exit} l'utente. Se la cartella non viene ricriptata potreste avere problemi di accesso d'ora in poi, nel caso entrate con il \ac{TTY} e ricriptatela con il comando \code{umount}.
+    Ripassate quindi al \ac{TTY} per continuare con l'installazione.
 
 \section{Configurare \code{pacman} e installare \code{aurman}}
 
     Perché \arch? Perché complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di pacchetti \code{pacman} e tutto ciò che ne deriva, compreso il famoso \ac{AUR}.
 
-    Prima di tutto, abbelliamo il nostro pacman!
+    Prima di tutto, abbelliamo il nostro \code{pacman}!
+    
     Sempre con il nostro editor preferito (a proposito, il mio è \code{nano}, vi insegnerò anche a renderlo carino) modifichiamo il file \code{/etc/pacman.conf}: andiamo a decommentare la riga con scritto \code{Color} e aggiungiamo sotto \code{ILoveCandy}.
     Poi decommentiamo dove c'è scritto \code{multilib} e la riga di sotto se vogliamo abilitare il supporto alle librerie a 32 bit (necessario per alcuni programmi).
     Se volessimo aggiungere un nuovo repository lo possiamo fare seguendo il template alla fine del file, ma difficilmente ne avrete bisogno dopo che installerete un \textit{aur-helper}.
 
-    Installiamone quindi uno: \code{aurman}\footnote{jschiavon consiglia \code{yay} al posto di \code{aurman}, dato che quest'ultimo non è più supportato. La procedura cambia leggermente, ma è facile individuarla alla pagina \code{GitHub} di \code{yay}.}
+    Installiamone quindi uno: \code{aurman}\footnote{jschiavon consiglia \code{yay} al posto di \code{aurman}, dato che quest'ultimo non è più supportato. La procedura cambia leggermente, ma è facile trovarla alla pagina \code{GitHub} di \code{yay}.}
     Per lo step successivo, è \underline{\textbf{fortemente consigliato}} l'accesso con l'utente amministratore e non con root.
 
 \begin{lstlisting}
-$   git clone https://aur.archlinux.org/aurman.git
-$   sudo pacman -S expac python-regex
-$   # se siete entrati come utenti, altrimenti senza sudo
-$   cd aurman
-$   # la prossima istruzione tende a bloccarsi se la linea non e' stabile, nel caso bloccate l'esecuzione con ctrl-c e rieseguitela finche' non avra' successo
-$   gpg --recv-key  465022E743D71E39
-$   makepkg -si
-$   cd ..
-$   rm -rf aurman
+$ git clone https://aur.archlinux.org/aurman.git
+$ sudo pacman -S expac python-regex
+$ # se siete entrati come utenti, altrimenti senza sudo
+$ cd aurman
+$ # la prossima istruzione tende a bloccarsi se la linea non e' stabile, nel caso bloccate l'esecuzione con ctrl-c e rieseguitela finche' non avra' successo
+$ gpg --recv-key  465022E743D71E39
+$ makepkg -si
+$ cd ..
+$ rm -rf aurman
 \end{lstlisting}
 
-    \code{aurman} (e anche \code{yay}) usa la stessa sintassi di \textbf{pacman}, e potete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca pacchetti anche su \ac{AUR}, un immenso repository di pacchetti offerti dalla comunità, ci trovate davvero di tutto dentro. 
+    \code{aurman} (e anche \code{yay}) usa la stessa sintassi di \code{pacman}, e potete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca pacchetti anche su \ac{AUR}, un immenso repository di pacchetti offerti dalla comunità, ci trovate davvero di tutto dentro. 
     
     \begin{center}
-        \textbf{Ma non va eseguito come utente amministratore (con \code{sudo} per intenderci) né come utente root.}
+        \textbf{\code{aurman} e gli altri \ac{AUR} helper non vanno mai eseguiti come utente amministratore con privilegi di amministratore (con \code{sudo} per intenderci) né come utente root.}
     \end{center}
     
     La fase iniziale di installazione è terminata, consiglio a questo punto di riavviare prima di continuare.
@@ -566,329 +625,372 @@ $   rm -rf aurman
 \section{Sincronizzare orologio di sistema e Hardware}
     Per sincronizzare l'orologio di sistema con quello del calcolatore si può digitare:
     \begin{lstlisting}
-$   hwclock --systohc (--utc)
+$ hwclock --systohc (--utc)
     \end{lstlisting}
 
-\chapter{Desktop Environment, Display Manager, NetworkManager e servizi systemd}
+\chapter[DE e altri servizi]{Desktop Environment, Display Manager, NetworkManager e servizi systemd}
 
-\paragraph{Premessa} Ad oggi l'unico Desktop Environment che \emph{non} mi sento di consigliare, è \code{GNOME}. Molti prenderanno questa come una bestemmia e chiuderanno subito la guida, fatti loro. A mio parere \code{GNOME} ha ancora molte mancanze che mi fanno sempre desistere dal tenerlo installato sui miei sistemi, è inoltre l'unico sistema che, appena aperto, raggiunge il Gigabyte di ram occupata (più o meno)\footnote{Ultimamente anche le prestazioni di \code{GNOME} stanno migliorando molto}. In ogni caso la bellissima guida wiki ha una guida per ogni singolo DE che vogliate installare (e installare \code{GNOME} completo è davvero cosa di due comandi).\\
-La qui presente guida invece vi insegnerà a installare \code{Plasma}, un \ac{DE} molto avanzato con consumi ram/cpu nella media.\\ Per sistemi poco prestanti consiglio \textbf{XFCE}, \textbf{LXDE} o \textbf{I3WM}, che sono tre validissime alternative che con qualche tocco di eleganza hanno fatto la storia delle configurazioni e dei temi più belli del mondo Linux.\\
-Per chi ha uno schermo HIDPI consiglio ancora \textbf{PlasmaDE}, \textbf{Cinnamon} o \textbf{GNOME} \textit{(per i più impavidi che non hanno desistito dopo la mia precedente descrizione)} in quanto sono gli unici tre ad offrire un supporto nativo. In realtà ci sarebbe anche \textbf{Enlightment}, ma lo reputo un DE con qualche difetto di troppo a gestire alcuni tipi di applicazioni (come ad esempio il noto I.M. \textbf{Telegram}).
+\paragraph{Premessa} Ad oggi l'unico Desktop Environment che \emph{non} mi sento di consigliare, è \code{GNOME}. Molti prenderanno questa come una bestemmia e chiuderanno subito la guida, fatti loro. A mio parere \code{GNOME} ha ancora molte mancanze che mi fanno sempre desistere dal tenerlo installato sui miei sistemi, è inoltre l'unico sistema che, appena aperto, raggiunge il Gigabyte di ram occupata (più o meno)\footnote{Ultimamente anche le prestazioni di \code{GNOME} stanno migliorando molto}. In ogni caso la bellissima guida wiki ha una guida per ogni singolo DE che vogliate installare (e installare \code{GNOME} completo è davvero cosa di due comandi).
 
-\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
+La qui presente guida invece vi insegnerà a installare \code{Plasma}, un \ac{DE} molto avanzato con consumi ram/cpu nella media.
+
+Per sistemi poco prestanti consiglio \code{XFCE}, \code{LXDE} o \code{I3WM}, che sono tre validissime alternative che con qualche tocco di eleganza hanno fatto la storia delle configurazioni e dei temi più belli del mondo Linux. Mentre i primi due sono due \ac{DE} completi, seppur leggeri, \code{I3} è un Window Manager, quindi molto più leggero ma anche con meno funzionalità e una estetica \emph{mooolto} più minimale.
+
+Per chi ha uno schermo HIDPI consiglio ancora \code{PlasmaDE}, \code{Cinnamon} o \code{GNOME} (\emph{per i più impavidi che non hanno desistito dopo la mia precedente descrizione}) in quanto sono gli unici tre ad offrire un supporto nativo. In realtà ci sarebbe anche \code{Enlightment}, ma lo reputo un \ac{DE} con qualche difetto di troppo a gestire alcuni tipi di applicazioni (come ad esempio il noto applicativo di Instant Messaging \code{Telegram}).
+
+\begin{tcolorbox}[floatplacement=b,width=\textwidth,title={NOTA BENE:}, colback={lightgray},colbacktitle=gray,coltitle=white,colupper=black]
 D'ora in poi potrete operare tranquillamente con l'account root così come dall'account utente, usando \code{sudo} li dove viene richiesta la modalità di amministrazione.
-
-Ogni qualvolta in un codice della guida vedrete il simbolo \#, dovrete scrivere quel comando come amministratori.
 \end{tcolorbox}
 
-\section{Plasma D.E.}
+\section{Plasma \ac{DE}}
 
-    In realtà installare un DE è spesso tempo di uno o due comandi, ad esempio per installare plasma completo, con tanto di applicazioni kde, basta digitare:\\
-    \centcode{\# pacman -S plasma kde-applications }
-    per un installazione minimale invece digitare:\centcode{\# pacman -S plasma-desktop}Questo installerà solo l'ambiente, poi dovrete selezionare voi ad uno ad uno i software che volete (file manager, browser, ecc).\\
-    \nlinea
+    In realtà installare un \ac{DE} è spesso tempo di uno o due comandi, ad esempio per installare \code{plasma} completo, con tanto di applicazioni \code{KDE}, basta digitare:
+    \begin{lstlisting}
+$ sudo pacman -S plasma kde-applications
+    \end{lstlisting}
+    per un installazione minimale invece digitare:
+    \begin{lstlisting}
+$ sudo pacman -S plasma-desktop
+    \end{lstlisting}
+    Questo installerà solo l'ambiente, poi dovrete selezionare voi ad uno ad uno i software che volete (file manager, browser, ecc).
 
-
-    Consiglio fortemente, se avete uno smartphone android, di installare kde-connect e associarlo all' omonima applicazione smarphone:
-    \centcode{\# pacman -S kdeconnect}
-    \nlinea		
-    \nlinea
+    Consiglio fortemente, se avete uno smartphone android, di installare \code{kde-connect} e associarlo all' omonima applicazione smarphone:
+    \begin{lstlisting}
+$ sudo pacman -S kdeconnect
+    \end{lstlisting}
     
-    Un altro consiglio è quello di installare l'integrazione browser di plasma, che vi consente di essere notificati quando un download finisce o di integrare il gestore multimediale di plasma al browser, il che vi permetterà di fermare la musica direttamente dalle notifiche ad esempio. Per installarlo:\centcode{\# pacman -S plasma-browser-integration}
+    Un altro consiglio è quello di installare l'integrazione browser di plasma, che vi consente di essere notificati quando un download finisce o di integrare il gestore multimediale di plasma al browser, il che vi permetterà di fermare la musica direttamente dalle notifiche ad esempio. Per installarlo:
+    \begin{lstlisting}
+$ sudo pacman -S plasma-browser-integration
+    \end{lstlisting}
     
-    \nlinea
-    \nlinea
+    Se usate la lingua italiana potete installarne il supporto con:
+    \begin{lstlisting}
+$ sudo pacman -S kde-l10n-it
+    \end{lstlisting}
     
-    Se usate la lingua italiana potete installarne il supporto con:\centcode{\# pacman -S kde-l10n-it}
+    Se, come me, siete amanti delle dock, potete installare e personalizzare \code{latte-dock}, fatta apposta per \code{plasma}:
+    \begin{lstlisting}
+$ sudo pacman -S latte-dock
+    \end{lstlisting}
     
-    \nlinea
-    \nlinea
-    
-    Se, come me, siete amanti delle dock, potete installare e personalizzare latte-dock, fatta apposta per plasma:
-    \centcode{\# pacman -S latte-dock}
-    
-    \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
-        Su molti Desktop Environment (plasma incluso) la tastiera è impostata di default con il layout USA. Non è un problema di localizzazione, ma va risolto proprio dalle impostazioni della tastiera del DE.
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,title={NOTA BENE:}, colback={lightgray},colbacktitle=gray,coltitle=white,colupper=black]
+        Su molti \ac{DE} (\code{plasma} incluso) la tastiera è impostata di default con il layout USA. Non è un problema di localizzazione, ma va risolto proprio dalle impostazioni della tastiera del \ac{DE}.
     \end{tcolorbox}
         
-		\section{Display Manager}
-			Insieme a plasma, nella sua versione completa, verrà installato il suo\textit{ D.M. (Display Manager)} \textbf{SDDM}. Un D.M. banalmente vi presenta quella schermata che vi permette facilmente l'accesso al vostro ambiente, avviando anche il server X (o qualunque altro server grafico usiate). Ciò avviene facendovi selezionare il vostro utente da GUI, insieme ad un ambiente desktop e inserendo la password. Alcuni D.M. vi impongono di scrivere anche il nome utente. In quel caso diventano banalmente delle alternative a xinit.
-			\nlinea
-			\nlinea
-			
-			Si, anche xinit può essere visto come un Display Manager da questo punto di vista, anche se xinit formalmente è un servizio che vi permette di avviare manualmente il server X, seguito da un comando che consente di avviare un DE a vostra scelta. Il comando in questione deve essere inserito nel file nascosto \textit{.xinitrc} inserito poi nella \textbf{home dell'utente}.
-			\nlinea
-			Per utilizzare xinit è necessario effettuare l'accesso da tty con l'utente scelto, e digitare \code{startx}.
-			\nlinea
-			\nlinea
-			Per utilizzare invece un D.M. completo, dovrete abilitarlo come servizio di systemd.\\
-			Tornando a SDDM ad esempio, per abilitarlo dovrete scrivere: \centcode{\# systemctl enable sddm}E riavviare.\\ In generale, al posto di sddm, dovrete scrivere il dm da voi scelto (ad es. \textit{gdm, lightdm, slimdm, ecc..})
-			
-		\section{NetworkManager e servizi di rete}
-			Dietro le quinte, quando nella guida si è visto l'uso di \textit{wifi-menu}, il software che vi permetteva di accedere ad internet nient'altro era che \textbf{netctl}. Se avete seguito la guida dall'inizio, sia netctl che wifi-menu continueranno a funzionare egregiamente. 
-			Tuttavia spesso, è utile avere a che fare con servizi più user-friendly, che vi notifichino ad esempio quando cade la connessione, vi mostrino costantemente il segnale e vi facilitino quando dovete inserire le credenziali, proteggendone anche il contenuto se siete in pubblico.
-			Il servizio per eccellenza è \textbf{NetworkManager}.
-			
-			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
-				Usando NetworkManager, disabiliterai netctl. Tentando di usare netctl quando nm è attivo, causerai degli errori. Utilizza systemd per gestire il passaggio da un servizio all'altro se dovessi necessitare di preferirne uno in particolari situazioni.
-			\end{tcolorbox}
-		
-			Quindi per installare networkmanager: \centcode{\# pacman -S networkmanager}
-			\nlinea
-			Se eventualmente navigate sotto reti d'azienda o sotto reti istituzionali come eduroam, vi potrebbero servire dei pacchetti aggiuntivi, in tal caso:
-			\centcode{\# pacman -S networkmanager-pptp networkmanager-vpnc}
-			\nlinea
-			
-			Alcuni tra i DE più avanzati si porta dietro, nella sua installazione completa, l'applet che consente di monitorare e connettersi attraverso il pannello delle notifiche. Se così non fosse la pagina wiki-arch di NetworkManager spiega come interlacciare il servizio al DE.
-			Nei casi più comuni comunque, viene usato quello di gnome \centcode{\# pacman -S network-manager-applet}
-			
-			NetworkManager installa un apposito servizio \textbf{systemd}, che va abilitato all'avvio e gestito tramite \code{systemctl}
-			
-		\section{netctl ed eduroam}
-			Quello che spesso fa desistere dall'usare \textit{netctl}, che sfrutta molto meglio i driver delle periferiche di rete e causa molti meno errori, è il fatto che per connettersi a reti aziendali bisognia personalizzare i file di configurazione a mano. \\
-			Per mie esigenze personali ho dovuto cercare un modo di connettere \textit{netctl} ad \textbf{eduroam}, e ho creato quindi una procedura che consente facilmente di connettervi ad esso:\\
-			Innanzitutto tentate una connessione con \code{wifi-menu}, inserendo una password anche a caso. Quando vi dirà che la connessione è fallita, dite di voler tenere il file di configurazione.\\
-			Andate quindi a modificare manualmente il file generato:\centcode{\# <editor di testo preferito> /etc/netctl/wlp3s0-eduroam}
-			
-			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={blue},title={NOTA BENE:},colbacktitle=gray,coltitle=white,colupper=white]
-				Al posto di \code{wlp3s0} potrebbe esserci scritto altro, questo dipende da come il sistema chiama la vostra interfaccia di rete. Per scoprirlo si può usare il tool \code{ip link} o \code{ifconfig}.
-			\end{tcolorbox}
-			
-			Quindi scrivere all'interno del file:
-\begin{lstlisting}
-	Description='Automatically generated profile by wifi-menu'
-	Interface=wlp3s0
-	Connection=wireless
-	Security=wpa-configsection
-	ESSID=eduroam
-	IP=dhcp
-	WPAConfigSection=(
-	'ssid="eduroam"'
-	'proto=RSN'
-	'key_mgmt=WPA-EAP'
-	'eap=PEAP'
-	'identity="SCRIVERE QUI IL PROPRIO NOME UTENTE DI EDUROAM"'
-	'password="SCRIVERE QUI LA PASSWORD DEL PROPRIO EDUROAM"'
-	'phase2="auth=MSCHAPV2"'
-	)
-\end{lstlisting}
-			
-			\textbf{eduroam} è una realtà abbastanza consolidata con direttive precise, motivo per cui non dovrebbero esserci differenze tra le configurazioni qui scritte e la vostra. Tuttavia la struttura del file è semplice da capire, quindi posso supporre che possiate anche immaginare dove mettere mano se qualcosa dovesse essere diverso.
-			
-		
-		\section{Systemd: `la nera bestia della morte'}
-			
-			Systemd è un insieme di tool che gestiscono servizi e avvio del vostro sistema operativo su base Linux. Non entrerò nel dettaglio spiegando perché molti lo odiano, perché altri lo amano e perché invece altri ancora, come il sottoscritto, se ne fregano altamente, basta che funzioni.\\
-			
-			Vi spiegherò invece come interfacciarvi al gestore facilmente, elencando una serie di comandi e spiegandone l'uso.
-			
-			\begin{flushleft}
-				\begin{tabu}{|>{\color{white} \columncolor{lred}}m{0.4\linewidth}|>{\columncolor{gray}}m{0.6\linewidth}}
-					\hline
-					\textbf{comando} & \textbf{spiegazione} \\
-					\hline \hline
-					\# systemctl enable <nome> & abilita il servizio all'avvio, che viene quindi attivato ogni qualvolta accendete il vostro calcolatore \\ 
-					\hline
-					\# systemctl start <nome> & avvia immediatamente il servizio \\
-					\hline
-					\# systemctl restart <nome> & spegne e riavvia il servizio, utile se si stanno sperimentando problemi \\
-					\hline
-					\# systemctl stop <nome> & spegne il servizio, il contrario di \textit{start} \\ 
-					\hline
-					\# systemctl disable <nome> & disabilita il servizio che non viene più avviato all'accensione del calcolatore, il contrario di \textit{enable} \\ 
-					\hline
-					systemctl status <nome> & controlla lo stato del servizio, se è attivo, in errore o fermo. \\
-					\hline
-					systemctl poweroff & spegne il sistema \\
-					\hline
-					systemctl reboot & riavvia il sistema \\
-					\hline
-					systemctl hibernate & iberna il sistema, da usare solo se avete attivato l'ibernazione in modo corretto.\\
-					\hline 
-					systemctl suspend & sospende il sistema.\\
-					\hline
-					systemctl suspend-then-hibernate & sospende per un periodo di tempo, successivamente iberna \\ 
-					\hline
-					systemctl hybrid-sleep & sospende il sistema, se la batteria arriva a livello critico durante la sospensione, iberna. \\
-					\hline
-					
-					
-					
-				\end{tabu}
-			\end{flushleft}
-		
-			Prendiamo ad esempio che vogliate usare nuovamente \textit{netctl} anziché \textit{NetworkManager}. La procedura corretta sarebbe:
-\begin{lstlisting}
-	systemctl stop NetworkManager
-	systemctl start netctl
-	wifi-menu
-	dhcpcd
-\end{lstlisting}
-			Al contrario invece:
-\begin{lstlisting}
-	dhcpcd -x
-	systemctl stop netctl
-	systemctl start NetworkManager
-\end{lstlisting}
-			
-			\begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={white},title={ATTENZIONE:},colbacktitle=red,coltitle=white,colupper=red]
-				Spesso NetworkManager, anche a servizio spento, prende il sopravvento perchè il plugin ( in background tramite il DE ) resta attivo. In tal caso bisogna ripetere la procedura più volte se si vuole usare netctl.
-			\end{tcolorbox}
+\section{Display Manager}
+    Insieme a plasma, nella sua versione completa, verrà installato il suo \ac{DM} \code{SDDM}. Un \ac{DM} banalmente vi presenta quella schermata che vi permette facilmente l'accesso al vostro ambiente, avviando anche il server \code{X} (o qualunque altro server grafico usiate). Ciò avviene facendovi selezionare il vostro utente da \ac{GUI}, insieme ad un ambiente desktop e richiedendo l'inserimento della password. Alcuni \ac{DM} vi impongono di scrivere anche il nome utente. In quel caso diventano banalmente delle alternative a \code{xinit}.
+    
+    Si, anche \code{xinit} può essere visto come un \ac{DM} da questo punto di vista, anche se \code{xinit} formalmente è un servizio che vi permette di avviare manualmente il server \code{X}, seguito da un comando che consente di avviare un \code{DE} a vostra scelta. Il comando in questione deve essere inserito nel file nascosto \code{.xinitrc} inserito poi nella \code{home} dell'utente.
+    
+    Per utilizzare \code{xinit} è necessario effettuare l'accesso da \ac{TTY} con l'utente scelto, e digitare 
+    \begin{lstlisting}
+$ startx
+    \end{lstlisting}
+    Per utilizzare invece un \ac{DM} completo, dovrete abilitarlo come servizio di \code{systemd}.
+    Tornando a \code{SDDM} ad esempio, per abilitarlo dovrete scrivere: 
+    \begin{lstlisting}
+$ sudo systemctl enable sddm
+    \end{lstlisting}
+    Per poi riavviare. In generale, al posto di \code{sddm}, dovrete scrivere il dm da voi scelto (alcuni esempi sono: \code{gdm}, \code{lightdm}, \code{slimdm}, \dots).
+    
+\section{NetworkManager e servizi di rete}
+    Dietro le quinte, quando nella guida si è visto l'uso di \code{wifi-menu}, il software che vi permetteva di accedere ad internet nient'altro era che \code{netctl}. Se avete seguito la guida dall'inizio, sia \code{netctl} che \code{wifi-menu} continueranno a funzionare egregiamente. 
+    Tuttavia spesso, è utile avere a che fare con servizi più user-friendly, che vi notifichino ad esempio quando cade la connessione, vi mostrino costantemente il segnale e vi facilitino quando dovete inserire le credenziali, proteggendone anche il contenuto se siete in pubblico.
+    Il servizio per eccellenza è NetworkManager.
+    
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,title={NOTA BENE:}, colback={lightgray},colbacktitle=gray,coltitle=white,colupper=black]
+        Usando NetworkManager, disabiliterai \code{netctl}. Tentando di usare \code{netctl} quando non è attivo, causerai degli errori. Utilizza \code{systemd} per gestire il passaggio da un servizio all'altro se dovessi necessitare di preferirne uno in particolari situazioni.
+    \end{tcolorbox}
 
-	\chapter{Post-Personalizzazioni di sistema by PsykeDady}
-	
-		Seguiranno alcune personalizzazioni tipiche dei miei sistemi. Questo capitolo è assolutamente opzionale e non necessaria al funzionamento del sistema.
-		
-		\section{I sette `nano'}
-			
-			da linea di comando, il mio editor preferito è nano. Premesso che io penso che la linea di comando serva giusto per piccole modifiche, non uso editor che consentono, anche da terminale, di progettare grandi sistemi (si veda VIM).\\
-			Detto ciò, piccole modifiche non significa che non si debba stare comodi no? quindi vediamo come fare a rendere più piacevole l'uso di nano.
-			\nlinea
-			\nlinea
-			Creare con il proprio editor preferito il file $\sim$/.nanorc:
+    Quindi per installare NetworkManager: 
+    \begin{lstlisting}
+$ sudo pacman -S networkmanager
+    \end{lstlisting}
+    Se eventualmente navigate sotto reti d'azienda o sotto reti istituzionali come eduroam, vi potrebbero servire dei pacchetti aggiuntivi, in tal caso:
+    \begin{lstlisting}
+$ sudo pacman -S networkmanager-pptp networkmanager-vpnc
+    \end{lstlisting}
+    
+    Alcuni tra i \ac{DE} più avanzati si portano dietro, nella loro installazione completa, l'applet che consente di monitorare e connettersi attraverso il pannello delle notifiche. Se così non fosse la pagina nella wiki di \arch{} su NetworkManager spiega come allacciare il servizio al \ac{DE}.
+    Nei casi più comuni comunque, viene usato quello di gnome 
+    \begin{lstlisting}
+$ sudo pacman -S network-manager-applet
+    \end{lstlisting}
+    
+    NetworkManager installa un apposito servizio \code{systemd}, che va abilitato all'avvio e gestito tramite \code{systemctl}
+    
+\subsection{\code{netctl} ed eduroam}
+    Quello che spesso fa desistere dall'usare \code{netctl}, che sfrutta molto meglio i driver delle periferiche di rete e causa molti meno errori, è il fatto che per connettersi a reti aziendali bisognia personalizzare i file di configurazione a mano.
+    
+    Per mie esigenze personali ho dovuto cercare un modo di connettere \textit{netctl} ad \textbf{eduroam}, e ho creato quindi una procedura che consente facilmente di connettervi ad esso.
+    
+    Innanzitutto tentate una connessione con \code{wifi-menu}, inserendo una password anche a caso. Quando vi dirà che la connessione è fallita, dite di voler tenere il file di configurazione.
+    
+    Andate quindi a modificare manualmente il file generato:
+    \begin{lstlisting}
+$ sudo <editor di testo preferito> /etc/netctl/wlp3s0-eduroam
+    \end{lstlisting}
+    
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,title={NOTA BENE:}, colback={lightgray},colbacktitle=gray,coltitle=white,colupper=black]
+        Al posto di \code{wlp3s0} potrebbe esserci scritto altro, questo dipende da come il sistema chiama la vostra interfaccia di rete. Per scoprirlo si può usare il tool \code{ip link} o \code{ifconfig}.
+    \end{tcolorbox}
+    
+    Quindi scrivere all'interno del file:
 \begin{lstlisting}
-	set softwrap
-	set autoindent
-	
-	set linenumbers
-	
-	include "/usr/share/nano/*.nanorc"
-\end{lstlisting}
-			
-			\begin{description}
-				
-				\item[softwrap:] fa andare a capo le righe che superano la lunghezza del terminale, così non vi dovrete spostare per vedere cosa contengono quelle lunghe infinite linee che scriverete
-				
-				\item[autoindent:] se programmate con nano, questo può essere un aiuto davvero importante. Abilita l'auto-indentazione, che vi permette, una volta che avete indentato il codice, di mantenere sulle righe di sotto la stessa tabulazione precedente. Se programmate e non indentate, o siete figli di satana o vi volete davvero male o ancora, siete alle prime armi (e in questo caso vi perdono).
-				
-				\item [linenumbers:] una volta che avete abilitato softwrap non capirete quando inizia una riga e quando invece sta continuando quella precedente. Questo parametro evidenzia quindi i numeri di riga, cioè ad ogni riga vi dice quale riga è in termini di numeri cardinali
-				
-				\item[include /bla/bla/bla:] permette l'evidenziazione della sintassi dei linguaggi di programmazione supportati da nano. Il percorso indicato è dove normalmente sono salvati i template che descrivono come evidenziare la sintassi di quel linguaggio. Su alcuni sistemi potrebbe essere diverso
-			\end{description}
-		
-		\section{oh zsh, mio amore <3}
-			
-			\textit{il terminale è vita, il terminale è amore.} Spesso per l'utilizzatore linux, il terminale è davvero tutto. Ecco perchè abbellirlo e renderlo funzionare dovrebbe essere la prima cosa da fare per tutti coloro che si avventurano nell'utilizzo dei sistemi operativi del pinguino. Allora ecco che entrano in gioco le `alternative' alla shell per eccelenza, sua maestà \textit{bash}.
-			La prima alternativa, nonché la più utilizzata credo, è zsh. In realtà avete già usato zsh ma non lo sapete(?). Infatti la live di archlinux la usa.
-			Quindi installiamo zsh e anche il famosissimo oh-my-zsh, gestore dei plugin di zsh.
-			Qui entra finalmente in gioco \textit{AUR}, quindi dovrete fare queste operazioni da account utente e non come amministratori:
-			\centcode{aurman -S zsh oh-my-zsh-git zsh-theme-powerlevel9k}
-			
-			Il primo pacchetto indicato è ovviamente zsh, il secondo è oh-my-zsh e il terzo e uno dei temi più famosi per zsh. In realtà solo il secondo pacchetto si trova su AUR, gli altri dovreste trovarli nei repo standard.\\
-			
-			Una volta installato tutto dobbiamo apportare alcune modifiche...\\
-			Copiamo innanzitutto il file rc di oh-my-zsh:\centcode{cp /usr/share/oh-my-zsh/zshrc $\sim$/.zshrc}
-			
-			Modifichiamo quindi il file appena copiato con il nostro editor preferito. Andiamo alla linea ZSH\_THEME e scriviamo \centcode{ZSH\_THEME="powerlevel9k/powerlevel9k"}
-			
-			per funzionare comunque bisogna anche copiare il tema nella cartella temi di zsh:
-			\centcode{\# cp -r /usr/share/zsh-theme-powerlevel9k/ /usr/share/oh-my-zsh/themes/powerlevel9k}
-			Potete comunque anche fare un link alla cartella con \code{ln}.
-			
-			Adesso, se abbiamo deciso che il nostro sistema ha localizzazione italiana, dobbiamo leggermente modificare il tema. Allo scopo consiglio di usare un editor di testo che permetta di modificare più linee alla volta con la funzione cerca e sostituisci. Apriamo con permessi di amministrazione il file \textit{/usr/share/oh-my-zsh/themes/powerlevel9k/function/icons.zsh} ed eliminiamo o commentiamo tutte le righe che iniziano con \textbf{local LC\_}.
-			
-			Il nostro zsh dovrebbe essere pronto, possiamo testarlo digitando zsh e, eventualmente, impostarlo come shell predefinita con \centcode{chsh -s /usr/bin/zsh}
-			
-		\section{fish, un ulteriore avanzatissima shell}
-			
-			Ancora più avanzata è la shell \textbf{fish}, che possiede per altro un proprio linguaggio di scripting, diverso da quello di bash.\\
-			
-			Lo possiamo installare digitando \centcode{pacman -S fish}
-			
-			Fish è un po' particolare da tanti punti di vista, ad esempio il suo file rc lo trovate in \textit{\$USER/.config/config.fish}, e per personalizzarlo dovrete usare \textbf{fish\_config}, che aprirà un server web sul vostro browser dove potrete scegliere il tema, il prompt e altre funzionalità.
-			\nlinea
-			\nlinea
-			Un altra particolare funzione di fish è il suo saluto di benvenuto, che può piacere come no. Per ridefinirlo scrivere nel file rc di fish:
-\begin{lstlisting}
-	function fish_greeting
-		#...scrivere qui il codice o lasciare vuoto se si vuole disattivare
-	end
-\end{lstlisting}
-			
-			per cambiare shell predefinita si può digitare \centcode{chsh -s /usr/bin/fish}
-		
-		\section{neofetch}
-			
-			Agli utenti linux piace avere tutto sottocontrollo, e soprattutto piace che questo continuo monitorare sia esteticamente appagante. Ecco perché, chi per noi, ha creato dei tool che mostrano in modo sgargiante quello tutte le informazioni di cui abbiamo bisogno.
-			Uno di questi è \textbf{neofetch}, che possiamo semplicemente installare con \centcode{\# pacman -S neofetch}Avviamolo almeno una volta scrivendo \code{neofetch} e poi andiamo a modificare  \code{$\sim$/.config/neofetch/config.conf}. Il mio ad esempio ha nella sezione print queste informazioni:\\
-\begin{lstlisting}
-	print_info() {
-	info title
-	info underline
-	
-	info "OS" distro
-	info "Host" model
-	info "Kernel" kernel
-	info "Uptime" uptime
-	info "Packages" packages
-	info "Shell" shell
-	info "Resolution" resolution
-	info "DE" de
-	info "WM" wm
-	info "WM Theme" wm_theme
-	info "Theme" theme
-	info "Icons" icons
-	info "Terminal" term
-	info "Terminal Font" term_font
-	info "CPU" cpu
-	info "GPU" gpu
-	info "Memory" memory
-	info underline
-	# info "GPU Driver" gpu_driver  # Linux/macOS only
-	# info "CPU Usage" cpu_usage
-	info "Disk" disk
-	info "Battery" battery
-	# info "Font" font
-	info "Song" song
-	# info "Local IP" local_ip
-	# info "Public IP" public_ip
-	# info "Users" users
-	# info "Install Date" install_date
-	# info "Locale" locale  # This only works on glibc systems.
-	
-	info line_break
-	info cols
-	info line_break
-	}
-\end{lstlisting}
-			Ma i veri avventori sanno che neofetch può fare molto di più... sulla wiki potrete trovare qualcosa.
-			
-			Per far partire il programma ogni qual volta aprite il terminale (altra cosa che piace molto in genere) potete inserire \code{neofetch} nell'rc del vostro terminale preferito ( $\sim$/.bashrc, $\sim$/.zshrc,$\sim$/.config/fish/config.fish, etc... )
-			
-		\section{Il COMANDONE da due milioni di dollari}
-			segue un elenco di comandi che include tutti i software che normalmente installo nel mio sistema ed eventuali configurazioni \textit{(sezione in aggiornamento costante)}, a voi il compito di informarvi su a cosa servono e perché dovreste o non dovreste installarli!
-\begin{lstlisting}
-	aurman -S clementine audacity visual-studio-code-bin mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it vlc ponysay lolcat redshift jdk jdk-docs atom l3afpad deluge terminator octave gimp xterm libreoffice-fresh libreoffice-fresh-it texlive-bin texlive-core texlive-bibtexextra texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science texstudio wine wine-mono winetricks wine_gecko playonlinux  steam steam-native-runtime ntfs-3g python-pip mariadb catimg feh imagemagick jp2a libcaca nitrogen w3m xdotool gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs 
-	
-	sudo pip install youtube-dl
-	
-	echo "export EDITOR=nano" >> .zshrc
-	
-	
-	
+Description='Automatically generated profile by wifi-menu'
+Interface=wlp3s0
+Connection=wireless
+Security=wpa-configsection
+ESSID=eduroam
+IP=dhcp
+WPAConfigSection=(
+    'ssid="eduroam"'
+    'proto=RSN'
+    'key_mgmt=WPA-EAP'
+    'eap=PEAP'
+    'identity="UsernameEduroam"'
+    'password="PasswordEduroam"'
+    'phase2="auth=MSCHAPV2"'
+)
 \end{lstlisting}
 
+    \textbf{eduroam} è una realtà abbastanza consolidata con direttive precise, motivo per cui non dovrebbero esserci differenze tra le configurazioni qui scritte e la vostra. Tuttavia la struttura del file è semplice da capire, quindi posso supporre che possiate anche immaginare dove mettere mano se qualcosa dovesse essere diverso.
 
-	\chapter{Contatti e tanti saluti}
-		Ringrazio chiunque diffonderà questa guida, chiunque mi aiuterà a correggerla e chiunque mi aiuterà ad ampliarla. 
-		Se avete qualche cosa da chiedermi relativa alla guida potete contattarmi per email: \code{psdady@msn.com} o su Telegram al nickname \code{@PsykeDady} o sui gruppi linux-oriented: \centcode{
-			@gentedilinux\\
-			  @linuxandtech
-		}		
-		
-		Sperando che il mio lavoro sia utile per voi, come lo sarà per me ogni qualvolta mi dimenticherò di installare qualcosa, mi congedo e vi auguro ancora una volta una  buona permanenza nel mondo di Archlinux.
-		\newpage
-		\begin{figure}[p]
-			\centering
-			\includegraphics[width=\linewidth]{end.png}
-		\end{figure}
-					
-			
+\section{Systemd: \emph{la nera bestia della morte}}
+    
+    Systemd è un insieme di tool che gestiscono servizi e avvio del vostro sistema operativo su base GNU/Linux. Non entrerò nel dettaglio spiegando perché molti lo odiano, perché altri lo amano e perché invece altri ancora, come il sottoscritto, se ne fregano altamente, basta che funzioni.
+    
+    Vi spiegherò invece come interfacciarvi al gestore facilmente, elencando una serie di comandi e spiegandone l'uso nella tabella~\ref{tab:systemd}.
+    
+    \begin{table}
+        \centering
+        \begin{tabular}{lp{0.5\textwidth}}
+            \toprule
+            \header{Comando}    &   \header{Spiegazione}\\
+            \midrule
+            \code{systemctl enable <nome>}  & abilita il servizio all'avvio, che viene quindi attivato ogni qualvolta accendete la vostra macchina\\
+            \code{systemctl start <nome>} & avvia immediatamente il servizio \\
+            \code{systemctl restart <nome>} & spegne e riavvia il servizio, utile se si stanno sperimentando problemi \\
+            \code{systemctl stop <nome>} & spegne il servizio, il contrario di \code{start} \\ 
+            \code{systemctl disable <nome>} & disabilita il servizio che non viene più avviato all'accensione del calcolatore, il contrario di \code{enable} \\ 
+            \code{systemctl status <nome>} & controlla lo stato del servizio, se è attivo, in errore o fermo. \\
+            \code{systemctl poweroff} & spegne il sistema \\
+            \code{systemctl reboot} & riavvia il sistema \\
+            \code{systemctl hibernate} & iberna il sistema, da usare solo se avete attivato l'ibernazione in modo corretto.\\
+            \code{systemctl suspend} & sospende il sistema.\\
+            \code{systemctl suspend-then-hibernate} & sospende per un periodo di tempo, successivamente iberna \\
+            \code{systemctl hybrid-sleep} & sospende il sistema, se la batteria arriva a livello critico durante la sospensione, iberna. \\
+            \bottomrule
+        \end{tabular}
+        \caption{Alcuni utili e diffusi comandi per interagire con \code{systemd}}
+        \label{tab:systemd}
+    \end{table}
+
+    Prendiamo ad esempio che vogliate usare nuovamente \code{netctl} anziché \code{NetworkManager}. La procedura corretta sarebbe:
+\begin{lstlisting}
+$ sudo systemctl stop NetworkManager
+$ sudo systemctl start netctl
+$ sudo wifi-menu
+$ sudo dhcpcd
+\end{lstlisting}
+    Al contrario invece:
+\begin{lstlisting}
+$ sudo dhcpcd -x
+$ sudo systemctl stop netctl
+$ sudo systemctl start NetworkManager
+\end{lstlisting}
+
+    \begin{tcolorbox}[floatplacement=b,width=\textwidth,colback={white},title={ATTENZIONE:},colbacktitle=code,coltitle=white,colupper=code]
+        Spesso NetworkManager, anche a servizio spento, prende il sopravvento perchè il plugin (in background tramite il \ac{DE}) resta attivo. In tal caso bisogna ripetere la procedura più volte se si vuole usare \code{netctl}.
+    \end{tcolorbox}
+
+\chapter{Post-Personalizzazioni di sistema by PsykeDady}
+    Seguiranno alcune personalizzazioni tipiche dei miei sistemi. Questo capitolo è assolutamente opzionale e non necessaria al funzionamento del sistema.
+    
+\section{I sette `nano'}
+    Da linea di comando, il mio editor preferito è \code{nano}. Premesso che io penso che la linea di comando serva giusto per piccole modifiche, non uso editor che consentono, anche da terminale, di progettare grandi sistemi (si veda \code{vim}).
+    
+    Detto ciò, piccole modifiche non significa che non si debba stare comodi no? Quindi vediamo come fare a rendere più piacevole l'uso di nano.
+
+    Creare con il proprio editor preferito il file \code{$\sim$/.nanorc}:
+\begin{lstlisting}
+set softwrap
+set autoindent
+set smarthome
+set smooth
+
+set linenumbers
+set tabsize 4
+set tabstospaces
+
+include "/usr/share/nano/*.nanorc"
+\end{lstlisting}
+        
+\begin{description}
+    \item[softwrap:] fa andare a capo le righe che superano la lunghezza del terminale, così non vi dovrete spostare per vedere cosa contengono quelle lunghe infinite linee che scriverete
+    
+    \item[autoindent:] se programmate con nano, questo può essere un aiuto davvero importante. Abilita l'auto-indentazione, che vi permette, una volta che avete indentato il codice, di mantenere sulle righe di sotto la stessa tabulazione precedente. Se programmate e non indentate, o siete figli di satana o vi volete davvero male o ancora, siete alle prime armi (e in questo caso vi perdono, ma imparate a indentare subito).
+    
+    \item[smarthome:] dal momento che utilizzate l'indentazione (perché la usate), avere il tasto \code{home} che vi manda al punto giusto della riga è un gran bel plus.
+    
+    \item[smooth:] normalmente \code{nano} permette di scorrere il testo a \emph{blocchi}, mentre con questa opzione potrete farlo riga per riga.
+    
+    \item [linenumbers:] una volta che avete abilitato softwrap non capirete quando inizia una riga e quando invece sta continuando quella precedente. Questo parametro evidenzia quindi i numeri di riga, cioè ad ogni riga vi dice quale riga è in termini di numeri cardinali
+    
+    \item[tabsize:] questa è la dimensione delle tabulazioni, utile soprattutto quando abbiamo un terminale piccolo per non trovarci continuamente con righe spezzate a causa dell'indentazione.
+    
+    \item[tabstospaces:] converte i tab in insiemi di spazi.
+    
+    \item[include /bla/bla/bla:] permette l'evidenziazione della sintassi dei linguaggi di programmazione supportati da nano. Il percorso indicato è dove normalmente sono salvati i template che descrivono come evidenziare la sintassi di quel linguaggio. Su alcuni sistemi potrebbe essere diverso. Includendo i file \code{*.nanorc} vengono aggiunti tutti i linguaggi presenti di default, per aggiungerne uno voi trovate facilmente delle guide online.
+\end{description}
+    
+    In generale, consiglio di guardare il file \code{nanorc.sample} che di solito si trova in \code{/usr/share/doc/nano/}, copiandolo nella propria home
+    \begin{lstlisting}
+$ cp /usr/share/doc/nano/nanorc.sample ~/.nanorc
+    \end{lstlisting}
+    e poi modificando la propria versione locale con le indicazioni viste sopra.
+    
+\section{Oh zsh, mio amore <3}
+    \begin{flushright}
+    \emph{Il terminale è vita, il terminale è amore.} 
+    \end{flushright}
+    
+    Spesso per l'utilizzatore GNU/Linux, il terminale è davvero tutto. Ecco perchè abbellirlo e renderlo funzionale dovrebbe essere la prima cosa da fare per tutti coloro che si avventurano nell'utilizzo dei sistemi operativi del pinguino. Allora ecco che entrano in gioco le `alternative' alla shell per eccelenza, sua maestà \code{bash}.
+    
+    La prima alternativa, nonché la più utilizzata credo, è \code{zsh}. In realtà avete già usato \code{zsh} ma non lo sapete (?). Infatti la live di \arch{} la usa.
+    
+    Quindi installiamo \code{zsh} e anche il famosissimo \code{oh-my-zsh}, uno dei gestori dei plugin di \code{zsh}.
+    Qui entra finalmente in gioco \ac{AUR}, quindi dovrete fare queste operazioni da account utente e non come amministratori:
+    \begin{lstlisting}
+$ aurman -S zsh oh-my-zsh-git zsh-theme-powerlevel9k
+    \end{lstlisting}
+     
+    Il primo pacchetto indicato è ovviamente \code{zsh}, il secondo è \code{oh-my-zsh} e il terzo è uno dei temi più famosi per \code{zsh}. In realtà solo il secondo pacchetto si trova su \ac{AUR}, gli altri dovreste trovarli nei repository standard.
+    Una volta installato tutto dobbiamo apportare alcune modifiche\dots
+
+    Copiamo innanzitutto il file rc di \code{oh-my-zsh}:
+    \begin{lstlisting}
+$ cp /usr/share/oh-my-zsh/zshrc ~/.zshrc
+    \end{lstlisting}
+    Modifichiamo quindi il file appena copiato con il nostro editor preferito. Andiamo alla linea ZSH\_THEME e scriviamo 
+    \begin{lstlisting}
+$ ZSH\_THEME="powerlevel9k/powerlevel9k"
+    \end{lstlisting}
+    
+    perché il temi funzioni, comunque, bisogna anche copiare il tema stesso nella cartella temi di \code{zsh}:
+    \begin{lstlisting}
+$ sudo cp -r /usr/share/zsh-theme-powerlevel9k/ /usr/share/oh-my-zsh/themes/powerlevel9k
+    \end{lstlisting}
+    Alternativamente potete creare un link alla cartella di origine del tema utilizzando \code{ln}.
+    
+    Adesso, se abbiamo deciso che il nostro sistema ha localizzazione italiana, dobbiamo leggermente modificare il tema. Allo scopo consiglio di usare un editor di testo che permetta di modificare più linee alla volta con la funzione cerca e sostituisci (ad esempio, se vi trovate in ambiente KDE Plasma, potete usare \code{kate}). Apriamo con permessi di amministrazione il file \code{/usr/share/oh-my-zsh/themes/powerlevel9k/function/icons.zsh} ed eliminiamo o commentiamo tutte le righe che iniziano con \code{local LC\_}.
+    
+    Il nostro zsh dovrebbe essere pronto, possiamo testarlo digitando direttamente \code{zsh} da terminale e, eventualmente, impostarlo come shell predefinita con 
+    \begin{lstlisting}
+$ chsh -s /usr/bin/zsh
+    \end{lstlisting}
+    
+\section{Fish, un ulteriore avanzatissima shell}
+    
+    Ancora più avanzata è la shell \code{fish}, che possiede per altro un proprio linguaggio di scripting, diverso da quello di bash.
+    
+    Lo possiamo installare digitando 
+    \begin{lstlisting}
+$ sudo pacman -S fish
+    \end{lstlisting}
+    
+    Fish è un po' particolare da tanti punti di vista, ad esempio il suo file rc lo potete trovare in \code{$\sim$/.config/config.fish}, e per personalizzarlo dovrete usare \code{fish\_config}, che aprirà un server web sul vostro browser dove potrete scegliere il tema, il prompt e altre funzionalità.
+    
+    Un altra particolare funzione di fish è il suo saluto di benvenuto, che può piacere come no. Per ridefinirlo scrivere nel file rc di fish:
+\begin{lstlisting}
+function fish_greeting
+#...scrivere qui il codice o lasciare vuoto se si vuole disattivare
+end
+\end{lstlisting}
+    
+    per cambiare shell predefinita si può digitare 
+    \begin{lstlisting}
+$ chsh -s /usr/bin/fish
+    \end{lstlisting}
+
+\section{neofetch}
+    Agli utenti GNU/Linux piace avere tutto sotto controllo, piace che questo continuo monitorare sia esteticamente appagante e, soprattutto, piace far vedere agli altri la propria configurazione desktop. Ecco perché, chi per noi, ha creato dei tool che mostrano in modo sgargiante tutte le informazioni di cui abbiamo bisogno.
+    
+    Uno di questi è \code{neofetch}, che possiamo semplicemente installare con 
+    \begin{lstlisting}
+$ sudo pacman -S neofetch
+    \end{lstlisting}
+    Avviamolo almeno una volta scrivendo \code{neofetch}, ma se vogliamo possiamo poi modificare il file di configurazione \code{$\sim$/.config/neofetch/config.conf}. Il mio ad esempio ha nella sezione print queste informazioni:
+\begin{lstlisting}
+print_info() {
+info title
+info underline
+
+info "OS" distro
+info "Host" model
+info "Kernel" kernel
+info "Uptime" uptime
+info "Packages" packages
+info "Shell" shell
+info "Resolution" resolution
+info "DE" de
+info "WM" wm
+info "WM Theme" wm_theme
+info "Theme" theme
+info "Icons" icons
+info "Terminal" term
+info "Terminal Font" term_font
+info "CPU" cpu
+info "GPU" gpu
+info "Memory" memory
+info underline
+# info "GPU Driver" gpu_driver  # Linux/macOS only
+# info "CPU Usage" cpu_usage
+info "Disk" disk
+info "Battery" battery
+# info "Font" font
+info "Song" song
+# info "Local IP" local_ip
+# info "Public IP" public_ip
+# info "Users" users
+# info "Install Date" install_date
+# info "Locale" locale  # This only works on glibc systems.
+
+info line_break
+info cols
+info line_break
+}
+\end{lstlisting}
+    Ma i veri avventori sanno che \code{neofetch} può fare molto di più... sulla wiki potrete trovare qualcosa.
+    
+    Per far partire il programma ogni qual volta aprite il terminale (altra cosa che piace molto in genere) potete inserire \code{neofetch} nell'rc del vostro terminale preferito (\code{$\sim$/.bashrc}, \code{$\sim$/.zshrc}, \code{$\sim$/.config/fish/config.fish}, etc\dots)
+    
+\section{Il COMANDONE da due milioni di dollari}
+    segue un elenco di comandi che include tutti i software che normalmente installo nel mio sistema ed eventuali configurazioni (\emph{sezione in aggiornamento costante}), a voi il compito di informarvi su a cosa servono e perché dovreste o non dovreste installarli!
+\begin{lstlisting}
+aurman -S clementine audacity code mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it vlc ponysay lolcat redshift jdk jdk-docs atom l3afpad deluge terminator octave gimp xterm libreoffice-fresh libreoffice-fresh-it texlive-bin texlive-core texlive-bibtexextra texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science texstudio wine wine-mono winetricks wine_gecko playonlinux  steam steam-native-runtime ntfs-3g python-pip mariadb catimg feh imagemagick jp2a libcaca nitrogen w3m xdotool gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs 
+
+sudo pip install youtube-dl
+
+echo "export EDITOR=nano" >> .zshrc
+\end{lstlisting}
+
+\chapter*{Contatti e tanti saluti}
+    Ringrazio chiunque diffonderà questa guida, chiunque mi aiuterà a correggerla e chiunque mi aiuterà ad ampliarla. 
+    Se avete qualche cosa da chiedermi relativa alla guida potete contattarmi per email: \code{psdady@msn.com} o su Telegram al nickname \code{@PsykeDady} o sui gruppi linux-oriented: 
+    \begin{lstlisting}
+@gentedilinux
+@linuxandtech
+    \end{lstlisting}
+
+    Sperando che il mio lavoro sia utile per voi, come lo sarà per me ogni qualvolta mi dimenticherò di installare qualcosa, mi congedo e vi auguro ancora una volta una  buona permanenza nel mondo di \arch.
+    
+    \begin{figure}[htp]
+        \centering
+        \includegraphics[width=\linewidth]{end.png}
+    \end{figure}
 \end{document}
-
-
-	
-
 
 %% esempio tabella con tabu e colori lred, gray e lblue
 %\begin{flushleft}
