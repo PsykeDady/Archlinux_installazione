@@ -3,9 +3,10 @@ Guida installazione di archlinux personalizzata
 
 ## note dell'ultimo rilascio
 È uscita la versione 1.0 Talete, la prima versione di questa guida che mi sento dichiarare "matura".
-__La primissima e importante novità è che ho abbandonato il file latex a vantaggio di un normalissimo odt__, modificabile con molte tipologie di suite per l'ufficio. Questa scelta sono sicuro che potrebbe far strizzare l'occhio a tantissimi utenti, ma latex non mi consentiva modifiche veloci al file da qualunque postazione, inoltre molti utenti lamentavano del fatto che con il copia e incolla alcuni caratteri sformatavano malissimo, quindi ho riscritto tutto. 
+__La primissima e importante novità è che ho abbandonato il file latex a vantaggio di un normalissimo odt__, modificabile con molte tipologie di suite per l'ufficio. Questa scelta sono sicuro che potrebbe far strizzare l'occhio a tantissimi utenti, ma latex non mi consentiva modifiche veloci al file da qualunque postazione, inoltre molti utenti lamentavano del fatto che con il copia e incolla alcuni caratteri sformattavano malissimo, quindi ho riscritto tutto. 
 Il file latex è ancora nella cartella latex_old, chiunque volesse mantenerlo è libero di farlo. 
-Prego a chiunque voglia suggerirmi modifiche, di non toccare la formattazione del file, si può discutere comunque su accostamenti colori/forme dei box, ma la decisione finale vorrei mi spettasse
+Prego a chiunque voglia suggerirmi modifiche, di non toccare la formattazione del file, si può discutere comunque su accostamenti colori/forme dei box, ma la decisione finale vorrei mi spettasse.
+
 qui un riassunto di ciò che è stato introdotto/corretto:
 
 * [add] aggiunta sezione per swap e ibernazione
