@@ -23,9 +23,11 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunto a neofetch il pacchetto pacman-contrib
 * [add] aggiunta sezione per orario in dual boot con windows
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
+* [fix/add/edit] altre piccole modifiche
 
-##TODO -> verso la 1.1
+## TODO -> verso la 1.1
 * se avet telegram e vi intendete di licenze, contattatemi su Telegram, perchè il primo punto che vorrei sistemare è l'introduzione di una licenza e vorrei chiacchierare con qualcuno con cui confrontarmi su LGPL, CC e WTFPL(1/2)
 * creare stile apposito per percorsi di sistema come è stato fatto per codici inline e non
 * inserire rfkill unblock/block nella sezione del net per recupero linea
 * copertina documento da rifare, non è mia.
+* rendere il documento più "impersonale"
