@@ -3,7 +3,7 @@ Guida installazione di archlinux personalizzata
 
 ## note dell'ultimo rilascio
 È uscita la versione 1.0 Talete, la prima versione di questa guida che mi sento dichiarare "matura".
-__La primissima e importante novità è che ho abbandonato il file latex a vantaggio di un normalissimo odt__, modificabile con molte tipologie di suite per l'ufficio. Questa scelta sono sicuro che potrebbe far strizzare l'occhio a tantissimi utenti, ma latex non mi consentiva modifiche veloci al file da qualunque postazione, inoltre molti utenti lamentavano del fatto che con il copia e incolla alcuni caratteri sformattavano malissimo, quindi ho riscritto tutto. 
+__La primissima e importante novità è che ho abbandonato il file latex a vantaggio di un normalissimo odt__, modificabile con molte tipologie di suite per l'ufficio. Questa scelta sono sicuro che farà stizzire tantissimi utenti, ma latex non mi consentiva modifiche veloci al file da qualunque postazione, inoltre molti utenti lamentavano del fatto che con il copia e incolla alcuni caratteri sformattavano malissimo, quindi ho riscritto tutto. 
 Il file latex è ancora nella cartella latex_old, chiunque volesse mantenerlo è libero di farlo. 
 Prego a chiunque voglia suggerirmi modifiche, di non toccare la formattazione del file, si può discutere comunque su accostamenti colori/forme dei box, ma la decisione finale vorrei mi spettasse.
 
@@ -26,8 +26,11 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [fix/add/edit] altre piccole modifiche
 
 ## TODO -> verso la 1.1
-* se avet telegram e vi intendete di licenze, contattatemi su Telegram, perchè il primo punto che vorrei sistemare è l'introduzione di una licenza e vorrei chiacchierare con qualcuno con cui confrontarmi su LGPL, CC e WTFPL(1/2)
+* se avete telegram e vi intendete di licenze, contattatemi (contatti nelle ultime pagine del pdf), perchè il primo punto che vorrei sistemare è l'introduzione di una licenza e vorrei chiacchierare con qualcuno con cui confrontarmi su LGPL, CC e WTFPL(1/2)
 * creare stile apposito per percorsi di sistema come è stato fatto per codici inline e non
-* inserire rfkill unblock/block nella sezione del net per recupero linea
+* inserire rfkill unblock/block nella sezione del net per recupero linea (unblock all/list all)
 * copertina documento da rifare, non è mia.
 * rendere il documento più "impersonale"
+
+## TODO -> verso la 2.0
+* guida dedicata per macbook
