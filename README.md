@@ -1,7 +1,7 @@
 # Archlinux_installazione
 Guida installazione di archlinux personalizzata
 
-## note dell'ultimo rilascio
+## note rilascio 1.0
 È uscita la versione 1.0 Talete, la prima versione di questa guida che mi sento dichiarare "matura".
 __La primissima e importante novità è che ho abbandonato il file latex a vantaggio di un normalissimo odt__, modificabile con molte tipologie di suite per l'ufficio. Questa scelta sono sicuro che farà stizzire tantissimi utenti, ma latex non mi consentiva modifiche veloci al file da qualunque postazione, inoltre molti utenti lamentavano del fatto che con il copia e incolla alcuni caratteri sformattavano malissimo, quindi ho riscritto tutto. 
 Il file latex è ancora nella cartella latex_old, chiunque volesse mantenerlo è libero di farlo. 
@@ -25,7 +25,7 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
 * [fix/add/edit] altre piccole modifiche
 
-## FIX/ADD/EDIT -> 1.2
+## note FIX/ADD/EDIT -> 1.2
 * [edit] aggiornato comando avvio plasma su xinitrc
 * [edit] rimosso riferimento a gruppo linuxandtech (RIP gruppo)
 
