@@ -25,12 +25,20 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
 * [fix/add/edit] altre piccole modifiche
 
-## TODO -> verso la 1.1
+## FIX/ADD/EDIT -> 1.2
+* [edit] aggiornato comando avvio plasma su xinitrc
+* [edit] rimosso riferimento a gruppo linuxandtech (RIP gruppo)
+
+## TODO -> verso la 1.3
 * se avete telegram e vi intendete di licenze, contattatemi (contatti nelle ultime pagine del pdf), perchè il primo punto che vorrei sistemare è l'introduzione di una licenza e vorrei chiacchierare con qualcuno con cui confrontarmi su LGPL, CC e WTFPL(1/2)
 * creare stile apposito per percorsi di sistema come è stato fatto per codici inline e non
 * inserire rfkill unblock/block nella sezione del net per recupero linea (unblock all/list all)
 * copertina documento da rifare, non è mia.
 * rendere il documento più "impersonale"
+* aggiungere plugin zsh
+* sostituire mountpoint /boot/efi con le specifiche più recenti per /efi
+* aggiungere qualche alternativa a pakku (yay)
 
 ## TODO -> verso la 2.0
 * guida dedicata per macbook
+* guida lvm
