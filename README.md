@@ -1,6 +1,10 @@
 # Archlinux_installazione
 Guida installazione di archlinux personalizzata
 
+# ATTENZIONE - WARNING 12/19
+-attualmente vanno installati linux e linux-firmware durante la fase di pacstrap insieme a base e base-dev ecc ecc....
+-pakku non mi risulta funzionante da mesi, sostituire con yay
+
 ## note rilascio 1.0
 È uscita la versione 1.0 Talete, la prima versione di questa guida che mi sento dichiarare "matura".
 __La primissima e importante novità è che ho abbandonato il file latex a vantaggio di un normalissimo odt__, modificabile con molte tipologie di suite per l'ufficio. Questa scelta sono sicuro che farà stizzire tantissimi utenti, ma latex non mi consentiva modifiche veloci al file da qualunque postazione, inoltre molti utenti lamentavano del fatto che con il copia e incolla alcuni caratteri sformattavano malissimo, quindi ho riscritto tutto. 
