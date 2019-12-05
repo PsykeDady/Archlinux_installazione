@@ -32,6 +32,7 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunta una sezione per la personalizzazione GRUB
 * [add] aggiunto gruppo telegram di ArchlinuxItalia
 * [edit] grazie a **MattiaCosmy** per avermi mandato molte correzioni :) 
+* [edit] salvato il file in formato fodt, formato non compresso di libreoffice che preserva un po' meglio la formattazione del documento
 
 ## TODO -> verso la 1.4
 * se avete telegram e vi intendete di licenze, contattatemi (contatti nelle ultime pagine del pdf), perchè il primo punto che vorrei sistemare è l'introduzione di una licenza e vorrei chiacchierare con qualcuno con cui confrontarmi su LGPL, CC e WTFPL(1/2)
