@@ -25,24 +25,23 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
 * [fix/add/edit] altre piccole modifiche
 
-## note FIX/ADD/DEL/EDIT -> 1.3
-* [add] in pacstrap aggiunti linux e linux-firmware (! **importante**)
-* [edit/del/add] modificata sezione aur-helper, tolto pakku e aggiunto yay ( più guida generale)
-* [add] nel comandone son stati aggiunti hyphen, mythes e hunspell per la sillabazione italiana su libreoffice
-* [add] aggiunta una sezione per la personalizzazione GRUB
-* [add] aggiunto gruppo telegram di ArchlinuxItalia
-* [edit] grazie a **MattiaCosmy** per avermi mandato molte correzioni :) 
-* [edit] salvato il file in formato fodt, formato non compresso di libreoffice che preserva un po' meglio la formattazione del documento
+## note FIX/ADD/DEL/EDIT -> 1.4
+* [add] nano e dhcpcd a pacstrap
+* [add] mkswap a sezione swapfile
+* [fix] descrizioni più chiare ad ibernazione sui parametri grub
+* [fix] sezione ibernazione comando echo
+* [fix] sezione ibernazione nano non era stile code
+* [fix] invertiti grub e mkinitcpio a sezione ibernazione
+* [edit] comandone modificato pakku con yay
 
-## TODO -> verso la 1.4
+## TODO -> verso la 1.5
 * se avete telegram e vi intendete di licenze, contattatemi (contatti nelle ultime pagine del pdf), perchè il primo punto che vorrei sistemare è l'introduzione di una licenza e vorrei chiacchierare con qualcuno con cui confrontarmi su LGPL, CC e WTFPL(1/2)
 * creare stile apposito per percorsi di sistema come è stato fatto per codici inline e non
 * inserire rfkill unblock/block nella sezione del net per recupero linea (unblock all/list all)
 * rendere il documento più "impersonale"
 * aggiungere plugin zsh
-* sostituire mountpoint /boot/efi con le specifiche più recenti per /efi
 * powerlevel10k invece ( o accanto a) di powerlevel9k
-
+* aggiustare dipendenze neofetch, guardare da github
 
 ## TODO -> verso la 2.0
 * guida dedicata per macbook
