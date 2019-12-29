@@ -1,6 +1,13 @@
 # Archlinux_installazione
 Guida installazione di archlinux personalizzata
 
+## Se vuoi modificare la guida
+font e stili attualmente utilizzati per la guida:
+* Ubuntu (corpo del testo, pt 12)
+* Fira Code (stile codice inline e codici )
+* Liberation Sans (titolo 1, senza capolettera)
+* Liberation Serif (capolettera titolo 1) 
+
 ## note rilascio 1.0
 È uscita la versione 1.0 Talete, la prima versione di questa guida che mi sento dichiarare "matura".
 __La primissima e importante novità è che ho abbandonato il file latex a vantaggio di un normalissimo odt__, modificabile con molte tipologie di suite per l'ufficio. Questa scelta sono sicuro che farà stizzire tantissimi utenti, ma latex non mi consentiva modifiche veloci al file da qualunque postazione, inoltre molti utenti lamentavano del fatto che con il copia e incolla alcuni caratteri sformattavano malissimo, quindi ho riscritto tutto. 
