@@ -25,17 +25,22 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
 * [fix/add/edit] altre piccole modifiche
 
-## note FIX/ADD/DEL/EDIT -> 1.4
-* [add] nano e dhcpcd a pacstrap
-* [add] mkswap a sezione swapfile
-* [fix] descrizioni più chiare ad ibernazione sui parametri grub
-* [fix] sezione ibernazione comando echo
-* [fix] sezione ibernazione nano non era stile code
-* [fix] invertiti grub e mkinitcpio a sezione ibernazione
-* [edit] comandone modificato pakku con yay
+## note FIX/ADD/DEL/EDIT -> 1.5
+* [edit] PACSTRAP= separato su pacstrap nano da altri pacchetti 
+* [add] POST-INSTALLAZIONE= aggiunta installazione man e man-pages
+* [fix] LOCALE= sistemate virgolette su sezione locale
+* [edit] LOCALE= specificato come sbloccare altre lingue
+* [edit] DE=specificato che per altri DE è meglio consultare la guida
+* [fix] COMANDONE= era rimasto un riferimento a pakku
+* [fix] SWAPFILE= aggiunto mkswap e sistemato mkconfig di grub
+* [edit/add] FSTAB= separate sezioni virtualbox da aggiunta nuovo volume su fstab
+* [add] DUALBOOT= aggiunta installazione ntfs-3g
+* [add] LICENZA=aggiunta licenza in prefazione + ultimo capitolo per intera (licenza FDL)
 
-## TODO -> verso la 1.5
-* se avete telegram e vi intendete di licenze, contattatemi (contatti nelle ultime pagine del pdf), perchè il primo punto che vorrei sistemare è l'introduzione di una licenza e vorrei chiacchierare con qualcuno con cui confrontarmi su LGPL, CC e WTFPL(1/2)
+## TODO -> verso la 1.5.1
+* [add] Aggiungere cartelle e readme per creare una docs con mirko
+
+## TODO -> verso la 1.6
 * creare stile apposito per percorsi di sistema come è stato fatto per codici inline e non
 * inserire rfkill unblock/block nella sezione del net per recupero linea (unblock all/list all)
 * rendere il documento più "impersonale"
