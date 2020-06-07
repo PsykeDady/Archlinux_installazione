@@ -32,20 +32,11 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
 * [fix/add/edit] altre piccole modifiche
 
-## note FIX/ADD/DEL/EDIT -> 1.5
-* [edit] PACSTRAP= separato su pacstrap nano da altri pacchetti 
-* [add] POST-INSTALLAZIONE= aggiunta installazione man e man-pages
-* [fix] LOCALE= sistemate virgolette su sezione locale
-* [edit] LOCALE= specificato come sbloccare altre lingue
-* [edit] DE=specificato che per altri DE è meglio consultare la guida
-* [fix] COMANDONE= era rimasto un riferimento a pakku
-* [fix] SWAPFILE= aggiunto mkswap e sistemato mkconfig di grub
-* [edit/add] FSTAB= separate sezioni virtualbox da aggiunta nuovo volume su fstab
-* [add] DUALBOOT= aggiunta installazione ntfs-3g
-* [add] LICENZA=aggiunta licenza in prefazione + ultimo capitolo per intera (licenza FDL)
-
-## TODO -> verso la 1.5.1
-* [add] Aggiungere cartelle e readme per creare una docs con mirko
+## note rilascio 1.5.1
+* [add] Aggiunta guida Markdown ( ancora da finire )
+* [fix] nel file di config del grub c'era una parentesi aperta in più
+* [edit] modificata guida installazione intel GPU, con aggiunta suggerimenti
+* [fix/add/edit] altre piccole modifiche
 
 ## TODO -> verso la 1.6
 * creare stile apposito per percorsi di sistema come è stato fatto per codici inline e non
