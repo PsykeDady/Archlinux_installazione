@@ -67,7 +67,7 @@ Prima di iniziare, se avete dubbi sulla simbologia del documento date un occhiat
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==Un avvertimento. Il tratto appena spiegato non è stato testato oppure può fallire in alcuni casi ed è quindi sconsigliato da usare se non si sa esattamente quello che si fa. L’autore declina ogni responsabilità per danni che si possano verificare sul proprio sistema o dispositivo==
+> ==Non mi prendo la responsabilità di alcun danno arrecato al vostro computer o di alcun dato perso dall’uso scorretto di comandi presenti di questa guida.  I comandi sono da comprendere e interpretare anche in base alla propria configurazione.==
 
 
 
