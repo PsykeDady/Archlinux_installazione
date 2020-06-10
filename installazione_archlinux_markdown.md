@@ -9,6 +9,10 @@
 
 
 
+**QUESTA GUIDA NON È FINITA, USARE L'ALTRO PDF** [installazione](https://github.com/PsykeDady/Archlinux_installazione/blob/master/installazione_archlinux.pdf)
+
+
+
 > <u>NOTE</u>:
 >
 > *copertina presa in prestito dal web. purtroppo ho perso il link
@@ -149,7 +153,7 @@ parted /dev/sdX toggle 1 boot
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==Un avvertimento. Il tratto appena spiegato non è stato testato oppure può fallire in alcuni casi ed è quindi sconsigliato da usare se non si sa esattamente quello che si fa. L’autore declina ogni responsabilità per danni che si possano verificare sul proprio sistema o dispositivo==
+> ==quest’ultimo passo non l’ho mai applicato personalmente, ma l’ho letto sulla wiki e l’ho voluto riportare. Se qualcosa non dovesse funzionare vi invito a documentarvene personalmente sulla guida ufficiale==
 
 ### Metodo 3 da Linux : varie GUI
 Se non amate molto sporcarvi le mani durante queste operazioni sono disponibili moltissimi programmi che lo fanno per voi. Personalmente (ma anche la guida ufficiale) sconsiglio fortemente l’utilizzo del noto programma *uNETbootin*, in quanto tende a funzionare solo con *Ubuntu e derivate*. Comunque sia elencherò una serie di software che ho usato io e che spesso funzionano:
@@ -286,18 +290,25 @@ t
 
 ```bash
 mkfs.fat /dev/sda1
-mkfs.ext4 /dev/sda2
-mkfs.ext4 /dev/sda3
+mkfs.ext4 -m 0 /dev/sda2
+mkfs.ext4 -m 0 /dev/sda3
 mkswap /dev/sda4
 ```
 
 Altrimenti avrete una cosa simile:
 
 ```bash
-mkfs.ext4 /dev/sda1
-mkfs.ext4 /dev/sda2
+mkfs.ext4 -m 0 /dev/sda1
+mkfs.ext4 -m 0 /dev/sda2
 mkswap /dev/sda3
 ```
+
+> *<u>SUGGERIMENTO</u>*:
+> Potreste voler identificare i vostri hard disk con un etichetta, tipo ‘Arch-Root’ o simili. In caso potreste utilizzare il comando `e2label` :
+>
+> - `e2label /dev/sda1 ‘ArchRoot`
+>
+> Attenti perché ogni file system ha il suo software per creare label. Ad esempio la swap usa `swaplabel`. 
 
 **Dunque** possiamo iniziare a montarle:
 
