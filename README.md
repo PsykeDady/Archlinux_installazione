@@ -21,22 +21,26 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [fix] invertiti comandi per aggiornamento grub
 * [add] aggiunta sezione lsd
 * Comandone 
-* * [fix] sostituito aurman con pakku
-* * [fix] suddivise zone per tipologia di programmi
-* * [add] aggiunto chrome
-* * [fix] eliminato rar, in conflitto con unrar
-* * [edit] sostituita la jdk proprietaria con quella open
+	* [fix] sostituito aurman con pakku
+	* [fix] suddivise zone per tipologia di programmi
+	* [add] aggiunto chrome
+	* [fix] eliminato rar, in conflitto con unrar
+	* [edit] sostituita la jdk proprietaria con quella open
 * [fix] eliminato kde l10n it
 * [add] aggiunto a neofetch il pacchetto pacman-contrib
 * [add] aggiunta sezione per orario in dual boot con windows
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
 * [fix/add/edit] altre piccole modifiche
 
-## note rilascio 1.5.1
-* [add] Aggiunta guida Markdown ( ancora da finire )
-* [fix] nel file di config del grub c'era una parentesi aperta in più
-* [edit] modificata guida installazione intel GPU, con aggiunta suggerimenti
+## note rilascio 1.5.3
+
+* [add] terminato di ricopiare Markdown 
 * [fix/add/edit] altre piccole modifiche
+
+## TODO -> verso la 1.5.4
+
+- spostare file markdown in cartella dedicata
+- creare script che divida il markdown in file/cartelle in base al titolo
 
 ## TODO -> verso la 1.6
 * creare stile apposito per percorsi di sistema come è stato fatto per codici inline e non
