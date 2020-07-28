@@ -1,12 +1,16 @@
 # Archlinux_installazione
 Guida installazione di archlinux personalizzata
 
-## Se vuoi modificare la guida
+## Se vuoi modificare la guida (versione FODT)
+
 font e stili attualmente utilizzati per la guida:
 * Ubuntu (corpo del testo, pt 12)
 * Fira Code (stile codice inline e codici )
 * Liberation Sans (titolo 1, senza capolettera)
 * Liberation Serif (capolettera titolo 1) 
+
+## Se vuoi modificare la guida (versione Markdown) 
+non ci dovrebbero essere particolari avvertimenti, solo seguite i template a fine del file. La sintassi markdown usata è quella supportata da Typora. i segni == contribuiscono a fare l'evidenziamento nel risultato pdf finale
 
 ## note rilascio 1.0
 È uscita la versione 1.0 Talete, la prima versione di questa guida che mi sento dichiarare "matura".
