@@ -2,14 +2,10 @@
 
 # **Guida Installazione Arch**
 
-`versione 1.5.3: Talete (versione Markdown)`
+`versione 1.5.4: Talete (versione Markdown)`
  by <u>*PsykeDady*</u>
 
 **2019-08**
-
-
-
-**QUESTA GUIDA NON È FINITA, USARE L'ALTRO PDF** [installazione](https://github.com/PsykeDady/Archlinux_installazione/blob/master/installazione_archlinux.pdf)
 
 
 
@@ -336,11 +332,30 @@ La sezione riguardante la configurazione dei dischi finisce qua.
 
 Stop. Senza internet non si va da nessuna parte.
 
-Se quindi siete connessi via cavo, basta dare `dhcpcd`, altrimenti archlinux fornisce una comodissima interfaccia di rete wireless a cui potete accedere così:
+Se quindi siete connessi via cavo, basta dare `dhcpcd`, altrimenti la procedura richiede qualche passaggio in più. Innanzitutto apriamo l'interfaccia interattiva:
 
-`wifi-menu`
+`iwctl`
+Poi individuiamo l'interfaccia di rete wireless:
 
-Scegliete quindi il vostro SSID di fiducia, scrivete la password (se ne avete una) e date dhcpcd per forzare il router a rilasciarvi un indirizzo ip. Ben fatto, siete connessi! Sicuri? per accertarcene possiamo dare 
+`device list`
+
+Qui, sotto la voce **name**, dovrebbe apparire la vostra interfaccia di rete, se non compare nulla potreste aver bisogno di driver particolari per connettervi, in tal caso usate trovate un ethernet o usate il tethering usb del telefono fino a fine installazione.
+
+Supponiamo la vostra interfaccia si chiami **wlan0**, procedete quindi con lo scan delle reti circostanti:
+
+```bash
+station wlan0 scan
+station wlan0 get-networks
+```
+
+Dovremmo avere la lista delle reti visibili dal nostro pc. Quindi connettiamoci a quella di nostra preferenza:
+
+`station wlan0 connect NOME-RETE`
+
+Ci sarà chiesto di inserire la password. Potete quindi utilizzare la scorciatoia `Ctrl+d` per uscire (oppure digitare `exit` quindi invio) 
+
+
+Date `dhcpcd` per forzare il router a rilasciarvi un indirizzo ip. Ben fatto, siete connessi! Sicuri? per accertarcene possiamo dare 
 
 `ping -c 3 www.google.com`
 
@@ -427,7 +442,7 @@ E quindi inserite come nome utente proprio root e come password quella impostata
 
 ### Connettiamoci al mondo esterno e alcuni consigli iniziali
 
-Come sempre la prima cosa da fare è connettersi, esattamente come prima possiamo usare `dhcpcd` e nel caso della rete senza fili `wifi-menu`.
+Come sempre la prima cosa da fare è connettersi, esattamente come prima possiamo usare `dhcpcd` e nel caso della rete senza fili possiamo procedere come prima con `iwctl` oppure utilizzare il tool  `wifi-menu`, che potreste preferire per l'immediatezza (è una comoda interfaccia grafica molto intuitiva).
 
 Il primo consiglio che innanzitutto do è quello di eseguire subito un upgrade del sistema e dei repository:
 

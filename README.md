@@ -32,12 +32,11 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
 * [fix/add/edit] altre piccole modifiche
 
-## note rilascio 1.5.3
+## note rilascio 1.5.4
 
-* [add] terminato di ricopiare Markdown 
-* [fix/add/edit] altre piccole modifiche
+* [fix/add/edit] sostituito in fase di installazione netctl con wifi-menu con il nuovo iwctl
 
-## TODO -> verso la 1.5.4
+## TODO -> verso la 1.5.5
 
 - spostare file markdown in cartella dedicata
 - creare script che divida il markdown in file/cartelle in base al titolo
