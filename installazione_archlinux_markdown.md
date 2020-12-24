@@ -112,13 +112,12 @@ sudo dd if=/dev/zero of=/dev/sdX
 sudo fdisk /dev/sdX 
 o
 n
+p
 1
 2048
 #(invio senza scrivere nulla oppure scegliere una dimensione)
 t
-5
-6
-b
+0b
 w #si uscirà dalla modalità fdisk
 
 sudo mkfs.fat /devX1
