@@ -2,10 +2,12 @@
 
 # **Guida Installazione Arch**
 
-`versione 1.5.4: Talete (versione Markdown)`
+`versione 1.6: Talete`
  by <u>*PsykeDady*</u>
 
-**2019-08**
+**first release** : *2019-08*
+
+**last release** : *2020-12*
 
 
 
@@ -51,9 +53,7 @@ La versione completa della licenza si può trovare nella sezione: [Licenza per i
 
 ### sezione speciale per versione markdown
 
-La versione per markdown è stata scritta con il software [Typora](https://typora.io/), il tema usato per generare il pdf è [Pie](https://theme.typora.io/theme/Pie/)
-
-
+La versione per markdown è stata scritta con il software [Typora](https://typora.io/), il tema usato per generare il pdf è *Purple*
 
 ## Indice generale
 
@@ -111,7 +111,7 @@ sudo dd if=/dev/zero of=/dev/sdX
 #si entrerà in modalità fdisk, scrivere i prossimi comandi e premere invio
 sudo fdisk /dev/sdX 
 o
-p
+n
 1
 2048
 #(invio senza scrivere nulla oppure scegliere una dimensione)
@@ -139,7 +139,14 @@ sudo sync
 sudo umount {usb,iso}
 ```
 
-La pennina è pronta per i sistemi UEFI. Questo metodo è più sicuro di dd ma funziona su meno sistemi, eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile, scaricare quindi dal proprio gestore di pacchetti l’ultima versione del software citato e di parted ed eseguire i prossimi comandi (prima di smontare la usb):
+La pennina è pronta per i sistemi UEFI. Questo metodo è più sicuro di dd ma funziona su meno sistemi.
+
+
+
+####  Syslinux per il boot
+
+Eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile, scaricare quindi dal proprio gestore di pacchetti l’ultima versione del software citato e di parted ed eseguire i prossimi comandi (prima di smontare la usb):
+
 ```bash
 mkdir usb/boot/syslinux
 extlinux --install usb/boot/syslinux
@@ -152,6 +159,7 @@ parted /dev/sdX toggle 1 boot
 > ==quest’ultimo passo non l’ho mai applicato personalmente, ma l’ho letto sulla wiki e l’ho voluto riportare. Se qualcosa non dovesse funzionare vi invito a documentarvene personalmente sulla guida ufficiale==
 
 ### Metodo 3 da Linux : varie GUI
+
 Se non amate molto sporcarvi le mani durante queste operazioni sono disponibili moltissimi programmi che lo fanno per voi. Personalmente (ma anche la guida ufficiale) sconsiglio fortemente l’utilizzo del noto programma *uNETbootin*, in quanto tende a funzionare solo con *Ubuntu e derivate*. Comunque sia elencherò una serie di software che ho usato io e che spesso funzionano:
 - **etcher**
 - **suse image writer**
@@ -187,7 +195,7 @@ Ma prima di tutto, se avete una tastiera italiana, digitate:
 
 se avete uno schermo hidpi digitate anche:
 
-`setfont ``/usr/share/kbd/consolefonts/sun12x22.psfu.gz`
+`setfont /usr/share/kbd/consolefonts/sun12x22.psfu.gz`
 
 così vedrete meno madonnine volare in cielo …
 
@@ -363,7 +371,7 @@ Se tutto va bene, vi risponderà che sono stati trasmessi e ricevuti 3 pacchetti
 
 Arch offre un modo davvero comodo per scaricare i pacchetti d'avvio sulla nostra nuova installazione, attraverso **pacstrap**:
 
-`pacstrap /mnt base base-devel linux linux-firmware net-tools dialog netctl wpa_supplicant grub efibootmgr dhcpcd`
+`pacstrap /mnt base base-devel linux linux-firmware net-tools dialog iwd netctl wpa_supplicant grub efibootmgr iwd dhcpcd`
 
 Poi dobbiamo installare anche un editor di testo, per **nano** possiamo usare:
 
@@ -637,7 +645,7 @@ Se tutto è andato a buon fine ricordate di far uscire con `exit` l’utente. Se
 
 ### configurare pacman
 
-Perché archlinux? perchè complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di paccheti **pacman** e tutto ciò che ne deriva, compreso il famoso **AUR: Arch User Repository**.
+Perché archlinux? perchè complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di pacchetti **pacman** e tutto ciò che ne deriva, compreso il famoso **AUR: Arch User Repository**.
 
 Prima di tutto abbelliamo il nostro gestore! 
  Sempre con il nostro editor preferito *( a proposito, il mio è `nano`, vi insegnerò anche a renderlo carino)* modifichiamo il file `/etc/pacman.conf`: andiamo a decommentare la riga con scritto **Color** e aggiungiamo sotto **ILoveCandy**. Poi decommentiamo dove c’è scritto **[multilib]** e la riga di sotto se vogliamo abilitare il supporto alle librerie a 32 bit (necessario per alcuni programmi). Ogni volta che aggiungete un repository ricordate di dare:
@@ -844,7 +852,7 @@ Ci sarebbe infine **Enlightment**, un DE con tiling manager che ho trovato difet
 >
 > D’ora in poi potrete operare tranquillamente con l’account root così come quello utente (consigliato). Quando agirete come root non sarà necessario specificare **sudo** all’inizio dei comandi.
 >
-> Durante però l’esecuzione di pakku ricordo che il root potrebbe dare problemi. 
+> Durante però l’esecuzione di un aur-helper ricordo che il root potrebbe dare problemi. 
 
 ### Plasma D.E.
 
@@ -1093,7 +1101,7 @@ La proposta più popolare è sicuramente `zsh`. In realtà l’avete già usata 
 
 Quindi installiamo `zsh` e anche il suo famoso gestore di plugin: **oh-my-zsh**. Qui entra in gioco il famoso AUR con l’aur helper scelto, quindi non eseguite il prossimo comando da un account root.
 
-`yay -S zsh oh-my-zsh-git zsh-theme-powerlevel9k`
+`yay -S zsh oh-my-zsh-git zsh-theme-powerlevel10k`
 
 Il terzo pacchetto è uno dei temi più famosi di zsh, la configurazione che vi propongo è proprio quella che si basa su questo pacchetto.
 
@@ -1105,25 +1113,25 @@ Copiamoci nella home innanzitutto il file rc di oh-my-zsh:
 
 Modifichiamo quindi il file appena creato con il nostro editor preferito, andiamo alla linea `ZSH_THEME` e scriviamo 
 
-`ZSH_THEME="powerlevel9k/powerlevel9k"`
+`ZSH_THEME="powerlevel10k/powerlevel10k"`
+
+> <u>NOTE</u>:
+>
+> Il tema 10K porta con sè anche il tema 9k, basta indicare  `powerlevel10k/powerlevel9k` per poterlo usare
 
 per funzionare comunque bisogna anche copiare il tema nella cartella temi di zsh:
 
-`sudo cp -r /usr/share/zsh-theme-powerlevel9k /usr/share/oh-my-zsh/themes/powerlevel9k`
+`sudo ln -sf /usr/share/zsh-theme-powerlevel10k /usr/share/oh-my-zsh/themes/powerlevel10k`
 
-Potete comunque anche fare un link alla cartella con `ln -sf`. 
 
-Adesso se abbiamo deciso che il nostro sistema ha la localizzazione italiana, dobbiamo leggermente modificare il tema. Allo scopo consiglio di usare un editor che permetta di modificare più parole alla volta tramite *cerca e sostituisci*. Supponendo di avervi fatto innamorare di `nano` potete usare **ctrl-w** per cercare una stringa (premetelo ogni volta che avrete fatto una modifica per cercare l'occorrenza successiva). 
 
-Apriamo con i permessi di amministrazione il file */usr/share/oh-my-zsh/temes/powerlevel9k/function/icon.zsh* ed eliminiamo o commentiamo tutte le righe che iniziano con **local LC_**.
-
-Il nostro `zsh` dovrebbe essere pronto, possiamo testarlo digitando zsh ed eventualmente impostarlo come shell predefinita tramite `chsh`:
+Il nostro `zsh` dovrebbe essere pronto, possiamo testarlo digitando `zsh` ed eventualmente impostarlo come shell predefinita tramite `chsh`:
 
 `chsh -s /usr/bin/zsh`
 
 > <u>NOTE</u>:
 >
-> La **powerline** (ovvero la barra che utilizza il tema **powerlevel**) potrebbe necessitare di un font in grado di visualizzare alcuni caratteri particolari. Consiglio di installare  il pacchetto font: `ttf-fira-code` 
+> La **powerline** (ovvero la barra che utilizza il tema **powerlevel**) potrebbe necessitare di un font in grado di visualizzare alcuni caratteri particolari. Consiglio di installare  il pacchetto font: `ttf-fira-code`  
 
 ### fstab montare ~~la panna~~ partizioni all'avvio
 

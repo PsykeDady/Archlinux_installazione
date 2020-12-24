@@ -1,12 +1,15 @@
 # Archlinux_installazione
 Guida installazione di archlinux personalizzata
 
+## Se vuoi modificare la guida (versione FODT)
 
+font e stili attualmente utilizzati per la guida:
+* Ubuntu (corpo del testo, pt 12)
+* Fira Code (stile codice inline e codici )
+* Liberation Sans (titolo 1, senza capolettera)
+* Liberation Serif (capolettera titolo 1) 
 
-## Se vuoi modificare la guida
-
-La guida è interamente scritta in markdown dalla <u>versione 1.6</u>
-
+## Se vuoi modificare la guida (versione Markdown) 
 non ci dovrebbero essere particolari avvertimenti, solo seguite i template a fine del file. La sintassi markdown usata è quella supportata da Typora. i segni == contribuiscono a fare l'evidenziamento nel risultato pdf finale
 
 ## note rilascio 1.0
@@ -33,26 +36,21 @@ qui un riassunto di ciò che è stato introdotto/corretto:
 * [add] aggiunte ( su richiesta di utenti) istruzioni per fdisk nella sezione dei dischi dell'installazione
 * [fix/add/edit] altre piccole modifiche
 
-## note rilascio 1.6 
+## note rilascio 1.5.4
 
-è stata rilasciata la <u>guida completamente in markdown</u>. Per una maggiore semplicità nell'aggiornamento.
+* [fix/add/edit] sostituito in fase di installazione netctl con wifi-menu con il nuovo iwctl
 
-i todo verso 1.5.5 e 1.6 son stati spostati alle release 1.6.1 e 1.6.2
+## TODO -> verso la 1.5.5
 
-- [fix] nella creazione della penna usb c'era un errore nella creazione della partizione (`p` invece di `n`)
-- [fix] nel comando di pacstrap c'era **iw** e non **iwd**
-- [edit] powerlevel9k &rarr; powerlevel10k
-
-## TODO -> verso la 1.6.1
-
+- spostare file markdown in cartella dedicata
 - creare script che divida il markdown in file/cartelle in base al titolo
 
-## TODO -> verso la 1.6.2
-
+## TODO -> verso la 1.6
 * creare stile apposito per percorsi di sistema come è stato fatto per codici inline e non
 * inserire rfkill unblock/block nella sezione del net per recupero linea (unblock all/list all)
 * rendere il documento più "impersonale"
 * aggiungere plugin zsh
+* powerlevel10k invece ( o accanto a) di powerlevel9k
 * aggiustare dipendenze neofetch, guardare da github
 
 ## TODO -> verso la 2.0
