@@ -120,7 +120,7 @@ t
 0b
 w #si uscirà dalla modalità fdisk
 
-sudo mkfs.fat /devX1
+sudo mkfs.fat /dev/sdX1
 sudo mount /dev/sdX1 usb
 #sostituendo ad AAAA e MM le stesse date che trovate sulla iso
 sudo dosfslabel /dev/sdX1 ARCH_AAAAMM 
