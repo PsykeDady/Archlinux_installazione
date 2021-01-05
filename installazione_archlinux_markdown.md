@@ -494,7 +494,7 @@ l'output riporterà al suo interno: *intel*, *ati* o *nvidia*. In base a cosa ri
 pacman -S mesa
 
 #per installare i driver ati
-pacman -S xf86-video-ati
+pacman -S xf86-video-amdgpu
 
 #per installare i driver nvidia
 pacman -S xf86-video-nouveau
@@ -506,7 +506,11 @@ per installare i driver proprietari vi invito invece a visitare la wiki relativa
 > [Leggete la guida di arch](https://wiki.archlinux.org/index.php/Intel_graphics) e la sezione relativa alla vostra GPU sempre. Contiene consigli utili.
 > Ad esempio: per le <u>Intel Graphics</u> dal 2006 in poi è consigliato installare solo mesa, per quelle precedenti il pacchetto `xf86-video-intel`. Inoltre  consiglia di abilitare i repo 32bit e installare `lib32-mesa` e per le vulkan (intel gpu ivy bridges a seguire) il pacchetto `vulkan-intel`.
 
-Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, tanto meglio nel caso averli già pronti
+Per il touchpad installiamo il driver libinput:
+
+`pacman -S xf86-input-libinput`
+
+Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, installali solo in caso di problemi con libinput:
 
 `pacman -S xf86-input-synaptics`
 
@@ -666,7 +670,18 @@ cd <nomeaurhelper>
 makepkg -si
 ```
 
-Installiamone quindi uno: **yay** ! Per lo step successivo è <u>**fortemente consigliato**</u> l'accesso con l'utente e <u>non con root</u>.
+Attualmente le principali alternative sono **yay** e **paru**, la prima scritta in Go e la seconda, più recente, in Rust.
+Installiamone quindi uno: 
+
+- **paru** ! Per lo step successivo è <u>**fortemente consigliato**</u> l'accesso con l'utente e <u>non con root</u>.
+
+```bash
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+```
+
+- **yay** ! Per lo step successivo è <u>**fortemente consigliato**</u> l'accesso con l'utente e <u>non con root</u>.
 
 ```bash
 git clone https://aur.archlinux.org/yay.git
@@ -1307,24 +1322,45 @@ Seguirà un elenco di comandi che include software o trick che normalmente appli
 >
 > verrà indicato yay come p.m. per aur, ma potete ovviamente usare il package manager da voi installato  
 
+### paru
+
 ```bash
 #media tool
-yay -S clementine audacity vlc gimp gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs alsa-firmware alsa-lib alsa-oss alsa-utils pulseaudio-alsa pavucontrol 
+paru -S ffmpeg mpv clementine audacity vlc gimp gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs alsa-firmware alsa-lib alsa-oss alsa-utils pulseaudio-alsa pavucontrol 
 
 #work tool
-yay -S visual-studio-code-bin jdk8-openjdk jdk-openjdk jre-openjdk jre8-openjdk openjdk-doc openjdk-src openjdk8-doc openjdk8-src terminator octave xterm libreoffice-fresh libreoffice-fresh-it hyphen-it mythes-it hunspell-it texlive-bin texlive-core texlive-bibtexextra texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science texstudio python-pip mariadb 
+paru -S visual-studio-code-bin jdk8-openjdk jdk-openjdk jre-openjdk jre8-openjdk openjdk-doc openjdk-src openjdk8-doc openjdk8-src terminator octave xterm libreoffice-fresh libreoffice-fresh-it hyphen-it mythes-it hunspell-it texlive-bin texlive-core texlive-bibtexextra texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science texstudio python-pip mariadb 
 
 #net tool
-yay -S mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it deluge google-chrome
+paru -S mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it deluge chromium
 
 #misc tool
-yay -S ponysay lolcat redshift wine wine-mono winetricks wine_gecko playonlinux  steam steam-native-runtime ntfs-3g nitrogen xdotool rar zip unzip p7zip sane hplip cups cups-pdf bluez-cups
+paru -S ponysay lolcat redshift wine wine-mono winetricks wine_gecko playonlinux steam steam-native-runtime ntfs-3g nitrogen xdotool rar zip unzip p7zip sane hplip cups cups-pdf bluez-cups
 
 #altre istruzioni	
 sudo pip install youtube-dl 
 echo "export EDITOR=nano" >> .zshrc
 ```
 
+### yay
+
+```bash
+#media tool
+yay -S ffmpeg mpv clementine audacity vlc gimp gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs alsa-firmware alsa-lib alsa-oss alsa-utils pulseaudio-alsa pavucontrol 
+
+#work tool
+yay -S visual-studio-code-bin jdk8-openjdk jdk-openjdk jre-openjdk jre8-openjdk openjdk-doc openjdk-src openjdk8-doc openjdk8-src terminator octave xterm libreoffice-fresh libreoffice-fresh-it hyphen-it mythes-it hunspell-it texlive-bin texlive-core texlive-bibtexextra texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science texstudio python-pip mariadb 
+
+#net tool
+yay -S mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it deluge chromium
+
+#misc tool
+yay -S ponysay lolcat redshift wine wine-mono winetricks wine_gecko playonlinux steam steam-native-runtime ntfs-3g nitrogen xdotool rar zip unzip p7zip sane hplip cups cups-pdf bluez-cups
+
+#altre istruzioni	
+sudo pip install youtube-dl 
+echo "export EDITOR=nano" >> .zshrc
+```
 
 
 
