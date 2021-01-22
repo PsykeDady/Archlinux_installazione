@@ -494,7 +494,7 @@ l'output riporterà al suo interno: *intel*, *ati* o *nvidia*. In base a cosa ri
 pacman -S mesa
 
 #per installare i driver ati
-pacman -S xf86-video-ati
+pacman -S xf86-video-amdgpu
 
 #per installare i driver nvidia
 pacman -S xf86-video-nouveau
@@ -506,9 +506,16 @@ per installare i driver proprietari vi invito invece a visitare la wiki relativa
 > [Leggete la guida di arch](https://wiki.archlinux.org/index.php/Intel_graphics) e la sezione relativa alla vostra GPU sempre. Contiene consigli utili.
 > Ad esempio: per le <u>Intel Graphics</u> dal 2006 in poi è consigliato installare solo mesa, per quelle precedenti il pacchetto `xf86-video-intel`. Inoltre  consiglia di abilitare i repo 32bit e installare `lib32-mesa` e per le vulkan (intel gpu ivy bridges a seguire) il pacchetto `vulkan-intel`.
 
-Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, tanto meglio nel caso averli già pronti
 
-`pacman -S xf86-input-synaptics`
+
+Per il touchpad installiamo il driver libinput:
+
+`pacman -S xf86-input-libinput`
+
+> *<u>SUGGERIMENTO</u>*:
+> Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, installali solo in caso di problemi con libinput:
+> `pacman -S xf86-input-synaptics`
+
 
 
 
@@ -666,6 +673,15 @@ cd <nomeaurhelper>
 makepkg -si
 ```
 
+#### Consigli ed esempi
+
+Attualmente le alternative che mi sento di consigliare sono:
+
+- yay (scritta in go)
+- paru ( scritta in rust, evoluzione di yay)
+
+Ne si può trovare una tabella descrittiva [a questa pagina](https://wiki.archlinux.org/index.php/AUR_helpers)  
+
 Installiamone quindi uno: **yay** ! Per lo step successivo è <u>**fortemente consigliato**</u> l'accesso con l'utente e <u>non con root</u>.
 
 ```bash
@@ -673,6 +689,10 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 ```
+
+> <u>NOTE</u>:
+> Per installare **paru**,  scriverlo quindi al posto di yay.  
+
 
 D'ora in poi potete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca i pacchetti anche su **AUR**, questo <u>immenso repository di pacchetti</u> offerti dalla comunità di Archlinux, ci trovate davvero di tutto dentro (*perciò fate comunque attenzione*).
 
@@ -1105,7 +1125,7 @@ Quindi installiamo `zsh` e anche il suo famoso gestore di plugin: **oh-my-zsh**.
 
 Il terzo pacchetto è uno dei temi più famosi di zsh, la configurazione che vi propongo è proprio quella che si basa su questo pacchetto.
 
-In realtà solo oh-my-zsh si trova su AUR, gli altri si dovrebbero trovare sui repository standard, ma `pakku` come già detto, installerà anche i pacchetti normali ( è come fosse un estensione di `pacman`)
+In realtà solo oh-my-zsh si trova su AUR, gli altri si dovrebbero trovare sui repository standard, ma `yay` come già detto, installerà anche i pacchetti normali ( è come fosse un estensione di `pacman`)
 
 Copiamoci nella home innanzitutto il file rc di oh-my-zsh:
 
