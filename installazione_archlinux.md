@@ -371,15 +371,13 @@ Se tutto va bene, vi risponderà che sono stati trasmessi e ricevuti 3 pacchetti
 
 Arch offre un modo davvero comodo per scaricare i pacchetti d'avvio sulla nostra nuova installazione, attraverso **pacstrap**:
 
-`pacstrap /mnt base base-devel linux linux-firmware net-tools dialog iwd netctl wpa_supplicant grub efibootmgr iwd dhcpcd`
+`pacstrap /mnt base base-devel linux linux-firmware net-tools dialog iwd netctl wpa_supplicant grub efibootmgr dhcpcd`
 
 Poi dobbiamo installare anche un editor di testo, per **nano** possiamo usare:
 
 `pacstrap /mnt nano`
 
-> <u>NOTE</u>:
->
-> *copertina presa in prestito dal web. purtroppo ho perso il link
+
 
 se tutto va per il meglio (spero per voi) il vostro */mnt* sarà adesso abbastanza popolato.
 
@@ -451,6 +449,8 @@ E quindi inserite come nome utente proprio root e come password quella impostata
 ### Connettiamoci al mondo esterno e alcuni consigli iniziali
 
 Come sempre la prima cosa da fare è connettersi, esattamente come prima possiamo usare `dhcpcd` e nel caso della rete senza fili possiamo procedere come prima con `iwctl` oppure utilizzare il tool  `wifi-menu`, che potreste preferire per l'immediatezza (è una comoda interfaccia grafica molto intuitiva).
+Nel caso di iwctl, ricordiamo di dare prima:  
+`systemctl start iwd`
 
 Il primo consiglio che innanzitutto do è quello di eseguire subito un upgrade del sistema e dei repository:
 
@@ -479,11 +479,29 @@ Insieme al server grafico si consiglia di installare il suo sistema di init, che
 `pacman -S xorg-server xorg-xinit`
 
 Potete impostare nel file *~/xinitrc* il comando per utilizzare il vostro DE preferito (quando ne avrete uno). 
-Installare i driver è anche abbastanza semplice, se arch è installato su una macchina virtuale di virtualbox basterà digitare: 
+Installare i driver video è anche abbastanza semplice.
+
+
+
+####  su Virtualbox 
 
 `pacman -S virtualbox-guest-utils`
 
-altrimenti andiamo ad identificare la scheda video con **lspci**:
+
+
+#### su VMWare 
+
+```bash
+pacman -Sy net-tools gtkmm3 open-vm-tools xf86-video-vmware xf86-input-vmmouse 
+
+systemctl enable vmtoolssd.service
+```
+
+
+
+### Altri casi 
+
+Andiamo ad identificare la scheda video con **lspci**:
 
 `lspci | grep VGA`
 
@@ -499,6 +517,8 @@ pacman -S xf86-video-amdgpu
 #per installare i driver nvidia
 pacman -S xf86-video-nouveau
 ```
+
+
 
 per installare i driver proprietari vi invito invece a visitare la wiki relativa.
 
@@ -594,7 +614,7 @@ Inoltre vorrei portarvi a conoscenza del fatto che questo metodo renderà la vos
 
 Potete decidere di cifrare il contenuto della vostra home, un po’ come succede nei telefoni che possiedono metodi di sblocco biometrici. Per farlo la prima cosa è installare alcuni pacchetti:
 
-`pacman -S ecryptfs-utils keyutilts rsync lsof`
+`pacman -S ecryptfs-utils keyutils rsync lsof`
 
 Quindi caricate l’apposito modulo del kernel
 
@@ -632,21 +652,42 @@ ed editiamo quindi il file `system-auth` con il nostro editor preferito
 
 `<editor> /etc/pam.d/system-auth`
 
-Da adesso facciamo MOLTA attenzione, sbagliando qualunque cosa potremmo non essere più in grado di accedere a nessun account ( dovremmo quindi aggiustare le cose in chroot dalla iso di arch). Andiamo quindi ad aggiungere dopo la stringa che contiene **auth required pam_unix.so** la seguente linea:
+Da adesso facciamo MOLTA attenzione, sbagliando qualunque cosa potremmo non essere più in grado di accedere a nessun account ( dovremmo quindi aggiustare le cose in chroot dalla iso di arch). 
+
+
+
+Andiamo quindi ad aggiungere dopo la stringa che contiene **auth [default=die] pam_faillock.so authfail** la seguente linea:
 
 `auth required pam_ecryptfs.so unwrap`
 
-Dopo la linea che contiene password required pam_unix.so aggiungiamo:
+Prima della linea che contiene **password required pam_unix.so** aggiungiamo:
 
 `password optional pam_ecryptfs.so`
 
-E infine dopo la linea che contiene session required pam_unix.so aggiungiamo:
+E infine dopo la linea che contiene **session required pam_unix.so** aggiungiamo:
 
 `session required pam_ecryptfs.so unwrap`
 
-Usciamo dall’editor salvando. Per essere sicuri di aver fatto le cose a modo apriamo un altro tty ( `ctrl-alt-f2` ) e facciamo l’accesso con l’utente. Se l’accesso avviene correttamente, e se la cartella viene corretemente decriptata, allora è tutto ok. Altrimenti ritornate immediatamente nel primo tty ( `ctrl-alt-f1` ) e correggete l’errore nel file o, nel caso non riusciate, eliminate le modifiche e riprendete il file di backup:
+Usciamo dall’editor salvando. Per essere sicuri di aver fatto le cose a modo apriamo un altro tty ( `ctrl-alt-f2` ) e facciamo l’accesso con l’utente. Se l’accesso avviene correttamente, e se la cartella viene corretemente decriptata, allora è tutto ok. Eliminate la cartella backup (ha il suffisso del vostro nome, ed un numero accanto), cercatela con 
+`ls /home/` 
+Eliminatela con:
+`sudo rm -rf nomeutente.NUMERO` 
 
-`mv -f /etc/pam.d/system-auth.old /etc/pam.d/system-auth`
+
+
+Altrimenti ritornate immediatamente nel primo tty ( `ctrl-alt-f1` ) e correggete l’errore nel file o, nel caso non riusciate, eliminate le modifiche e riprendete il file di backup:
+
+`mv -f /etc/pam.d/system-auth.old /etc/pam.d/system-auth` 
+
+E ricopiate anche la cartella di backup, fornita da ecryptfs
+
+```bash
+sudo rm /home/nomeutente
+sudo mv /home/nomeutente.numero /home/nomeutente
+sudo rm -rf /home/.ecryptfs
+```
+
+
 
 Se tutto è andato a buon fine ricordate di far uscire con `exit` l’utente. Se la cartella non viene ricriptata potreste avere problemi di accesso d’ora in poi, nel caso entrate con un tty diverso e ricriptatela da virtual console con i comandi di umount, ripassate quindi al tty principale per continuare l’accesso.
 
@@ -1036,7 +1077,7 @@ Vi spiegherò invece come interfacciarvi al gestore facilmente, elencano una ser
 |                    | `systemctl suspend-then-hibernate`            | sospende per un certo periodo di tempo.  Poi iberna          |
 |                    | `systemctl hybrid-sleep`                      | Sospende e iberna il sistema. Così che se la batteria si scarica, il pc è comunque ibernato |
 
-Prendiamo ad esempio che vogliate usare nuoamente *netctl* anzichè *NetworkManager*, la procedura corretta sarebbe: 
+Prendiamo ad esempio che vogliate usare nuovamente *netctl* anzichè *NetworkManager*, la procedura corretta sarebbe: 
 
 ```bash
 sudo systemctl stop NetworkManager
@@ -1332,7 +1373,7 @@ Seguirà un elenco di comandi che include software o trick che normalmente appli
 yay -S clementine audacity vlc gimp gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs alsa-firmware alsa-lib alsa-oss alsa-utils pulseaudio-alsa pavucontrol 
 
 #work tool
-yay -S visual-studio-code-bin jdk8-openjdk jdk-openjdk jre-openjdk jre8-openjdk openjdk-doc openjdk-src openjdk8-doc openjdk8-src terminator octave xterm libreoffice-fresh libreoffice-fresh-it hyphen-it mythes-it hunspell-it texlive-bin texlive-core texlive-bibtexextra texlive-fontsextra texlive-formatsextra texlive-games texlive-humanities texlive-latexextra texlive-music texlive-pictures texlive-pstricks texlive-publishers texlive-science texstudio python-pip mariadb 
+yay -S visual-studio-code-bin jdk8-openjdk jdk-openjdk jre-openjdk jre8-openjdk openjdk-doc openjdk-src openjdk8-doc openjdk8-src terminator octave xterm libreoffice-fresh libreoffice-fresh-it hyphen-it mythes-it hunspell-it python-pip mariadb 
 
 #net tool
 yay -S mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it deluge google-chrome
@@ -1559,4 +1600,3 @@ Tutti i comandi dati con sudo è da sottintendere che necessitino dei permessi d
 
 > *<u>SUGGERIMENTO</u>*:
 > Un suggerimento orientato soprattutto ai meno esperti
-
