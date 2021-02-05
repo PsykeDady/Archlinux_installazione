@@ -11,10 +11,19 @@
 Aggiunte da fare a pacstrap 
 
 - dkms
-
 - broadcom-wl-dkms
 - linux-headers
-- 
+
+## ventola
+
+installare pacchetto aur 
+
+**mbpfan-git** 
+
+
+
+attivare servizio con :
+` systemctl enable mbpfan.service`
 
 # Template e legenda
 
