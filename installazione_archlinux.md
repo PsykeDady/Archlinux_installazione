@@ -1214,7 +1214,7 @@ Poi, assicurandoci che la partizione non sia montata ( `sudo umount /dev/sdXY `n
 
 Ad esempio supponiamo di voler montare **/dev/sdc3** con **UUID=123-123-123-123** sotto il nome di **Sharing****Volume**, considerando che è una partizione di tipo **ntfs**. Allora scriveremo:
 
-`UUID=123-123-123-123 /media/SharingVolume ``ntfs-3g`` defaults 0 0`
+`UUID=123-123-123-123 /media/SharingVolume ntfs-3g defaults 0 0`
 
 Salviamo e chiudiamo il file. Poi proviamo:
 
