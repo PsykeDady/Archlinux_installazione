@@ -1206,7 +1206,7 @@ ci apparirà una lista di file del tipo **/dev/sdXY** dove X è una lettera (par
 
 Poi creiamo una cartella dove vogliamo trovare il nostro disco ad ogni avvio, ad esempio **/media/SharingVolume**, il nome e il percorso possono essere di pura fantasia, potreste avere la necessità di usare i permessi di amministratore per questo:
 
-`sudo mkdir -p /media/Sharing``Volume`
+`sudo mkdir -p /media/Sharing Volume`
 
 Poi, assicurandoci che la partizione non sia montata ( `sudo umount /dev/sdXY `nel caso contrario) scriviamo questa riga nel nostro `/etc/fstab`
 
