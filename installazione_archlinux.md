@@ -844,7 +844,7 @@ Avendo questi prerequisiti, come si fa ad ibernare su Arch? I passi da effettuar
 
 Segnamoci innanzitutto l’UUID della partizione tramite il comando `blkid`. Se usiamo un file di ibernazione, segnamoci l’UUID del disco che contiene tale file, e teniamoci da parte anche il suo offset sul tale disco così:
 
-`sudo filefrag -v /swap``file`` | head -n 4`
+`sudo filefrag -v /swapfile | head -n 4`
 
 
 
@@ -863,7 +863,7 @@ Andiamo sulla riga `GRUB_CMD_LINUX_DEFAULT="..."` e aggiungiamo nelle virgolette
 Se siamo abbiamo scelto <u>il file</u>, va messo l’UUID del disco che contiene il file di swap. 
 Accanto aggiungiamo questa ulteriore parte:
 
-`resume_offset=``<valore offset segnato prima>`
+`resume_offset=<valore offset segnato prima>`
 
 Ancora, se usiamo l’ibernazione su file, potrebbe essere necessario dare `lsblk` e segnarsi i numero MAJ:MIN della partizione dove tenete il file. Una volta fatto date questi due comandi
 
