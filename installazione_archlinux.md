@@ -472,7 +472,7 @@ Nello specifico:
 
 ### Server e driver
 
-n ambienti linux, senza motore grafico, si può usare il pc al più come server. Oggi giorno la produttività dipende strettamente da ciò che si vede e come ci si può interagire. Per questo motivo verrà illustrato come installare il server grafico **XORG**. Esistono oggi alternative valide, ma rimane questo tuttavia il server più stabile e consolidato nel mondo del pinguino. È quindi consigliabile comunque installarlo a prescindere da ciò che vorrete provare in futuro.
+In ambienti linux, senza motore grafico, si può usare il pc al più come server. Oggi giorno la produttività dipende strettamente da ciò che si vede e come ci si può interagire. Per questo motivo verrà illustrato come installare il server grafico **XORG**. Esistono oggi alternative valide, ma rimane questo tuttavia il server più stabile e consolidato nel mondo del pinguino. È quindi consigliabile comunque installarlo a prescindere da ciò che vorrete provare in futuro.
 
 Insieme al server grafico si consiglia di installare il suo sistema di init, che nel caso in cui un D.M. (la grafica di accesso al sistema) non funzioni a dovere sarà un ottimo sostituto. Quindi:
 
@@ -551,7 +551,7 @@ Se non volete quindi modificare il comportamento di windows (la wiki di arch spi
 > La saggia wiki in realtà consiglia di cambiare il comportamento di windows, e non di archlinux.  Per  farlo dovrebbe essere necessario dare questo da prompt di comandi (di Windows):
 > `Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_QWORD /d 1` 
 
-noltre sicuramente si vuole essere in grado di leggere le partizioni create da windows, allo scopo possiamo pensare di installare **ntfs-3g** 
+Inoltre sicuramente si vuole essere in grado di leggere le partizioni create da windows, allo scopo possiamo pensare di installare **ntfs-3g** 
 `sudo pacman -S ntfs-3g`
 
 > **<u>ATTENZIONE</u>**:
@@ -636,7 +636,7 @@ ecryptfs-mount-private #per decriptare
 ecryptfs-umount-private #per criptare
 ```
 
-Potete usare i due comandi ogni volta che volete cifrare o decifrare la cartella home manualmente, può accadere alla volta che la cifratura non avvenga per processi aperti du file all’interno della home, si può quindi forzare il procedimento con questo comando
+Potete usare i due comandi ogni volta che volete cifrare o decifrare la cartella home manualmente, può accadere alle volte che la cifratura non avvenga per processi aperti su file all’interno della home, si può quindi forzare il procedimento con questo comando
 
 `umount.ecryptfs_private`
 
@@ -693,7 +693,7 @@ Se tutto è andato a buon fine ricordate di far uscire con `exit` l’utente. Se
 
 ### configurare pacman
 
-Perché archlinux? perchè complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di pacchetti **pacman** e tutto ciò che ne deriva, compreso il famoso **AUR: Arch User Repository**.
+Perché archlinux? Perchè complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di pacchetti **pacman** e tutto ciò che ne deriva, compreso il famoso **AUR: Arch User Repository**.
 
 Prima di tutto abbelliamo il nostro gestore! 
  Sempre con il nostro editor preferito *( a proposito, il mio è `nano`, vi insegnerò anche a renderlo carino)* modifichiamo il file `/etc/pacman.conf`: andiamo a decommentare la riga con scritto **Color** e aggiungiamo sotto **ILoveCandy**. Poi decommentiamo dove c’è scritto **[multilib]** e la riga di sotto se vogliamo abilitare il supporto alle librerie a 32 bit (necessario per alcuni programmi). Ogni volta che aggiungete un repository ricordate di dare:
