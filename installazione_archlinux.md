@@ -998,7 +998,7 @@ Per altri DE consulare le relative wiki!
 
 ### NetworkManager e servizi di rete
 
-Dietro le quinte, quando nela guida si è fatto uso di `wifi-menu`, il servizio che permetteva di accedere ad internet nient’altro era che **netctl**. Se avete seguito la guida dall’inizio, sia *netctl* che *wifi-menu* continueranno a funzionare egregiamente. Tuttavia spesso è utile avere a che fare con servizi più user-friendly, che vi notifichino ad esempio quando cade la connessione, vi mostrino la potenza di segnale continuamente e facilitino l’inserimento di ogni tipo di credenziali, proteggendone anche il contenuto se siete in pubblico. 
+Dietro le quinte, quando nella guida si è fatto uso di `wifi-menu`, il servizio che permetteva di accedere ad internet nient’altro era che **netctl**. Se avete seguito la guida dall’inizio, sia *netctl* che *wifi-menu* continueranno a funzionare egregiamente. Tuttavia spesso è utile avere a che fare con servizi più user-friendly, che vi notifichino ad esempio quando cade la connessione, vi mostrino la potenza di segnale continuamente e facilitino l’inserimento di ogni tipo di credenziali, proteggendone anche il contenuto se siete in pubblico. 
 
 Il servizio di connessione per eccellenza sui sistemi linux è **NetworkManager**.
 
