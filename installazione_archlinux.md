@@ -537,11 +537,8 @@ Andiamo ad identificare la scheda video con **lspci**:
 l'output riporterà al suo interno: *intel*, *ati* o *nvidia*. In base a cosa riporta andiamo ad installare i driver *open* relativi:
 
 ```bash
-#per installare i driver intel
+#per installare i driver intel o ati
 pacman -S mesa
-
-#per installare i driver ati
-pacman -S xf86-video-amdgpu
 
 #per installare i driver nvidia
 pacman -S xf86-video-nouveau
@@ -553,7 +550,7 @@ per installare i driver proprietari vi invito invece a visitare la wiki relativa
 
 > *<u>SUGGERIMENTO</u>*:
 > [Leggete la guida di arch](https://wiki.archlinux.org/index.php/Intel_graphics) e la sezione relativa alla vostra GPU sempre. Contiene consigli utili.
-> Ad esempio: per le <u>Intel Graphics</u> dal 2006 in poi è consigliato installare solo mesa, per quelle precedenti il pacchetto `xf86-video-intel`. Inoltre  consiglia di abilitare i repo 32bit e installare `lib32-mesa` e per le vulkan (intel gpu ivy bridges a seguire) il pacchetto `vulkan-intel`.
+> Ad esempio: per le <u>Intel Graphics</u> dal 2006 in poi è consigliato installare solo mesa, per quelle precedenti il pacchetto `xf86-video-intel`, anche per alcune vecchie radeon potrebbe essere necessario il pacchetto `xf86-video-amdgpu`. Inoltre consiglia di abilitare i repo 32bit e installare `lib32-mesa` e per le vulkan (intel gpu ivy bridges a seguire) il pacchetto `vulkan-intel`.
 
 
 
