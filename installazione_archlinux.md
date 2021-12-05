@@ -463,10 +463,39 @@ Consiglio poi di installare alcuni pacchetti che nel 90% dei casi vi saranno uti
 Nello specifico:
 
 - **linux-headers** sono una serie di interfacce che servono a compilare alcuni pacchetti, capirete a cosa vi serve quando arriveremo ai repository AUR
-- **os-prober** serve a rilevare altri sistemi operativi all'avvio, digitate quindi `grub-mkconfig -o /boot/grub/grub.cfg` per aggiornare il grub
+- **os-prober** serve a rilevare altri sistemi operativi all'avvio, guardare la sezione [Altri sistemi operativi](###Altri-sistemi-operativi)
 - **git** è un sistema di versioning di file e cartelle, usatissimo in ambito di programmazione e vi servirà per scaricare il codice da repository remoto
 - **bash-completion** serve ad abilitare l'autocompletamento con tab nella famosissima shell bash
 - **man-db** e **man-pages** si occuperanno di generare e farci consultare le documentazioni tramite il noto comando  `man <comando>`. Il comando in questione deve essere provvisto comunque di documentazione
+
+
+
+### Altri sistemi operativi
+
+Se abbiamo altri sistemi operativi in dual boot, dobbiamo modificare alcune opzioni prima di rigenerarne il file di configurazione, *oltre ad aver ovviamente installato* `os-prober` *come descritto in precedenza*. Innanzitutto andiamo a modificare li file:   
+
+`/etc/grub/default`
+
+
+
+E scriviamo verso la fine del file la seguente stringa: 
+
+```properties
+GRUB_DISABLE_OS_PROBER=false
+```
+
+
+Potrebbe già esserci questa opzione, commentata o no, quindi sinceriamoci prima eventualmente che non esista già e, nel caso, cambiamo solo il valore.
+
+
+
+Ora possiamo rigerare il grub:
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+
 
 
 
