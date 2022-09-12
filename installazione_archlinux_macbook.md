@@ -1,6 +1,6 @@
-# Installazione Archlinux - aggiunte per Macbook
+# Installazione Archlinux - note aggiuntive per Macbook
 
-**Il seguente documento è ancora in scrittura.**
+**Il seguente documento è ancora in fase di scrittura.**
 
 > **<u>ATTENZIONE</u>**:
 >
@@ -8,7 +8,7 @@
 
 ## pacstrap
 
-Aggiunte da fare a pacstrap 
+Aggiunte da fare a pacstrap: 
 
 - dkms
 - broadcom-wl-dkms
@@ -27,7 +27,7 @@ attivare servizio con :
 
 # Template e legenda
 
-Seguono i template utilizzati per il file Markdown
+Seguono i template utilizzati per il file Markdown:
 
 `codice inline o singola linea di codice`
 
@@ -40,7 +40,7 @@ Nei blocchi di codice l'introduzione di un cancelletto (#) è da intendersi come
 
 Tra parentesi angolate (&lt;&gt;) trovate il nome dei valori che dovreste sostituire voi (ad esempio `<nomeutente>` se il vostro nome è *Mario*, è da sostituire con **Mario**, eliminando le parentesi)
 
-Tutti i comandi dati con sudo è da sottintendere che necessitino dei permessi di amministratore, perciò se li operate da account root può essere evitato il sudo
+Tutti i comandi dati con sudo è da sottintendere che necessitino dei permessi di amministratore, perciò se li operate da account root può essere evitato il sudo.
 
 > <u>NOTE</u>:
 >
@@ -48,7 +48,8 @@ Tutti i comandi dati con sudo è da sottintendere che necessitino dei permessi d
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==Un avvertimento. Il tratto appena spiegato non è stato testato oppure può fallire in alcuni casi ed è quindi sconsigliato da usare se non si sa esattamente quello che si fa. L’autore declina ogni responsabilità per danni che si possano verificare sul proprio sistema o dispositivo==
+> ==Un avvertimento.
+> Il tratto appena spiegato non è stato testato oppure potrebbe fallire in determinati casi, perciò ne è sconsigliato l'utilizzo se non si sa esattamente quello che si fa. L’autore declina ogni responsabilità per danni che si possano verificare sul proprio sistema o dispositivo==
 
 > *<u>SUGGERIMENTO</u>*:
 > Un suggerimento orientato soprattutto ai meno esperti
