@@ -19,17 +19,17 @@
 
 ## **Prefazione: a chi è indirizzata questa guida?**
 
-Questa guida si prefigge lo scopo di essere generale un po' orientata a chiunque si avvicini la prima volta nel mondo di Archlinux. Tuttavia è stata seguita seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle soli 3 anni di abilità acquisite su archlinux, installando tuttavia più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)
+Questa guida si prefigge come scopo quello di essere, in generale, orientata a chiunque si avvicini, per la prima volta, al mondo di Archlinux. Tuttavia è stata scritta seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle solamente 3 anni di abilità su archlinux, acquisite installando più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)
 
-Se c'è comunque una consapevolezza di cui il tempo, le mie e le esperienze altrui mi hanno fatto dono è che, inevitabilmente, <u>**ogni calcolatore gode di un esperienza unica in termini di prestazioni, estetica e praticità della configurazione distribuzione/kernel/parametri installati da colui che si appresta ad utilizzarci GNU/Linux sopra**</u>. Questa affermazione, se pur posso assicurare abbia un alto grado di verità, tende ad entrare difficilmente nelle mentalità di chi da tempo, ormai, tende ad avere atteggiamenti da stadio anche nei confronti della più assoluta libertà che dovrebbe invece professare la community di Linux.
+Se c'è comunque una consapevolezza di cui il tempo, le mie e le esperienze altrui mi hanno fatto dono è che, inevitabilmente, <u>**ogni calcolatore gode di un'esperienza unica in termini di prestazioni, estetica e praticità della configurazione distribuzione/kernel/parametri installati da colui che si appresta ad utilizzarvi GNU/Linux sopra**</u>. Questa affermazione, se pur posso assicurare abbia un alto grado di verità, tende ad entrare difficilmente nella mentalità di chi da tempo, ormai, dimostra di ad avere atteggiamenti da stadio anche nei confronti della più assoluta libertà che dovrebbe, invece, professare la community di Linux.
 
-Inoltre consiglio a **tutti** coloro che si avventurano nella piccola impresa di installare Archlinux, di tenere sempre sottomano la guida *ultima* di tutti noi arch-user (e non solo), la [wiki](https://wiki.archlinux.org/index.php/Installation_guide): un'enorme fonte di conoscenza sul mondo linux che risolve problemi in qualsiasi ambito, o quanto meno vi aiuta a risolverli indirettamente. Tutto ciò che troverete in questa guida altro non è che un estratto di piccole sezioni della wiki che io uso sempre per installare archlinux. La guida è inoltre disponibile in moltissime lingue, tra cui l'italiano.
+Inoltre, consiglio a **tutti** coloro che si avventurano nella piccola impresa di installare Archlinux, di tenere sempre sottomano la guida *ultima* di tutti noi arch-user (e non solo), la [wiki](https://wiki.archlinux.org/index.php/Installation_guide): un'enorme fonte di conoscenza sul mondo linux che risolve problemi in qualsiasi ambito, o quanto meno che vi aiuta a risolverli indirettamente. Tutto ciò che troverete in questa guida altro non è che un estratto di piccole sezioni della wiki che io uso sempre per installare archlinux. La guida è, inoltre, disponibile in moltissime lingue, tra cui l'italiano.
 
-Ricordo inoltre che per chi volesse provare un Archlinux con installer user-friendly, esiste [Manjaro](https://manjaro.org/), una distro su base arch completamente personalizzabile al momento dell'installazione, molto ma molto user-friendly. Segnalo anche [chakra](https://www.chakralinux.org/).
+Ricordo, infine, che per chi volesse provare un Archlinux con installer user-friendly, esiste [Manjaro](https://manjaro.org/), una distro su base arch completamente personalizzabile al momento dell'installazione, davvero molto user-friendly. Segnalo anche [chakra](https://www.chakralinux.org/).
 
-Rimane comunque consigliato, a mio avviso, non scegliere Archlinux come distribuzione per approcciarsi la prima volta con il mondo GNU/Linux, ma scegliere distro più "alla mano" come **Ubuntu**, **Fedora**, **Linux Mint** o **Kde-Neon**.
+Rimane comunque consigliato, a mio avviso, non scegliere Archlinux come distribuzione per approcciarsi la prima volta al mondo GNU/Linux, ma scegliere distro più "alla mano" come **Ubuntu**, **Fedora**, **Linux Mint** o **Kde-Neon**.
 
-Finalmente dopo un anno posso dire di aver concluso una prima *fase* di maturità di questa guida, che è stata letta, usata, commentata, criticata e corretta da tantissimi utenti. Ringrazio chiunque abbia partecipato a quella che oggi, ad Agosto 2019, ritengo essere la guida di arch versione 1.0
+Finalmente, dopo un anno, posso dire di aver concluso una prima *fase* di maturità di questa guida, che è stata letta, usata, commentata, criticata e corretta da tantissimi utenti. Ringrazio chiunque abbia partecipato a quella che oggi, ad Agosto 2019, ritengo essere la guida di arch versione 1.0.
 
 Detto questo: *buon divertimento e benvenuti nel fantastico mondo di Archlinux*.
 
@@ -51,7 +51,7 @@ La versione completa della licenza si può trovare nella sezione: [Licenza per i
 
 
 
-### sezione speciale per versione markdown
+### Sezione speciale per versione markdown
 
 La versione per markdown è stata scritta con il software [Typora](https://typora.io/), il tema usato per generare il pdf è *Purple*
 
@@ -59,21 +59,21 @@ La versione per markdown è stata scritta con il software [Typora](https://typor
 
 [TOC]
 
-## preparare il supporto di installazione
+## Preparare il supporto di installazione
 
-Prima di iniziare, se avete dubbi sulla simbologia del documento date un occhiata all’ultima sezione di questa guida, [Template e legenda](#Template-e-legenda), che vi chiarirà cosa si intende con un determinato colore-simbolo o blocco di ciò che leggerete. Buon inizio
+Prima di iniziare, se avete dubbi sulla simbologia del documento date un occhiata all’ultima sezione di questa guida, [Template e legenda](#Template-e-legenda), che vi chiarirà cosa si intende con un determinato colore-simbolo o blocco di ciò che leggerete. Buon inizio!
 
 
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==Non mi prendo la responsabilità di alcun danno arrecato al vostro computer o di alcun dato perso dall’uso scorretto di comandi presenti di questa guida.  I comandi sono da comprendere e interpretare anche in base alla propria configurazione.==
+> ==Non mi prendo la responsabilità di alcun danno arrecato al vostro computer o di alcun dato perso dall’utilizzo scorretto dei comandi presenti di questa guida.  I comandi sono da comprendere ed interpretare anche in base alla propria configurazione.==
 
 
 
 ### Metodo 1 da Linux : dd
 
-l primo semplice metodo consiste del preparare la pennina con il famoso tool dd :
+Un primo semplice metodo consiste del preparare la pennina USB con il famoso tool dd :
 
 ```bash
 sudo dd if=/percorso/iso of=/dev/sdX bs=4M status=progress
@@ -95,7 +95,7 @@ sudo dd if=/dev/zero of=/dev/sdXY bs=4M status=progress
 
 Un altro metodo consiste nel copiare il contenuto della ISO in un file system FAT32, questo metodo presenta diversi vantaggi, ma funziona solo con macchine UEFI. 
 
-Creare quindi due directory dove montare la ISO e la USB di installazione: 
+Creare, quindi, due directory dove montare la ISO e la USB di installazione: 
 
 `mkdir {usb,iso}`
 
@@ -103,7 +103,7 @@ montare la iso utilizzando:
 
 `sudo mount -o loop /percorso/iso iso`
 
-se non lo si è ancora fatto, formattare la pennetta in **fat32**, supposto sia `/dev/sdX` il percorso della pennina, seguire queste istruzioni per formattarne il contenuto con fdisk (effettuare le operazioni con su o con sudo).
+se non lo si è ancora fatto, formattare la pennetta in **fat32** e supponendo che `/dev/sdX` sia il percorso della pennina, seguire queste istruzioni per formattarne il contenuto con fdisk (effettuare le operazioni con su o con sudo).
 ```bash
 #da eseguire solo se si vuole completamente resettare la pennina
 sudo dd if=/dev/zero of=/dev/sdX
@@ -128,11 +128,11 @@ sudo mount /dev/sdX1 usb
 ```
 
 > *<u>SUGGERIMENTO</u>*:
-> È possibile, alternativamente a fdisk, usare cfdisk, che è più user-friendly
+> È possibile, alternativamente a fdisk, usare cfdisk, che è più user-friendly.
 
-In questo momento si ha nelle cartelle usb e iso, montati rispettivamente la usb e il contenuto della iso. Ci apprestiamo dunque a copiare il contenuto della iso nella usb
+In questo momento, nelle cartelle usb e iso, sono montati, rispettivamente, la usb e il contenuto della iso. Ci apprestiamo, dunque, a copiare il contenuto della iso nella usb
 `cp -r iso/* usb`
-Consiglio a questo punto di sincronizzare i buffer del disco e della pennetta e smontare le cartelle, per evitare che le modifiche non vengano effettuate correttamente:
+Consiglio, a questo punto, di sincronizzare i buffer del disco e della pennetta e smontare le cartelle, per evitare che le modifiche non vengano effettuate correttamente:
 
 ```bash
 sudo sync
@@ -145,7 +145,7 @@ La pennina è pronta per i sistemi UEFI. Questo metodo è più sicuro di dd ma f
 
 ####  Syslinux per il boot
 
-Eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile, scaricare quindi dal proprio gestore di pacchetti l’ultima versione del software citato e di parted ed eseguire i prossimi comandi (prima di smontare la usb):
+Eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile. Si dovrà, quindi, scaricare dal proprio gestore di pacchetti l’ultima versione del software citato e di parted ed eseguire i prossimi comandi (prima di smontare la usb):
 
 ```bash
 mkdir usb/boot/syslinux
@@ -181,7 +181,7 @@ Su sistemi operativi Windows invece consiglio l’uso di **Rufus** o **LiLi** **
 
 ## Hello world, I'm Archlinux. Nice to meet you
 
-Supponendo ora che siate riusciti da soli ad avviare il supporto atraverso le impostazioni del vostro BIOS o le impostazioni EFI del vostro sistema o che ancora l’abbiate avviata attraverso virtualbox, possiamo passare alle prime fasi dell’installazione.
+Supponendo ora che siate riusciti da soli ad avviare il supporto attraverso le impostazioni del vostro BIOS oppure le impostazioni EFI del vostro sistema, o che ancora l’abbiate avviata attraverso virtualbox, possiamo passare alle prime fasi dell’installazione.
 
 Avviando Arch, se tutto va bene, dovreste ritrovarvi davanti ad una schermata simile:
 
@@ -205,27 +205,27 @@ così vedrete meno madonnine volare in cielo …
 >
 > nella cartella /usr/share/kbd/consolefonts/ trovate molti altri font, scegliete solo quelli 12x22 per la massima leggibilità
 
-### preparazione del disco di installazione
+### Preparazione del disco di installazione
 
- La prima cosa da fare è preparare il disco di installazione. Attraverso i comandi `blkid` o `fdisk -l` scopriamo quindi le coordinate del nostro disco ed eventualmente della partizione se preparata precedentemente attraverso altri sistemi operativi (può essere utile spesso preparare tutto attraverso una live di ubuntu con gparted se si è alle prime armi e si hanno dati da preservare).
+La prima cosa da fare è preparare il disco di installazione. Attraverso i comandi `blkid` o `fdisk -l` scopriamo, quindi, le coordinate del nostro disco ed eventualmente della partizione, se preparata precedentemente attraverso altri sistemi operativi (può essere utile spesso preparare tutto attraverso una live di ubuntu con gparted se si è alle prime armi e si hanno dati da preservare).
 
-Ci vuole comunque un po' di organizzazione, bisogna sapere in anticipo i<u>n quante partizioni</u> si vuole suddividere la propria installazione, se si è su un sistema <u>UEFI</u>, se si hanno <u>più dischi</u> e se si hanno <u>altre installazioni</u> da tenere.
+Ci vuole comunque un po' di organizzazione, bisogna sapere in anticipo <u>in quante partizioni</u> si vuole suddividere la propria installazione, se si è su un sistema <u>UEFI</u>, se si hanno <u>più dischi</u> e se si hanno <u>altre installazioni</u> da tenere.
 
-La guida supporrà che il disco sia inizialmente <u>*non inizializzato*</u>, sia <u>l'unico disco</u> e che <u>non si hanno altri sistemi operativi</u> presenti. Supporrò inoltre di voler <u>suddividere l'installazione</u> in *root*, *home* e *swap*. Un altra condizione supposta sarà di avere un <u>sistema EFI</u>, con tutto ciò che ne deriva.
+La guida supporrà che il disco sia <u>*non inizializzato*</u>, che sia <u>l'unico disco</u> presente e che <u>non si abbiano altri sistemi operativi</u> installati. Inoltre, si è scelto di voler <u>suddividere l'installazione</u> in *root*, *home* e *swap*. Un'altra condizione supposta sarà di avere un <u>sistema EFI</u>, con tutto ciò che ne deriva.
 
 > <u>*Suggerimento*</u>:
 >
 > Lo spazio di Swap è uno spazio utilizzato dal sistema per sopperire alla mancanza di memoria RAM sufficiente a far funzionare correttamente tutti i programmi. 
-> In genere si usa riservarne spazio uguale alla RAM per usufruire anche della funzione di ibernazione, che consente di spegnere il computer senza perdere la sessione di lavoro corrente (diversamente dalla sospensione non consuma batteria). Per pc con RAM maggiore di 4Gb non consiglio di usare la swap a meno di usare anche l’ibernazione, un alternativa può essere anche quella di <u>usare il file di swap anziché la partizione</u>. Maggiori informazioni si troveranno nella sezione che riguarda le configurazioni di sistema.
+> In genere si usa riservare dello spazio uguale alla RAM per usufruire anche della funzione di ibernazione, che consente di spegnere il computer senza perdere la sessione di lavoro corrente (diversamente dalla sospensione non consuma batteria). Per PC con RAM maggiore di 4Gb non consiglio di usare la swap, a meno di utilizzare anche l’ibernazione; un'alternativa può essere anche quella di <u>usare il file di swap anziché la partizione</u>. Maggiori informazioni si troveranno nella sezione che riguarda le configurazioni di sistema.
 
-Si ha quindi il nostro disco su `/dev/sda`, vuoto e non inizializzato ( un disco vergine per intenderci, come quello che potremmo trovarci in una macchina virtuale). Alternativamente si può pensare di avere un disco di cui il contenuto non ci interessa, quindi le seguenti operazioni lo formatteranno completamente:
+Si ha, quindi, il nostro disco su `/dev/sda`, vuoto e non inizializzato (un disco vergine per intenderci, come quello che potremmo trovarci in una macchina virtuale). Alternativamente, si può pensare di avere un disco di cui non ci interessa il contenuto, periò le seguenti operazioni lo formatteranno completamente:
 
 `gdisk /dev/sda`
 
-in questo modo si entrerà nella modalità gdisk, che installerà uno schema di partizioni di tipo **GPT**, se non si ha a che fare con **UEFI** è consigliato usare `fdisk` o `cfdisk`, e avere a che fare con partizioni di tipo tradizionale, cioè **MBR**.
+in questo modo si entrerà nella modalità gdisk, che installerà uno schema di partizioni di tipo **GPT**, se non si ha a che fare con **UEFI** è consigliato usare `fdisk` o `cfdisk`, ed avere a che fare con partizioni di tipo tradizionale, cioè **MBR**.
 
-Esiste anche `cgdisk`, l'alternativa user-friendly di *gdisk*, prendetela in considerazioni se non volete seguire alla cieca le istruzioni qui sotto ma organizzare in maniera più pratica le partizioni secondo un' organizzazione personale.
- Dunque procediamo con la supposizione di cui sopra:
+Esiste anche `cgdisk`, l'alternativa user-friendly di *gdisk*, prendetela in considerazioni se non volete seguire alla cieca le istruzioni qui sotto ma organizzare in maniera più pratica le partizioni secondo un'organizzazione personale.
+Dunque, procediamo con la supposizione di cui sopra:
 
 ```bash
 o 
@@ -245,7 +245,7 @@ n
 n
 3
 (invio senza scrivere niente)
-# sostituendo a YYY il numero di Giga che volete dare alla home, in genere qua si mette la maggiorparte dello spazio
+# sostituendo a YYY il numero di Giga che volete dare alla home, in genere vi si assegna la maggior parte dello spazio
 +YYYG
 (invio senza scrivere niente) 
 
@@ -290,7 +290,7 @@ t
 82
 ```
 
-<u>Ricordate comunque di controllare il significato delle opzioni tramite gli appositi help interattivi</u>. Per usare le partizioni è comunque necessario formattarle, ritorniamo nella supposizione in cui siate UEFI:
+<u>Ricordate comunque di controllare il significato delle opzioni tramite gli appositi help interattivi</u>. Per usare le partizioni è necessario, in ogni caso, formattarle, rimanendo sempre nella supposizione in cui siate UEFI:
 
 ```bash
 mkfs.fat /dev/sda1
@@ -308,7 +308,7 @@ mkswap /dev/sda3
 ```
 
 > *<u>SUGGERIMENTO</u>*:
-> Potreste voler identificare i vostri hard disk con un etichetta, tipo ‘Arch-Root’ o simili. In caso potreste utilizzare il comando `e2label` :
+> Potreste voler identificare i vostri hard disk con un'etichetta, tipo ‘Arch-Root’ o simili. In caso potreste utilizzare il comando `e2label` :
 >
 > - `e2label /dev/sda1 ‘ArchRoot`
 >
@@ -340,30 +340,30 @@ La sezione riguardante la configurazione dei dischi finisce qua.
 
 Stop. Senza internet non si va da nessuna parte.
 
-Se quindi siete connessi via cavo, basta dare `dhcpcd`, altrimenti la procedura richiede qualche passaggio in più. Innanzitutto apriamo l'interfaccia interattiva:
+Se siete connessi via cavo, basta dare `dhcpcd`, altrimenti la procedura richiede qualche passaggio in più. Innanzitutto apriamo l'interfaccia interattiva:
 
 `iwctl`
 Poi individuiamo l'interfaccia di rete wireless:
 
 `device list`
 
-Qui, sotto la voce **name**, dovrebbe apparire la vostra interfaccia di rete, se non compare nulla potreste aver bisogno di driver particolari per connettervi, in tal caso usate trovate un ethernet o usate il tethering usb del telefono fino a fine installazione.
+Qui, sotto la voce **name**, dovrebbe apparire la vostra interfaccia di rete. Se non compare nulla potreste aver bisogno di driver particolari per connettervi, in tal caso usate trovate una connessione ethernet oppure utilizzate il tethering usb del telefono fino a fine installazione.
 
-Supponiamo la vostra interfaccia si chiami **wlan0**, procedete quindi con lo scan delle reti circostanti:
+Supponiamo che la vostra interfaccia si chiami **wlan0**, procedete quindi con lo scan delle reti circostanti:
 
 ```bash
 station wlan0 scan
 station wlan0 get-networks
 ```
 
-Dovremmo avere la lista delle reti visibili dal nostro pc. Quindi connettiamoci a quella di nostra preferenza:
+Dovremmo avere la lista delle reti visibili dal nostro pc, perciò connettiamoci a quella di nostra preferenza:
 
 `station wlan0 connect NOME-RETE`
 
-Ci sarà chiesto di inserire la password. Potete quindi utilizzare la scorciatoia `Ctrl+d` per uscire (oppure digitare `exit` quindi invio) 
+Ci sarà chiesto di inserire la password, dopo di che potrete utilizzare la scorciatoia `Ctrl+d` per uscire (oppure digitare `exit` quindi invio) 
 
 
-Date `dhcpcd` per forzare il router a rilasciarvi un indirizzo ip. Ben fatto, siete connessi! Sicuri? per accertarcene possiamo dare 
+Date `dhcpcd` per forzare il router a rilasciarvi un indirizzo ip. Ben fatto, siete connessi! Sicuri? per accertarcene possiamo dare:
 
 `ping -c 3 www.google.com`
 
@@ -393,7 +393,7 @@ ed entriamo quindi in chroot attraverso un comodissimo script arch:
 
 `arch-chroot /mnt`
 
-settiamo la password di root con `passwd` e <u>modifichiamo il file fstab</u> (con `nano`, `vi` o qualunque altro editor ci piace usare) creato in precedenza sostituendo nella riga della swap il parametro *none* con la dicitura **swap**.
+settiamo la password di root con `passwd` e <u>modifichiamo il file fstab</u> (con `nano`, `vi` o qualunque altro editor ci piaccia usare) creato in precedenza sostituendo nella riga della swap il parametro *none* con la dicitura **swap**.
 Supponendo che stiate usando **nano**, potete digitare:
 
 `nano /etc/fstab`
@@ -410,7 +410,8 @@ si può quindi dare un nome alla macchina in rete:
 
 `echo "<NOMEPC>" > /etc/hostname`
 
-Si può ora impostare la lingua: andando ad editare il file */etc/locale.gen* decommentando (togliendo il carattere ***#***) le tre linee che iniziano con **it_IT**, poi diamo il comando `locale-gen` per generare i file della lingua. Se volessimo altre lingue, basta decommentare la riga corrispondente al codice della lingua desiderata, ad esempio per l’inglese decommentiamo quelle con **en**
+Si può ora impostare la lingua andando ad editare il file */etc/locale.gen* decommentando (togliendo il carattere ***#***) le tre linee che iniziano con **it_IT**, poi diamo il comando `locale-gen` per generare i file della lingua. 
+Se volessimo altre lingue, basta decommentare la riga corrispondente al codice della lingua desiderata, ad esempio per l’inglese decommentiamo quelle con **en**
 
 In seguito bisogna generare un buon */etc/locale.conf*, usiamo il nostro editor preferito e scriviamo all'interno:
 
@@ -424,10 +425,11 @@ LANGUAGE="it_IT:en_EN:en"
 impostiamo la lingua del tty con:
 `echo "KEYMAP=it" > /etc/vconsole.conf`
 
-e impostiamo il fuso orario di sistema con:
+ed impostiamo il fuso orario di sistema con:
 `ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime`
 
 ### programma di installazione terminato
+
 Il sistema è installato correttamente, adesso andiamo a smontare le partizioni:
 
 ```bash
@@ -439,12 +441,13 @@ swapoff
 sync
 poweroff # o reboot se volete riavviare
 ```
-possiamo quindi riavviare e continuare le configurazioni tramite l'utente root e non in ambiente di chroot
+possiamo quindi riavviare e continuare le configurazioni tramite l'utente root e non in ambiente di chroot.
 
 
 ## Configurazioni di sistema
-Dopo aver riavviato e tolto la chiavetta dovremmo essere davanti la schermata di selezione dei sistemi del grub, dove la prima opzione dovrebbe proprio corrispondere a quella di avviare archlinux. Se così non fosse, reinserite la chiavetta, rimontate le partizioni e rifate il chroot, cercando la soluzione al problema usando anche la wiki. Da qui in poi sarà supposto che voi abbiate il sistema funzionante e possiate are il login tramite account di root.
-E quindi inserite come nome utente proprio root e come password quella impostata precedentemente. È quindi tempo di fare un po' di configurazioni a sistema appena installato.
+
+Dopo aver riavviato e tolto la chiavetta dovremmo essere davanti la schermata di selezione dei sistemi del grub, dove la prima opzione dovrebbe proprio corrispondere a quella di avviare archlinux. Se così non fosse, reinserite la chiavetta, rimontate le partizioni e rifate il chroot, cercando la soluzione al problema usando anche la wiki. Da qui in poi sarà supposto che voi abbiate il sistema funzionante e possiate effettuare il login tramite account di root.
+A questo punto inserite come nome utente proprio root e come password quella impostata precedentemente. È quindi tempo di fare un po' di configurazioni a sistema appena installato.
 
 ### Connettiamoci al mondo esterno e alcuni consigli iniziali
 
@@ -452,40 +455,40 @@ Come sempre la prima cosa da fare è connettersi, esattamente come prima possiam
 Nel caso di iwctl, ricordiamo di dare prima:  
 `systemctl start iwd`
 
-Il primo consiglio che innanzitutto do è quello di eseguire subito un upgrade del sistema e dei repository:
+Il primo consiglio è, innanzitutto, quello di eseguire subito un upgrade del sistema e dei repository:
 
 `pacman -Syyu`
 
-Consiglio poi di installare alcuni pacchetti che nel 90% dei casi vi saranno utili
+Consiglio poi di installare alcuni pacchetti che nel 90% dei casi vi saranno utili, con il comando:
 
 `pacman -S linux-headers os-prober git bash-completion man-db man-pages`
 
 Nello specifico:
 
-- **linux-headers** sono una serie di interfacce che servono a compilare alcuni pacchetti, capirete a cosa vi serve quando arriveremo ai repository AUR
-- **os-prober** serve a rilevare altri sistemi operativi all'avvio, guardare la sezione [Altri sistemi operativi](###Altri-sistemi-operativi)
-- **git** è un sistema di versioning di file e cartelle, usatissimo in ambito di programmazione e vi servirà per scaricare il codice da repository remoto
-- **bash-completion** serve ad abilitare l'autocompletamento con tab nella famosissima shell bash
-- **man-db** e **man-pages** si occuperanno di generare e farci consultare le documentazioni tramite il noto comando  `man <comando>`. Il comando in questione deve essere provvisto comunque di documentazione
+- **linux-headers** sono una serie di interfacce che servono a compilare alcuni pacchetti, capirete a cosa vi serve quando arriveremo ai repository AUR;
+- **os-prober** serve a rilevare altri sistemi operativi all'avvio, guardare la sezione [Altri sistemi operativi](###Altri-sistemi-operativi);
+- **git** è un sistema di versioning di file e cartelle, usatissimo in ambito di programmazione e vi servirà per scaricare il codice da repository remoto;
+- **bash-completion** serve ad abilitare l'autocompletamento con tab nella famosissima shell bash;
+- **man-db** e **man-pages** si occuperanno di generare e farci consultare le documentazioni tramite il noto comando  `man <comando>`. Il comando in questione deve essere provvisto comunque di documentazione;
 
 
 
 ### Altri sistemi operativi
 
-Se abbiamo altri sistemi operativi in dual boot, dobbiamo modificare alcune opzioni prima di rigenerarne il file di configurazione, *oltre ad aver ovviamente installato* `os-prober` *come descritto in precedenza*. Innanzitutto andiamo a modificare li file:   
+Se abbiamo altri sistemi operativi in dual boot, dobbiamo modificare alcune opzioni prima di rigenerarne il file di configurazione, *oltre ad aver ovviamente installato* `os-prober` *come descritto in precedenza*. Innanzitutto andiamo a modificare il file:   
 
 `/etc/grub/default`
 
 
 
-E scriviamo verso la fine del file la seguente stringa: 
+E scriviamo, verso la fine del file, la seguente stringa: 
 
 ```properties
 GRUB_DISABLE_OS_PROBER=false
 ```
 
 
-Potrebbe già esserci questa opzione, commentata o no, quindi sinceriamoci prima eventualmente che non esista già e, nel caso, cambiamo solo il valore.
+Potrebbe già esserci questa opzione, commentata o no, quindi sinceriamoci che non esista già e, nel caso, cambiamone solo il valore.
 
 
 
