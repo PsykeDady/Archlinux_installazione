@@ -21,7 +21,7 @@
 
 Questa guida si prefigge come scopo quello di essere, in generale, orientata a chiunque si avvicini, per la prima volta, al mondo di Archlinux. Tuttavia è stata scritta seguendo le mie esigenze e le mie esperienze acquisite nel campo. Al tempo in cui sto scrivendo questa prefazione (estate 2018) ho alle spalle solamente 3 anni di abilità su archlinux, acquisite installando più e più volte la distribuzione su vari calcolatori (pc fissi, portatili, macbook etc..)
 
-Se c'è comunque una consapevolezza di cui il tempo, le mie e le esperienze altrui mi hanno fatto dono è che, inevitabilmente, <u>**ogni calcolatore gode di un'esperienza unica in termini di prestazioni, estetica e praticità della configurazione distribuzione/kernel/parametri installati da colui che si appresta ad utilizzarvi GNU/Linux sopra**</u>. Questa affermazione, se pur posso assicurare abbia un alto grado di verità, tende ad entrare difficilmente nella mentalità di chi da tempo, ormai, dimostra di ad avere atteggiamenti da stadio anche nei confronti della più assoluta libertà che dovrebbe, invece, professare la community di Linux.
+Se c'è comunque una consapevolezza di cui il tempo, le mie e le esperienze altrui mi hanno fatto dono è che, inevitabilmente, **ogni calcolatore gode di un'esperienza unica in termini di prestazioni, estetica e praticità della configurazione distribuzione/kernel/parametri installati da colui che si appresta ad utilizzarvi GNU/Linux sopra**. Questa affermazione, se pur posso assicurare abbia un alto grado di verità, tende ad entrare difficilmente nella mentalità di chi da tempo, ormai, dimostra di ad avere atteggiamenti da stadio anche nei confronti della più assoluta libertà che dovrebbe, invece, professare la community di Linux.
 
 Inoltre, consiglio a **tutti** coloro che si avventurano nella piccola impresa di installare Archlinux, di tenere sempre sottomano la guida *ultima* di tutti noi arch-user (e non solo), la [wiki](https://wiki.archlinux.org/index.php/Installation_guide): un'enorme fonte di conoscenza sul mondo linux che risolve problemi in qualsiasi ambito, o quanto meno che vi aiuta a risolverli indirettamente. Tutto ciò che troverete in questa guida altro non è che un estratto di piccole sezioni della wiki che io uso sempre per installare archlinux. La guida è, inoltre, disponibile in moltissime lingue, tra cui l'italiano.
 
@@ -67,7 +67,7 @@ Prima di iniziare, se avete dubbi sulla simbologia del documento date un occhiat
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==Non mi prendo la responsabilità di alcun danno arrecato al vostro computer o di alcun dato perso dall’utilizzo scorretto dei comandi presenti di questa guida.  I comandi sono da comprendere ed interpretare anche in base alla propria configurazione.==
+> Non mi prendo la responsabilità di alcun danno arrecato al vostro computer o di alcun dato perso dall’utilizzo scorretto dei comandi presenti di questa guida.  I comandi sono da comprendere ed interpretare anche in base alla propria configurazione.
 
 
 
@@ -89,7 +89,7 @@ sudo dd if=/dev/zero of=/dev/sdXY bs=4M status=progress
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==un uso intensivo di dd potrebbe rovinare la pennina, in quanto ne sovrascrive il contenuto bit a bit. Fare quindi attenzione, meglio utilizzare pennine a basso costo e non molto capienti==
+>Un utilizzo intensivo di dd potrebbe rovinare la pennina, in quanto ne sovrascrive il contenuto bit a bit. Fare quindi attenzione, meglio utilizzare pennine a basso costo e non molto capienti.
 
 ### Metodo 2 da Linux : copia su fat32 (Consigliato UEFI)
 
@@ -179,7 +179,7 @@ Su sistemi operativi Windows invece consiglio l’uso di **Rufus** o **LiLi** **
 
  
 
-## Hello world, I'm Archlinux. Nice to meet you
+## Hello world, I'm Archlinux. Nice to meet you!
 
 Supponendo ora che siate riusciti da soli ad avviare il supporto attraverso le impostazioni del vostro BIOS oppure le impostazioni EFI del vostro sistema, o che ancora l’abbiate avviata attraverso virtualbox, possiamo passare alle prime fasi dell’installazione.
 
@@ -203,15 +203,16 @@ così vedrete meno madonnine volare in cielo …
 
 > <u>NOTE</u>:
 >
-> nella cartella /usr/share/kbd/consolefonts/ trovate molti altri font, scegliete solo quelli 12x22 per la massima leggibilità
+>Nella cartella /usr/share/kbd/consolefonts/ trovate molti altri font, scegliete solo quelli 12x22 per la massima leggibilità
 
 ### Preparazione del disco di installazione
 
-La prima cosa da fare è preparare il disco di installazione. Attraverso i comandi `blkid` o `fdisk -l` scopriamo, quindi, le coordinate del nostro disco ed eventualmente della partizione, se preparata precedentemente attraverso altri sistemi operativi (può essere utile spesso preparare tutto attraverso una live di ubuntu con gparted se si è alle prime armi e si hanno dati da preservare).
+La prima cosa da fare è preparare il disco di installazione. 
+Attraverso i comandi `blkid` o `fdisk -l` scopriamo, quindi, le coordinate del nostro disco ed eventualmente della partizione, se preparata precedentemente attraverso altri sistemi operativi (può essere utile spesso preparare tutto attraverso una live di ubuntu con gparted se si è alle prime armi e si hanno dati da preservare).
 
 Ci vuole comunque un po' di organizzazione, bisogna sapere in anticipo <u>in quante partizioni</u> si vuole suddividere la propria installazione, se si è su un sistema <u>UEFI</u>, se si hanno <u>più dischi</u> e se si hanno <u>altre installazioni</u> da tenere.
 
-La guida supporrà che il disco sia <u>*non inizializzato*</u>, che sia <u>l'unico disco</u> presente e che <u>non si abbiano altri sistemi operativi</u> installati. Inoltre, si è scelto di voler <u>suddividere l'installazione</u> in *root*, *home* e *swap*. Un'altra condizione supposta sarà di avere un <u>sistema EFI</u>, con tutto ciò che ne deriva.
+La guida supporrà che il disco sia <u>non inizializzato</u>, che sia <u>l'unico disco</u> presente e che <u>non si abbiano altri sistemi operativi</u> installati. Inoltre, si è scelto di voler <u>suddividere l'installazione</u> in *root*, *home* e *swap*. Un'altra condizione supposta sarà di avere un <u>sistema EFI</u>, con tutto ciò che ne deriva.
 
 > <u>*Suggerimento*</u>:
 >
@@ -314,7 +315,7 @@ mkswap /dev/sda3
 >
 > Attenti perché ogni file system ha il suo software per creare label. Ad esempio la swap usa `swaplabel`. 
 
-**Dunque** possiamo iniziare a montarle:
+Dunque possiamo iniziare a montare:
 
 ```bash
 mount /dev/sda2 /mnt
@@ -338,11 +339,14 @@ La sezione riguardante la configurazione dei dischi finisce qua.
 
 ### Installazione dei pacchetti e connessione al mondo esterno
 
+
 Stop. Senza internet non si va da nessuna parte.
 
 Se siete connessi via cavo, basta dare `dhcpcd`, altrimenti la procedura richiede qualche passaggio in più. Innanzitutto apriamo l'interfaccia interattiva:
 
 `iwctl`
+
+
 Poi individuiamo l'interfaccia di rete wireless:
 
 `device list`
@@ -428,7 +432,7 @@ impostiamo la lingua del tty con:
 ed impostiamo il fuso orario di sistema con:
 `ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime`
 
-### programma di installazione terminato
+### Programma di installazione terminato
 
 Il sistema è installato correttamente, adesso andiamo a smontare le partizioni:
 
@@ -450,6 +454,7 @@ Dopo aver riavviato e tolto la chiavetta dovremmo essere davanti la schermata di
 A questo punto inserite come nome utente proprio root e come password quella impostata precedentemente. È quindi tempo di fare un po' di configurazioni a sistema appena installato.
 
 ### Connettiamoci al mondo esterno e alcuni consigli iniziali
+
 
 Come sempre la prima cosa da fare è connettersi, esattamente come prima possiamo usare `dhcpcd` e nel caso della rete senza fili possiamo procedere come prima con `iwctl` oppure utilizzare il tool  `wifi-menu`, che potreste preferire per l'immediatezza (è una comoda interfaccia grafica molto intuitiva).
 Nel caso di iwctl, ricordiamo di dare prima:  
@@ -475,6 +480,7 @@ Nello specifico:
 
 ### Altri sistemi operativi
 
+
 Se abbiamo altri sistemi operativi in dual boot, dobbiamo modificare alcune opzioni prima di rigenerarne il file di configurazione, *oltre ad aver ovviamente installato* `os-prober` *come descritto in precedenza*. Innanzitutto andiamo a modificare il file:   
 
 `/etc/grub/default`
@@ -492,7 +498,7 @@ Potrebbe già esserci questa opzione, commentata o no, quindi sinceriamoci che n
 
 
 
-Ora possiamo rigerare il grub:
+Ora possiamo rigenerare il grub:
 
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -503,6 +509,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 
 ### Server e driver
+
 
 In ambienti linux, senza motore grafico, si può usare il pc al più come server. Oggi giorno la produttività dipende strettamente da ciò che si vede e come ci si può interagire. Per questo motivo verrà illustrato come installare il server grafico **XORG**. Esistono oggi alternative valide, ma rimane questo tuttavia il server più stabile e consolidato nel mondo del pinguino. È quindi consigliabile comunque installarlo a prescindere da ciò che vorrete provare in futuro.
 
