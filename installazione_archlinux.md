@@ -143,7 +143,7 @@ La pennina è pronta per i sistemi UEFI. Questo metodo è più sicuro di dd ma f
 
 
 
-####  Syslinux per il boot
+####  *Syslinux per il boot*
 
 Eventualmente si può pensare di usare syslinux per ampliare ulteriormente il bacino di pc che vedranno la pennetta come avviabile. Si dovrà, quindi, scaricare dal proprio gestore di pacchetti l’ultima versione del software citato e di parted ed eseguire i prossimi comandi (prima di smontare la usb):
 
@@ -260,7 +260,7 @@ n
 w
 ```
 
-dopo essere usciti dalla modalità gdisk, possiamo accertarci della situazione usando il comando `gdisk -l` oppure con `blkid`. 
+Dopo essere usciti dalla modalità gdisk, possiamo accertarci della situazione usando il comando `gdisk -l` oppure con `blkid`. 
 
 Se non avete un sistema **UEFI** e volete usare `fdisk` la lista di parametri da inserire potrebbe essere questa:
 
@@ -387,7 +387,7 @@ se tutto va per il meglio (spero per voi) il vostro */mnt* sarà adesso abbastan
 
 
 
-### prime configurazioni
+### Prime configurazioni
 
 Creiamo quindi il vostro fstab che permetterà di montare le cartelle nel giusto ordine all'avvio:
 
@@ -432,7 +432,7 @@ impostiamo la lingua del tty con:
 ed impostiamo il fuso orario di sistema con:
 `ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime`
 
-### Programma di installazione terminato
+### Conclusione del programma di installazione
 
 Il sistema è installato correttamente, adesso andiamo a smontare le partizioni:
 
@@ -511,24 +511,26 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ### Server e driver
 
 
-In ambienti linux, senza motore grafico, si può usare il pc al più come server. Oggi giorno la produttività dipende strettamente da ciò che si vede e come ci si può interagire. Per questo motivo verrà illustrato come installare il server grafico **XORG**. Esistono oggi alternative valide, ma rimane questo tuttavia il server più stabile e consolidato nel mondo del pinguino. È quindi consigliabile comunque installarlo a prescindere da ciò che vorrete provare in futuro.
+In ambienti linux, senza motore grafico, si può usare il pc al più come server. Oggigiorno la produttività dipende strettamente da ciò che si vede e da come ci si può interagire. Per questo motivo verrà illustrato come installare il server grafico **XORG**. 
+Esistono, oggi, delle valide alternative, tuttavia quest'ultimo rimane il server più stabile e consolidato nel mondo del pinguino. È quindi consigliabile installarlo a prescindere da ciò che vorrete provare in futuro.
 
 Insieme al server grafico si consiglia di installare il suo sistema di init, che nel caso in cui un D.M. (la grafica di accesso al sistema) non funzioni a dovere sarà un ottimo sostituto. Quindi:
 
 `pacman -S xorg-server xorg-xinit`
 
-Potete impostare nel file *~/xinitrc* il comando per utilizzare il vostro DE preferito (quando ne avrete uno). 
-Installare i driver video è anche abbastanza semplice.
+Potete impostare nel file *~/xinitrc* il comando per utilizzare il vostro DE preferito (quando ne avrete uno).
+
+Anche installare i driver video è abbastanza semplice. Infatti:
 
 
 
-####  su Virtualbox 
+####  *Su Virtualbox* 
 
 `pacman -S virtualbox-guest-utils`
 
 
 
-#### su VMWare 
+#### *Su VMWare* 
 
 ```bash
 pacman -Sy net-tools gtkmm3 open-vm-tools xf86-video-vmware xf86-input-vmmouse 
@@ -544,7 +546,8 @@ Andiamo ad identificare la scheda video con **lspci**:
 
 `lspci | grep VGA`
 
-l'output riporterà al suo interno: *intel*, *ati* o *nvidia*. In base a cosa riporta andiamo ad installare i driver *open* relativi:
+l'output riporterà al suo interno: *intel*, *ati* o *nvidia*. 
+In base al risultato ottenuto andremo ad installare i driver *open* relativi:
 
 ```bash
 #per installare i driver intel o ati
@@ -556,11 +559,12 @@ pacman -S xf86-video-nouveau
 
 
 
-per installare i driver proprietari vi invito invece a visitare la wiki relativa.
+Per installare i driver proprietari, invece, vi invito a consultare la wiki relativa.
 
 > *<u>SUGGERIMENTO</u>*:
-> [Leggete la guida di arch](https://wiki.archlinux.org/index.php/Intel_graphics) e la sezione relativa alla vostra GPU sempre. Contiene consigli utili.
-> Ad esempio: per le <u>Intel Graphics</u> dal 2006 in poi è consigliato installare solo mesa, per quelle precedenti il pacchetto `xf86-video-intel`, anche per alcune vecchie radeon potrebbe essere necessario il pacchetto `xf86-video-amdgpu`. Inoltre consiglia di abilitare i repo 32bit e installare `lib32-mesa` e per le vulkan (intel gpu ivy bridges a seguire) il pacchetto `vulkan-intel`.
+> [Leggete la guida di arch](https://wiki.archlinux.org/index.php/Intel_graphics) e la sezione relativa alla vostra GPU, sempre, perchè contiene consigli utili.
+> Ad esempio:
+>per le <u>Intel Graphics</u> dal 2006 in poi è consigliato installare solo mesa, per quelle precedenti il pacchetto `xf86-video-intel`, anche per alcune vecchie radeon potrebbe essere necessario il pacchetto `xf86-video-amdgpu`. Inoltre, consiglia di abilitare i repo 32bit ed installare `lib32-mesa` e per le vulkan (intel gpu ivy bridges a seguire) il pacchetto `vulkan-intel`.
 
 
 
@@ -569,7 +573,7 @@ Per il touchpad installiamo il driver libinput:
 `pacman -S xf86-input-libinput`
 
 > *<u>SUGGERIMENTO</u>*:
-> Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, installali solo in caso di problemi con libinput:
+> Alcune volte può essere necessario installare i vecchi driver synaptics per il touchpad, nel caso in cui si riscontrino dei problemi con libinput:
 > `pacman -S xf86-input-synaptics`
 
 
@@ -577,39 +581,39 @@ Per il touchpad installiamo il driver libinput:
 
 ### Dual boot con Windows
 
-Se avete il dual boot con Windows è probabile ci sarà tra un sistema e l’altro uno scarto di tempo di due ore, questo perché Windows non usa il tempo universale ma il locale. 
-Se non volete quindi modificare il comportamento di windows (la wiki di arch spiega molto bene come fare nel caso) potete modificare invece il comportamento di Archlinux 
+Se avete il dual boot con Windows è probabile ci sarà, tra un sistema e l’altro, uno scarto di tempo di due ore, questo perché Windows non usa il tempo universale ma quello locale. 
+Se non volete, quindi, modificare il comportamento di windows (la wiki di arch spiega molto bene come fare nel caso) potete modificare invece il comportamento di Archlinux.
 
 `timedatectl set-local-rtc 1 --adjust-system-clock`
 
 > <u>NOTE</u>:
 >
-> La saggia wiki in realtà consiglia di cambiare il comportamento di windows, e non di archlinux.  Per  farlo dovrebbe essere necessario dare questo da prompt di comandi (di Windows):
+> La saggia wiki in realtà consiglia di cambiare il comportamento di windows e non di archlinux.  Per  farlo dovrebbe essere necessario dare questo da prompt di comandi (di Windows):
 > `Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_QWORD /d 1` 
 
-Inoltre sicuramente si vuole essere in grado di leggere le partizioni create da windows, allo scopo possiamo pensare di installare **ntfs-3g** 
+Inoltre, sicuramente, si vuole essere in grado di leggere le partizioni create da windows. Allo scopo possiamo pensare di installare **ntfs-3g** tramite il comando seguente:
+
 `sudo pacman -S ntfs-3g`
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==Il dual boot con windows è problematico se tenete attivo il fast boot, in particolare potreste essere non più in grado di montare la sua partizione. E <u>sconsiglio fortemente</u> di usare `ntfs-fix` per sbloccare manualmente il disco.
-Disattivate quindi il fast-boot se avete intenzione di leggere e scrivere sulla partizione di win==
+> Il dual boot con windows è problematico se tenete attivo il fast boot. In particolare, potreste essere non più in grado di montare la sua partizione. A questo proposito <u>sconsiglio fortemente</u> di usare `ntfs-fix` per sbloccare manualmente il disco.
+Disattivate quindi il fast-boot se avete intenzione di leggere e scrivere sulla partizione di windows.
 
 ### Aggiunta utente, creazione cartelle utente e cifratura home
 
 È sempre bene utilizzare l'account root solo se strettamente necessario, altrimenti è meglio impostare un utente amministratore o semplice (ancora meglio).
 
-Per aggiunte di un utente amministratore digitare:
+Per aggiungere un utente amministratore basterà digitare:
 
 `useradd -m -g users -G wheel,video,audio,sys,lp,storage,scanner,games,network,disk,input -s /bin/bash <nome utente>`
 
-per un utente non amministratore basta eliminare il gruppo **wheel** dal comando precedente.
+Per la creazione di un utente non amministratore sarà sufficiente eliminare il gruppo **wheel** dal comando precedente.
 
-Impostiamo quindi una password per l'utente appena creato:
-
+Impostiamo, quindi, una password per l'utente appena creato:
 `passwd <nome utente>`
 
-e indichiamo al programma sudo ( che ci permette di effettuare operazioni in modalità amministratore) che il nostro utente fa parte del gruppo amministratore, questo tramite visudo:
+ed indichiamo al programma sudo (che ci permette di effettuare operazioni in modalità amministratore) che il nostro utente fa parte del gruppo amministratore, questo tramite visudo:
 
 ```bash
 #impostiamo prima un editor di testo a noi più amichevole, di default è vi
@@ -617,38 +621,38 @@ export EDITOR=<nome editor>
 visudo
 ```
 
-a questo punto esistono due modi di impostare i permessi di amministratore: con richiesta della password (consigliato) e senza richiesta.
+A questo punto esistono due modi di impostare i permessi di amministratore, ovvero: con richiesta della password (consigliato) e senza richiesta.
 
-Nel primo caso decommentare la riga:
+Nel primo caso si dovrà decommentare la riga:
 
 `wheel ALL=(ALL) ALL`
 
-nel secondo caso decommentare:
+Nel secondo caso, invece, basterà  decommentare:
 
 `wheel ALL=(ALL) NOPASSWD: ALL`
 
-A questo punto configuriamo le cartelle utente, installiamo
-`pacman -S xdg-user-dirs`
-Al nostro primo accesso con l'utente ricordiamoci di dare :
-`xdg-user-dirs-update`
+A questo punto configuriamo le cartelle utente ed installiamo
+`pacman -S xdg-user-dirs`.
+
+Al nostro primo accesso con l'utente ricordiamoci di dare il comando `xdg-user-dirs-update`
 Se vogliamo possiamo accedere subito scrivendo `su <nome utente>`
 
 
 
 > <u>NOTE</u>:
 >
-> Ricordati che puoi cambiare il nome delle cartelle di base (Immagini, Video ...etc) modificando il corrispettivo in `/home/<nome utente>/.config/user-dirs.dirs` inserendo ad uno ad uno i nomi che desideriamo sostituire.
+> Ricordati che puoi cambiare il nome delle cartelle di base (Immagini, Video ...etc) modificandone il corrispettivo in `/home/<nome utente>/.config/user-dirs.dirs`, inserendo ad uno ad uno i nomi che desideriamo sostituire.
 >
-> I nomi predefiniti dovrebbero essere quelli della lingua impostata
+> I nomi predefiniti dovrebbero essere quelli della lingua impostata.
 
 ___
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==Il prossimo step è opzionale, fatto in fretta o male potrebbe farvi perdere dati, potreste dover riprendere la live per aggiustare le cose o reinstallare se non siete in grado. Quindi procedete con cautela e se lo ritenete un passo fondamentale. 
-Inoltre vorrei portarvi a conoscenza del fatto che questo metodo renderà la vostra home incompatibile con il client dropbox se lo usate, quindi dovrete installare dropbox in una cartella diversa da quella proposta.==
+> Il prossimo step è opzionale, fatto in fretta o male potrebbe farvi perdere dati, potreste dover riprendere la live per aggiustare le cose o reinstallare se non siete in grado. Quindi procedete con cautela, se lo ritenete un passo fondamentale da compiere. 
+Inoltre vorrei portarvi a conoscenza del fatto che questo metodo renderà la vostra home incompatibile con il client dropbox se lo usate, quindi dovrete installare dropbox in una cartella diversa da quella proposta.
 
-Potete decidere di cifrare il contenuto della vostra home, un po’ come succede nei telefoni che possiedono metodi di sblocco biometrici. Per farlo la prima cosa è installare alcuni pacchetti:
+Potete decidere di cifrare il contenuto della vostra home, un po’ come succede nei telefoni che possiedono metodi di sblocco biometrici. Per farlo, la prima cosa è installare alcuni pacchetti:
 
 `pacman -S ecryptfs-utils keyutils rsync lsof`
 
@@ -656,23 +660,24 @@ Quindi caricate l’apposito modulo del kernel
 
 `modprobe ecryptfs`
 
-Potrebbe essere necessario apportare una modifica al file /etc/mkinitcpio.conf e scrivere all’interno della sezione **MODULES** il nome del modulo per forzarne il caricamento ad ogni avvio del pc. Successivamente ricompilate il servizio di avvio
+Potrebbe essere necessario apportare una modifica al file /etc/mkinitcpio.conf e scrivere all’interno della sezione **MODULES** il nome del modulo per forzarne il caricamento ad ogni avvio del pc. Successivamente ricompilate il servizio di avvio scrivendo:
 
 `mkinitcpio -p linux`
 
-Usare quindi il tool per la migrazione della home, per avviare questa fase è necessario che voi non abbiate alcun processo aperto con l’utente di cui cifrare la home:
+Usare, quindi, il tool per la migrazione della home. Si ricorda che, per avviare questa fase, è necessario che voi non abbiate alcun processo aperto con l’utente di cui cifrare la home:
 
 `ecryptfs-migrate-home -u <nome utente>`
 
-Seguire le istruzioni indicate. Per completare la procedura, uscite dal vostro account root con `exit` ed entrate con quello dell’utente. Verificate quindi con `ls` che siano state criptate tutte le cartelle ( dovrebbe apparire Access-your-data.desktop e un altro file di testo)
-Quindi decriptate e ri-criptate voi stessi la home usando i due tool
+Seguire le istruzioni indicate:
+per completare la procedura, uscite dal vostro account root con `exit` ed entrate con quello dell’utente. Verificate, poi, con `ls` che siano state criptate tutte le cartelle ( dovrebbe apparire Access-your-data.desktop e un altro file di testo).
+Quindi, decriptate e ri-criptate voi stessi la home usando i due tool.
 
 ```bash
 ecryptfs-mount-private #per decriptare
 ecryptfs-umount-private #per criptare
 ```
 
-Potete usare i due comandi ogni volta che volete cifrare o decifrare la cartella home manualmente, può accadere alle volte che la cifratura non avvenga per processi aperti su file all’interno della home, si può quindi forzare il procedimento con questo comando
+Potete usare i due comandi ogni volta che volete cifrare o decifrare la cartella home manualmente. Alle volte, può accadere che la cifratura non avvenga in maniera corretta, a causa dei processi aperti su file all’interno della home, però si può quindi forzare il procedimento con questo comando:
 
 `umount.ecryptfs_private`
 
@@ -680,15 +685,16 @@ uscite dall’account user (dopo aver smontato la cartella) e rientrate con root
 
 
 
-Ora è necessario (a meno che non vogliate fare l’accesso a mano ogni volta) impostare l’automounting della home già decriptata all’accesso. Facciamo un backup del file `/etc/pam.d/system-auth` :
+Ora è necessario (a meno che non vogliate fare l’accesso a mano ogni volta) impostare l’automounting della home già decriptata all’accesso. 
+Facciamo un backup del file `/etc/pam.d/system-auth`:
 
 `cp /etc/pam.d/system-auth /etc/pam.d/system-auth.old`
 
-ed editiamo quindi il file `system-auth` con il nostro editor preferito
+ed editiamo quindi il file `system-auth` con il nostro editor preferito:
 
 `<editor> /etc/pam.d/system-auth`
 
-Da adesso facciamo MOLTA attenzione, sbagliando qualunque cosa potremmo non essere più in grado di accedere a nessun account ( dovremmo quindi aggiustare le cose in chroot dalla iso di arch). 
+Da adesso facciamo MOLTA attenzione, sbagliando qualunque cosa potremmo non essere più in grado di accedere a nessun account (dovremmo quindi aggiustare le cose in chroot dalla iso di arch). 
 
 
 
@@ -704,18 +710,19 @@ E infine dopo la linea che contiene **session required pam_unix.so** aggiungiamo
 
 `session required pam_ecryptfs.so unwrap`
 
-Usciamo dall’editor salvando. Per essere sicuri di aver fatto le cose a modo apriamo un altro tty ( `ctrl-alt-f2` ) e facciamo l’accesso con l’utente. Se l’accesso avviene correttamente, e se la cartella viene corretemente decriptata, allora è tutto ok. Eliminate la cartella backup (ha il suffisso del vostro nome, ed un numero accanto), cercatela con 
+Usciamo dall’editor salvando.
+Per essere sicuri di aver fatto le cose a modo apriamo un altro tty ( `ctrl-alt-f2` ) e facciamo l’accesso con l’utente. Se l’accesso avverrà in maniera idonea e se la cartella verrà correttamente decriptata, allora è tutto ok. Eliminate la cartella backup (ha il suffisso del vostro nome, ed un numero accanto), cercatela con 
 `ls /home/` 
-Eliminatela con:
+Rimuovetela con:
 `sudo rm -rf nomeutente.NUMERO` 
 
 
 
-Altrimenti ritornate immediatamente nel primo tty ( `ctrl-alt-f1` ) e correggete l’errore nel file o, nel caso non riusciate, eliminate le modifiche e riprendete il file di backup:
+Altrimenti ritornate immediatamente nel primo tty ( `ctrl-alt-f1` ) e correggete l’errore nel file oppure, nel caso in cui non ci riusciste, eliminate le modifiche e riprendete il file di backup:
 
 `mv -f /etc/pam.d/system-auth.old /etc/pam.d/system-auth` 
 
-E ricopiate anche la cartella di backup, fornita da ecryptfs
+E ricopiate anche la cartella di backup, fornita da ecryptfs:
 
 ```bash
 sudo rm /home/nomeutente
@@ -725,24 +732,24 @@ sudo rm -rf /home/.ecryptfs
 
 
 
-Se tutto è andato a buon fine ricordate di far uscire con `exit` l’utente. Se la cartella non viene ricriptata potreste avere problemi di accesso d’ora in poi, nel caso entrate con un tty diverso e ricriptatela da virtual console con i comandi di umount, ripassate quindi al tty principale per continuare l’accesso.
+Se è andato tutto a buon fine ricordate di disconnettere l'utente con `exit`. Se la cartella non viene ricriptata potreste avere problemi di accesso, d’ora in poi. Se così dovesse essere entrate con un tty diverso e ricriptatela da virtual console con i comandi di umount, ripassate quindi al tty principale per continuare l’accesso.
 
-### configurare pacman
+### Configurare pacman
 
 Perché archlinux? Perchè complicarsi la vita con questa tortura che ti porta a perdere una giornata per l'installazione di un sistema operativo? Le risposte sono tante, ma la prima in assoluto è il gestore di pacchetti **pacman** e tutto ciò che ne deriva, compreso il famoso **AUR: Arch User Repository**.
 
 Prima di tutto abbelliamo il nostro gestore! 
- Sempre con il nostro editor preferito *( a proposito, il mio è `nano`, vi insegnerò anche a renderlo carino)* modifichiamo il file `/etc/pacman.conf`: andiamo a decommentare la riga con scritto **Color** e aggiungiamo sotto **ILoveCandy**. Poi decommentiamo dove c’è scritto **[multilib]** e la riga di sotto se vogliamo abilitare il supporto alle librerie a 32 bit (necessario per alcuni programmi). Ogni volta che aggiungete un repository ricordate di dare:
+ Sempre con il nostro editor preferito *(a proposito, il mio è `nano`, vi insegnerò anche a renderlo carino)* modifichiamo il file `/etc/pacman.conf`: andiamo a decommentare la riga con scritto **Color** e aggiungiamo sotto **ILoveCandy**. Infine, decommentiamo dove c’è scritto **[multilib]** e la riga di sotto se vogliamo abilitare il supporto alle librerie a 32 bit (necessario per alcuni programmi). Ogni volta che aggiungete un repository ricordate di dare per aggiornare l'elenco:
 
 `pacman -Sy`
 
-Se volessimo aggiungere un nuovo repository lo possiamo fare seguendo il template alla fine del file, da difficilmente ne avrete bisogno dopo che installerete un **aur-helper**
+Se volessimo aggiungere un nuovo repository lo possiamo fare seguendo il template alla fine del file, anche se difficilmente ne avrete bisogno, dopo aver installato un **aur-helper**
 
 ### Un AUR-che?
 
-Un AUR-helper cerca per voi e aggiorna (o segnala aggiornamenti) di pacchetti su AUR. Ne esistono diversi tipi, da quelli più semplici che fanno solo la ricerca a quelli più complessi che cercano, gestiscono e aggiornano i pacchetti e anche il sistema al posto di **pacman**. Quest’ultimi son detti anche **pacman-wrapper** ed usano la stessa sintassi di **pacman** in genere. 
+Un AUR-helper cerca per voi ed aggiorna (o segnala aggiornamenti) di pacchetti su AUR. Ne esistono diversi tipi, da quelli più semplici, che si occupano soltanto della ricerca, a quelli più complessi, che cercano, gestiscono ed aggiornano i pacchetti ed anche il sistema, al posto di **pacman**. Quest’ultimi sono detti anche **pacman-wrapper** ed usano la stessa sintassi di **pacman** in genere. 
 
-Supponiamo di volerne installare uno di nome `<nomeaurhelper>` e di cui abbiamo il link del repository ( che si può facilmente trovare con una ricerca su internet). Generalmente si installa così:
+Supponiamo di volerne installare uno di nome `<nomeaurhelper>` e di cui abbiamo il link del repository (che si può facilmente trovare con una ricerca su internet). Generalmente, si installa così:
 
 ```bash
 git clone https://aur.archlinux.org/<nomeaurhelper>.git
@@ -752,68 +759,69 @@ makepkg -si
 
 #### Consigli ed esempi
 
-Attualmente le alternative che mi sento di consigliare sono:
+Attualmente, le alternative che mi sento di consigliare sono:
 
-- yay (scritta in go)
-- paru ( scritta in rust, evoluzione di yay)
+- yay (scritto in go, ad oggi non più supportato);
+- paru (scritto in rust, un'evoluzione di yay);
+- pakku (scritto in nim);
 
 Ne si può trovare una tabella descrittiva [a questa pagina](https://wiki.archlinux.org/index.php/AUR_helpers)  
 
-Installiamone quindi uno: **yay** ! Per lo step successivo è <u>**fortemente consigliato**</u> l'accesso con l'utente e <u>non con root</u>.
+Installiamone, quindi, uno: **paru**! Per lo step successivo è <u>**fortemente consigliato**</u> l'accesso con l'utente e <u>non con root</u>.
 
 ```bash
-git clone https://aur.archlinux.org/yay.git
-cd yay
+git clone https://aur.archlinux.org/paru.git
+cd paru
 makepkg -si
 ```
 
 > <u>NOTE</u>:
-> Per installare **paru**,  scriverlo quindi al posto di yay.  
+> Per installare **pakku**,  scriverlo quindi al posto di paru.  
 
 
-D'ora in poi potete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca i pacchetti anche su **AUR**, questo <u>immenso repository di pacchetti</u> offerti dalla comunità di Archlinux, ci trovate davvero di tutto dentro (*perciò fate comunque attenzione*).
-
-> <u>NOTE</u>:
->
->  yay, così come la maggior parte degli AUR-helper, non vanno usati come utenti privilegiati (con **sudo** o **l’account root** per intenderci)
-
-Tramite yay potete visualizzare la differenza tra versione presente e quella aggiornata del software, oppure visionare e modificare il **PKGBUILD** (una sorta di file che contiene le istruzioni di compilazione del pacchetto, con dipendenze, siti da dove scaricare i binari ed eventualmente potete anche selezionare delle opzioni), questo lo rende uno strumento molto potente!
+D'ora in poi potrete sostituirlo in tutto e per tutto al package manager, l'unica differenza sta nel fatto che cerca i pacchetti anche su **AUR**, questo <u>immenso repository di pacchetti</u> offerti dalla comunità di Archlinux, su cui troverete davvero di tutto (*perciò prestate comunque attenzione*).
 
 > <u>NOTE</u>:
 >
-> Altri AUR-helper interessanti li trovate nella guida, perciò se per un motivo o per l’altro quello segnalato in guida non dovesse funzionare, vi invito a visitarne la pagina con la lista 
+>  paru, così come la maggior parte degli AUR-helper, non va utilizzato come utente privilegiato (con **sudo** o **l’account root** per intenderci).
+
+Tramite paru potete visualizzare la differenza tra la versione presente e quella aggiornata del software, oppure visionare e modificare il **PKGBUILD** (una sorta di file che contiene le istruzioni di compilazione del pacchetto, con dipendenze, siti da dove scaricare i binari ed eventualmente potete anche selezionare delle opzioni), quindi è proprio questo che lo rende uno strumento molto potente!
+
+> <u>NOTE</u>:
+>
+> Altri AUR-helper interessanti li trovate nella guida, perciò se per un motivo o per l’altro quello segnalato in guida non dovesse funzionare, vi invito a visitarne la pagina contenente la relativa lista. 
 
 ### tmp file system
 
-Nel nostro file system una cartella speciale, */tmp*, contiene file e cartelle temporaneamente creati dai programmi per il loro corretto funzionamento. Questa cartella viene montata da systemd automaticamente in memoria **RAM** in modo da essere svuotata ogni qual volta il calcolatore viene spento.
+Nel nostro file system si trova una cartella speciale, denominata */tmp*, che contiene file e cartelle che sono stati temporaneamente creati dai programmi per il loro corretto funzionamento. Questa cartella viene montata da systemd automaticamente in memoria **RAM**, in modo da essere svuotata ogni qual volta che il calcolatore verrà spento.
 
-È comunque possibile, per quei pc che non hanno un gran quantitativo di memoria disponibile, montare la cartella nello spazio di archiviazione piuttosto.
+È comunque possibile, per quei pc che non hanno un gran quantitativo di memoria disponibile, montare la cartella nello spazio di archiviazione, piuttosto che nella RAM.
 
 > *<u>SUGGERIMENTO</u>*:
-> Se installate frequentemente programmi da AUR con un AUR-helper è possibile che quest’ultimo, facendo tante scritture su /tmp, vi saturi facilmente la memoria. Consiglio particolarmente questo procedimento ai pc con meno di 8GB di RAM che installeranno quindi molti pacchetti da AUR
+> Se installate frequentemente programmi da AUR, con un AUR-helper, è possibile che quest’ultimo, facendo tante scritture su /tmp, saturi facilmente la memoria. A questo proposito consiglio di seguire il procedimento seguente, soprattutto nel caso di pc con meno di 8GB di RAM.
 
 Per disabilitare il montaggio automatico basta dare:
 
 `sudo systemctl mask tmp.mount`
 
-Bisogna comunque tener conto che disabilitando questo comportamento, il contenuto della cartella dei file temporanei non verrà più cancellato allo spegnimento del dispositivo, va quindi eliminato manualmente.
-Si può tornare al comportamento di default specificando manualmente il montaggio in `/etc/fstab`, aggiungendo questa riga al file:
+Bisogna comunque tener conto che, disabilitando questo comportamento, il contenuto della cartella dei file temporanei non verrà più cancellato allo spegnimento del dispositivo, ma andrà, invece, eliminato manualmente.
+Si può ritornare al comportamento di default specificando il montaggio in `/etc/fstab`, aggiungendo questa riga al file:
 
 `tmpfs /tmp tmpfs nodev,nosuid 0 0`
 
-Si può anche specificare una size massima per evitare che la ram venga monopolizzata dalla sola partizione di file temporanei, facendo un esempio con il limite di 2GB avremmo:
+Inoltre, si può specificare una size massima per evitare che la RAM venga monopolizzata dalla sola partizione di file temporanei. Ad esempio, considerando un limite di 2GB, si avrà:
 
 `tmpfs /tmp tmpfs nodev,nosuid,size=2G 0 0`
 
-Altre interessanti informazioni su **tmpfs** si trovano sulla guida di arch.
+Altre interessanti informazioni su **tmpfs** si trovano sulla guida di Arch.
 
 
 
 ### Swappiness
 
-e avete installato un area di swap la vostra maggior paura sarà quella che il vostro pc possa usarla senza che ce ne sia la reale necessità; non è infatti detto che il sistema operativo debba aspettare di riempire la RAM prima di usare la SWAP.
+Se avete installato un'area di swap la vostra maggior paura sarà quella che il vostro pc possa usarla senza che ce ne sia la reale necessità; non è infatti detto che il sistema operativo debba aspettare di riempire la RAM prima di usare la SWAP.
 
-In ogni caso questo aspetto del sistema si può benissimo controllare atraverso la swappiness, impostandola in modo permanente o temporaneo.
+In ogni caso, questo aspetto del sistema si può benissimo controllare atraverso la swappiness, impostandola in modo permanente o temporaneo.
 
 Per farlo in maniera definitiva possiamo modificare il file */etc/sysctl.d/99-sysctl.conf*
 
@@ -821,70 +829,73 @@ Per farlo in maniera definitiva possiamo modificare il file */etc/sysctl.d/99-sy
 
 Come funziona questo valore però? Perché **1** e non **0**?
 
-Il valore di swappiness va da 0 a 100 e **<u>indica il valore di ram in percentuale che si desidera tenere libero prima di attivare la zona di swap</u>**. Ad esempio normalmente il valore di swappiness è *60*, questo significa che oltre il *40% di ram occupata*, *la swap si attiva* (non finisce tutto in swap ovviamente, ma il sistema tende ad assestarsi su quel valore di RAM libera). Nelle versioni antecedenti a *linux 3.5*, un valore di swappiness **0** significava *“usa la swap solo in caso di stretta necessità”*, oggi ne disattiva invece le funzioni.
- Maggiori informazioni [qui](https://www.kernel.org/doc/Documentation/sysctl/vm.txt) e [qui](https://en.wikipedia.org/wiki/Paging#Swappiness).
+Il valore di swappiness va da 0 a 100 ed **<u>indica il valore della memoria RAM, in termini di percentuale, che si desidera tenere libero prima di attivare la zona di swap</u>**. Ad esempio, se, normalmente, il valore di swappiness è pari a *60*, questo significa che oltre il *40% di ram occupata*, *la swap si attiva* (non finisce tutto in swap ovviamente, ma il sistema tende ad assestarsi su quel valore di RAM libera). Nelle versioni antecedenti a *linux 3.5*, un valore di swappiness **0** significava *“usa la swap solo in caso di stretta necessità”*, oggi disattiva, invece, questa funzionalità.
+Si possono trovare mMaggiori informazioni sull'argomento [qui](https://www.kernel.org/doc/Documentation/sysctl/vm.txt) e [qui](https://en.wikipedia.org/wiki/Paging#Swappiness).
 
-La fase iniziale di configurazione è finita, consiglio prima di proseguire un riavvio del sistema.
+La fase iniziale di configurazione è finita, perciò, è consigliato effettuare, prima di proseguire, un riavvio del sistema.
 
 
 
-### swap file
+### Swap file
 
-Potrebbe essere più comodo in alcuni casi avere un file di swap anzichè la partizione, un po’ come fanno windows e mac.
+Potrebbe essere più comodo, in alcuni casi, avere un file di swap, anzichè la partizione, un po’ come fanno Windows e MAC OS.
 
-In tal caso dovreste prima creare il file in questione:
+In tal caso, si deve, per prima cosa, creare il file in questione:
 
 `sudo dd if=/dev/zero of=/swapfile bs=1M count=XXX status=progress`
 
-al posto di XXX inserite il quantitativo di megabyte che volete impostare, ad esempio per una ram di 2G potete impostare `count=2000`.
+Dopo di che, al posto di XXX, bisogna inserire il quantitativo di megabyte che volete impostare. Ad esempio, per una ram di 2G potete specificare `count=2000`.
 
-Rendiamola a tutti gli effetti una swap tramite:
+Rendiamola a tutti gli effetti una swap tramite il comando:
 
 `sudo mkswap /swapfile`
 
-Impostiamo i permessi giusti al file:
+Impostiamo i permessi giusti al file scrivendo:
 `sudo chmod 600 /swapfile`
 
-e vediamo se va tutto bene attivandola
+E vediamo se va tutto bene attivandola nel modo seguente:
 `sudo swapon /swapfile`
 
-Se avete messo la partizione di swap potete disattivarla così 
+Se avete abilitato la partizione di swap potete disattivarla così: 
 `sudo swapoff /dev/sdXY # sostituendo le coordinate`
 
-Se tutto è ok, possiamo anche pensare di abilitare il file di swap all’avvio insieme al montaggio dei dischi.
-Apriamo con un editor di testo il seguente file:
+Se tutto è ok, possiamo anche pensare di abilitare il file di swap all’avvio del sistema, insieme al montaggio dei dischi.
+Per farlo, apriamo, con un editor di testo, il seguente file:
 `sudo nano /etc/fstab`
 
-e scriviamo una riga così:
+e scriviamo una riga di questo tipo:
 `/swapfile 	swap 	swap	 defaults 	0 0`
 
 
 
-ora possiamo testare se abbiamo scritto bene il file. Prima di tutto disattiviamo la swap on `swapoff` se è attiva.
+Ora possiamo testare se abbiamo scritto bene il file. 
+Prima di tutto, disattiviamo la swap con `swapoff` se è attiva.
 
 Per testare se la configurazione è corretta, scolleghiamo con `swapoff` lo swapfile e poi digitiamo:
 
 `sudo swapon -a`
 
-Questo comando abiliterà tutte le swap presenti in */etc/fstab*. Si, se vi state chiedendo perché io abbia detto “*le swap*”, la risposta è che potete tenere anche più file di swap o più partizioni.
+Questo comando abiliterà tutte le swap presenti in */etc/fstab*. 
+Si, se vi state chiedendo perché io abbia detto “*le swap*”, la risposta è che potete tenere anche più file di swap o più partizioni.
 
 
 
 ### Quando Tux congela: ibernazione
 
-Prima di tutto bisogna capire cos’è l’ibernazione, magari molti non lo sanno. Quando un sistema operativo entra in questo stato, la memoria con tanto di processi attivi vengono salvati nell’area di swap e il pc si spegne. Al riavvio, sarà come se avessimo sospeso il pc, ma non è stata consumata batteria (potete anche staccare l’alimentazione).
+Innanzitutto bisogna capire cosa sia l’ibernazione, nel caso in cui, magari, molti non lo sappiano. Quando un sistema operativo entra in questo stato, lo stato della memoria, con tanto di processi attivi, viene salvato nell’area di swap ed il pc si spegne. Al riavvio, sarà come se avessimo sospeso il pc, senza, però, aver consumato batteria (potete anche staccare l’alimentatore).
 
-I prerequisiti per un ibernazione corretta sono quindi legati alla swap: dovete averla attiva e funzionante, la parte di swap libera deve quantomeno eguagliare la memoria RAM utilizzata, in modo da poter ibernare senza complicazioni. Consiglio quindi di utilizzare una swappiness moto bassa, così da avere la swap tendente al vuoto.
+I prerequisiti per un'ibernazione corretta sono, quindi, legati alla swap: dovete averla attiva e funzionante, inoltre, la parte di swap libera, deve quantomeno eguagliare la memoria RAM utilizzata, in modo da poter effettuare l'ibernare senza complicazioni. Consiglio, quindi, di utilizzare una swappiness molto bassa, così da avere la swap tendenzialmente vuota.
 
-Avendo questi prerequisiti, come si fa ad ibernare su Arch? I passi da effettuare sono principalmente questi:
+Avendo soddisfatto questi prerequisiti, come si fa ad ibernare su Arch? 
+I passi da effettuare sono principalmente questi:
 
-Segnamoci innanzitutto l’UUID della partizione tramite il comando `blkid`. Se usiamo un file di ibernazione, segnamoci l’UUID del disco che contiene tale file, e teniamoci da parte anche il suo offset sul tale disco così:
+Segnamoci, innanzitutto, l’UUID della partizione, tramite il comando `blkid`. Se usiamo un file di ibernazione, segnamoci l’UUID del disco che contiene tale file, tenendoci da parte anche il suo offset sul tale disco, con il comando seguente:
 
 `sudo filefrag -v /swapfile | head -n 4`
 
 
 
-e andiamo a prendere il valore sotto il **physical_offset**, prima dei tre puntini:
+Dopo di che, andiamo a prendere il valore sotto il **physical_offset**, prima dei tre puntini:
 
 ![](images/filefrag.png)
 
@@ -892,27 +903,27 @@ Ora dobbiamo modificare il file di configurazione del grub:
 
 `sudo nano /etc/default/grub`
 
-Andiamo sulla riga `GRUB_CMD_LINUX_DEFAULT="..."` e aggiungiamo nelle virgolette questa stringa:
+Andiamo sulla riga `GRUB_CMD_LINUX_DEFAULT="..."` ed aggiungiamo, tra le virgolette, questa stringa:
 
 `resume=UUID=<mettiamo qui l’UUID segnato prima>`
 
-Se siamo abbiamo scelto <u>il file</u>, va messo l’UUID del disco che contiene il file di swap. 
+Se abbiamo scelto <u>il file</u>, si deve inserire l’UUID del disco che contiene il file di swap. 
 Accanto aggiungiamo questa ulteriore parte:
 
 `resume_offset=<valore offset segnato prima>`
 
-Ancora, se usiamo l’ibernazione su file, potrebbe essere necessario dare `lsblk` e segnarsi i numero MAJ:MIN della partizione dove tenete il file. Una volta fatto date questi due comandi
+Ancora, se usiamo l’ibernazione su file, potrebbe essere necessario dare `lsblk` e segnarsi i numero MAJ:MIN della partizione in cui si trova proprio il relativo file. Una volta fatto, date questi due comandi:
 
 ```bash
 echo <MAJ>:<MIN> > /sys/power/resume
 echo <valore offset> > /sys/power/resume_offset
 ```
 
-Andiamo ora a modificare l’avvio dei moduli di sistema:
+Andiamo ora a modificare l’avvio dei moduli di sistema scrivendo:
 
 `sudo nano /etc/mkinitcpio.conf`
 
-e nella riga `HOOKS=(base udev....fsck)` andiamo ad aggiugere dopo filesystems il parametro `resume `(separato da spazi).
+Nella riga `HOOKS=(base udev....fsck)` andiamo ad aggiugere, dopo filesystems, il parametro `resume `(separato da spazi).
 
 Ora aggiorniamo grub e sistemi di avvio:
 
@@ -921,85 +932,91 @@ sudo mkinitcpio -p linux
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-Riavviamo e, teoricamente, l'ibernazione è pronta. Per testarla consiglio, una volta sistemato tutto l'ambiente, di aprire un paio di finestre a sistema appena avviato e ibernare. Se il vostro DE non ha un opzione per farlo potete usare `systemd` da terminale
+Dopo aver riavviato il sistema, teoricamente, la configurazione dell'ibernazione è completata. Per testare questa funzionalità consiglio, una volta sistemato tutto l'ambiente, di aprire un paio di finestre a sistema appena avviato e richiedere, poi, di ibernarlo. Se il vostro DE non dispone di un'opzione per farlo potrete usare `systemd` da terminale.
 
 `systemctl hibernate`
 
-Se al riavvio si riapre tutto come avete lasciato, l'esperimento ha avuto successo. Altrimenti consultate la wiki per capire cosa potrebbe essere andato storto.
+Se, al riavvio, si riapre tutto come avete lasciato, l'esperimento ha avuto successo. Altrimenti consultate la wiki per capire cosa potrebbe essere andato storto.
 
 ## Desktop Environment, Display Manager, Network Manager e servizi systemd
 
-Premessa, diceva il mio maestro di basso: <u>ad ognuno la sua pistola</u>. Su linux chiunque ha piena libertà di scegliere l’ambiente grafico (o di non sceglierlo proprio) che più gli garba, sia per leggerezza, per bellezza, per complessità d’uso o per la sua malleabilità. Ce n’è per tutti i gusti! La wiki in questo può essere molto più completa di qualunque cosa io possa scrivere qui sotto, vi elencherò in un primo momento i DE più conosciuti e le loro peculiarità, ma la mia guida tratterà solo come installare quello che preferisco: **plasma**.
+Premessa, diceva il mio maestro di basso: <u>ad ognuno la sua pistola</u>. Su linux chiunque ha piena libertà di scegliere l’ambiente grafico (o di non sceglierlo proprio) che più gli aggrada, sia per leggerezza, per bellezza, per complessità d’uso o per la sua malleabilità. Ce n’è per tutti i gusti!
+La wiki, al riguardo, può essere molto più completa di qualunque cosa io possa scrivere qui sotto, però vi elencherò, comunque, i DE più conosciuti e le loro peculiarità, anche se la mia guida illustrerà solamente il processo di installazione di quello che preferisco: **plasma**.
 
-Per sistemi poco prestanti consiglio **XFCE**, **LXDE** o (per chi ha la pazienza di configurarlo) **I3WM**, queste sono tre validissime alternative che con qualche tocco di eleganza hanno fatto la storia delle configurazioni e dei temi <u>più belli e apprezzati</u> del mondo Linux.
+Per sistemi poco prestanti consiglio **XFCE**, **LXDE** o (per chi ha la pazienza di configurarlo) **I3WM**, ossia tre validissime alternative che, con qualche tocco di eleganza, hanno fatto la storia delle configurazioni e dei temi <u>più belli ed apprezzati</u> del mondo Linux.
 
 Per chi ha uno schermo HIDPI consiglio **plasma**, **Cinnamon**, **Mate**, **DDE** o **GNOME**. Andiamo con ordine: 
 
-- reputo **plasma** l’ambiente più avanzato dal punto di vista delle animazioni, delle personalizzazioni e dei servizi automatici, inoltre nel suo approccio minimale occupa meno delle sue alternative (intorno ai 300Mb per esperienza personale).  
-- **Cinnamon** è un ambiente molto conosciuto dagli utenti di *LinuxMint*, infatti è la scelta predefinita ed è sviluppata e mantenuta dal team che sostiene la distribuzione. Lo considero l’alternativa più avanzata ma anche più tra le più pesanti.
-- **Mate** invece è una buona via di mezzo, non molto avanzato con i tempi, da poco ha introdotto il supporto all’hidpi e comunque ho riscontrato qualche problemino nell’usarlo, ma è leggero ed è altamente modulare, permette senza problemi di usare componenti di altri **WM** o **DE**.
-- **Deepin Desktop Environment** deriva dalla famosa *deepin linux*, qualche anno fa è stato il mio Desktop preferito in assoluto, molto elegante, effetti nella media e pochi problemi. Da qualche tempo perde colpi, hanno abbandonato lo sviluppo del wm appoggiandosi a kwin (quello di plasma) e in questa fase di transizione non nascondo che ci sono parecchi problemi fastidiosi.
-- **Gnome** è un ambiente conosciuto per la sua pesantezza in termini sia di memoria occupata che di animazioni, nella versione di *Fedora Linux* è straordinariamente leggera e funzionante, ma si trasforma totalmente su altre distribuzioni. Resta uno degli ambienti più apprezzati per via delle estensioni (che comunque lo appesantiscono) e della “omogeneità” dei suoi temi.
+- **Plasma** è, secondo la mia opinione, l’ambiente più avanzato dal punto di vista delle animazioni, delle personalizzazioni e dei servizi automatici, inoltre, nel suo approccio minimale, occupa, in memoria, meno delle sue alternative (intorno ai 300Mb, per esperienza personale);
+- **Cinnamon** è un ambiente molto conosciuto dagli utenti di *LinuxMint*, infatti è la scelta predefinita ed è sviluppata e mantenuta dal team che sostiene la distribuzione. Lo considero l’alternativa più avanzata ma anche più tra le più pesanti, in termini di memoria;
+- **Mate**, invece, è una buona via di mezzo, non molto avanzato con i tempi, poichè soltanto da poco ha introdotto il supporto all’hidpi e comunque ho riscontrato qualche problema nell’utilizzarlo, ma è leggero ed è altamente modulare, infatti permette, senza alcuna difficoltà, di usare componenti di altri **WM** o **DE**;
+- **Deepin Desktop Environment** deriva dalla famosa *deepin linux* e fino a qualche anno fa è stato il mio Desktop Environment preferito in assoluto, poichè è molto elegante, dispone di effetti nella media e porta pochi problemi. Da qualche tempo, tuttavia, perde colpi, perchè hanno abbandonato lo sviluppo del wm, appoggiandosi a kwin (quello di plasma) ed in questa fase di transizione non nascondo che ci sono parecchi problemi fastidiosi;
+- **Gnome** è un ambiente conosciuto per la sua pesantezza, in termini sia di memoria occupata che di animazioni, poichè, anche se nella versione di *Fedora Linux* risulta straordinariamente leggero e funzionante, si trasforma totalmente su altre distribuzioni. In ogni caso, resta uno degli ambienti più apprezzati per via delle estensioni (che comunque lo appesantiscono) e dell' “omogeneità” dei suoi temi.
 
-Ci sarebbe infine **Enlightment**, un DE con tiling manager che ho trovato difettoso in alcune applicazioni (come il noto I.M. **Telegram**). È comunque un alternativa che cito poiché gestisce nativamente l’HIDPI. <u>In ogni caso consultate la guida ufficiale per ogni chiarimento su DE che non sono qui trattati</u>.
+Ci sarebbe infine **Enlightment**, un DE con tiling manager che ho trovato difettoso in alcune applicazioni (come il noto I.M. **Telegram**). È comunque un'alternativa che cito poiché gestisce nativamente l’HIDPI. <u>In ogni caso, consultate la guida ufficiale per ogni chiarimento sugli altri DE che non sono stati trattati</u>.
 
 
 
 > <u>NOTE</u>:
 >
-> D’ora in poi potrete operare tranquillamente con l’account root così come quello utente (consigliato). Quando agirete come root non sarà necessario specificare **sudo** all’inizio dei comandi.
+> D’ora in poi potrete operare tranquillamente con l’account root, così come con quello utente (consigliato). Quando agirete come root non sarà necessario specificare **sudo** all’inizio dei comandi.
 >
-> Durante però l’esecuzione di un aur-helper ricordo che il root potrebbe dare problemi. 
+> Durante, però, l’esecuzione di un aur-helper ricordo che il root potrebbe dare problemi. 
 
 ### Plasma D.E.
 
-In realtà installare un DE è spesso tempo di uno o due comandi, il più è quello di configurarlo a proprio piacere.
+In realtà, installare un DE si riduce, spesso, al tempo di digitazione di uno o due comandi, infatti, il più è quello di configurarlo a proprio piacere.
 
-Potete installare plasma nella sua versione completa, con tanto di intero parco applicazioni kde così:
+Potete installare plasma nella sua versione completa, con tanto di intero parco applicazioni kde, così:
 
 `sudo pacman -S plasma kde-applications`
 
-Quando digiterete questo comando, vi verrà chiesto di selezionare quali software del gruppo volete. Per avere tutto basta premere invio, per chi conosce già i software e li riconosce dal nome basterà inserire i numeri corrispondenti divisi da spazio per avere solo quei software
+Quando digiterete questo comando, vi verrà chiesto di selezionare quali software del gruppo volete. Per avere tutto basta premere invio, mentre per chi conosce già i software e li riconosce dal nome basterà inserire i numeri corrispondenti, divisi da spazio, per selezionare soltanto quelli di iteresse.
 
 ![](images/selezione.png)
 
-Alternativamente potete avere un installazione minimale così:
+Alternativamente, potete effettuare un'installazione minimale scrivendo:
+
 `sudo pacman -S plasma-desktop`
-Questo installerà solo l’ambiente, poi voi dovrete occuparvi di installare uno ad uno i software che userete (file manager, browser, pdf reader... etc)
-Consiglio fortemente, se avete smartphone android, di installare kde-connect e associarlo all’omonima applicazione disponibile sul play store:
+
+Questo comando installerà solamente l’ambiente, poichè sarete voi a dover installare, uno ad uno, i software che userete (file manager, browser, pdf reader... etc).
+Consiglio fortemente, se avete uno smartphone Android, di installare kde-connect e di associarlo all’omonima applicazione disponibile sul Play Store:
+
 `sudo pacman -S kdeconnect`
-Questo fantastico software vi permetterà di controllare alcune funzioni del pc a distanza, di controllare notifiche e messaggistica da pc e molto altro in realtà.
 
-Consiglio anche di installare l’integrazione di plasma con i browser, consente di essere notificati quando finisce un download, integrare il pannello di sistema con l’avanzamento di download e musica da internet, un *must-have* insomma!
+Questo fantastico software vi permetterà di controllare alcune funzioni del pc a distanza, di leggere le notifiche e la messaggistica da pc e molto altro ancora.
 
-Se come me poi siete amanti delle dock, potete installare e personalizzare latte-dock, appositamente sviluppata per plasma:
+Consiglio anche di installare l’integrazione di plasma con i browser, perchè consente di ricevere una notifica al completamento di un download, ma anche di integrare il pannello di sistema con l’avanzamento dei download e della musica da internet, un *must-have* insomma!
+
+Se come me, poi, siete amanti delle dock, potete installare e personalizzare latte-dock, appositamente sviluppata per plasma:
 
 `sudo pacman -S latte-dock`
 
 > <u>NOTE</u>:
 >
-> Su molti Desktop Environment (plasma incluso) la tastiera è impostata di default con layout USA. Non è un problema di lingua, va proprio risolto dalle impostazioni della tastiera, togliendo la spunta al layout predefinito e selezionando manualmente la tastiera italiana 
+> Su molti Desktop Environment (plasma incluso) la tastiera è impostata di default con layout USA. Non è, quindi, un problema di lingua, ma va proprio risolto dalle impostazioni della tastiera, togliendo la spunta al layout predefinito e selezionando manualmente la tastiera italiana.
 
 Se avete problemi con plasma, ma non volete riavviare il pc, potete tentare il riavvio del D.E. e del suo W.M. 
- Premete quindi `alt-f2` e digitare quanto segue:
+
+Premete, quindi, `alt-f2` e digitate quanto segue:
 
 `killall plasma && kstart plasmashell && kwin_11 --replace`
 
-e premete quindi invio.
+Infine premete quindi invio.
 
 
 
 ### Display Manager
 
-Insieme a plasma, nella sua versione completa, viene installato il suo Display Manager, o D.M., **SDDM**. Questo genere di software è banalmente quello che vi si presenta alla schermata di avvio chiedendovi la password per farvi accedere all’ambiente desktop avviando per altro il server X (o qualunque server grafico voi usiate). In genere è possibile selezionare anche un utente e un desktop diverso nel caso in cui ne abbiate più di uno installato.
+Insieme a plasma, nella sua versione completa, viene installato il suo Display Manager, o D.M., **SDDM**. Questo genere di software è, banalmente, quello che vi si presenta alla schermata di avvio, chiedendovi la password per farvi accedere all’ambiente desktop, avviando, per altro, il server X (o qualunque server grafico in uso). In genere, è possibile selezionare anche un utente ed un desktop diverso, nel caso in cui ne abbiate più di uno installato.
 
-Per utilizzare un DM dovrete abilitarlo come servizio di systemd, nel caso di sddm ad esempio avremo:
+Per utilizzare un DM dovrete abilitarlo come servizio di systemd. Ad esempio, nel caso di sddm si avrà:
 
 `sudo systemctl enable sddm`
 
-l riavvio potrete godere della vostra interfaccia d’accesso.
+Al riavvio, dunque, potrete godere della vostra interfaccia d’accesso.
 
-Normalmente, se l’avete installato, anche xinit può avviare il vostro ambiente grafico, questa soluzione potrebbe accontentare quell’utenza che vuole fare del proprio portatile una vera freccia ad avviarsi. Per usufruire di xinit dobbiamo prima di tutto scrivere il comando di avvio del nostro DE all’interno del file *~/.xinitrc* , il file si trova nella home e varierà quindi per ogni utente.
+Normalmente, se l’avete installato, anche xinit può avviare il vostro ambiente grafico. Questa soluzione, infatti, potrebbe accontentare quell’utenza che vuole fare del proprio portatile una vera freccia ad avviarsi. Per usufruire di xinit dobbiamo, prima di tutto, scrivere il comando di avvio del nostro DE all’interno del file *~/.xinitrc* , che si trova nella home, che varierà, quindi, per ogni utente.
 Abbiamo dunque:
 
 - per kde :  
@@ -1034,42 +1051,52 @@ Per altri DE consulare le relative wiki!
 
 ### NetworkManager e servizi di rete
 
-Dietro le quinte, quando nella guida si è fatto uso di `wifi-menu`, il servizio che permetteva di accedere ad internet nient’altro era che **netctl**. Se avete seguito la guida dall’inizio, sia *netctl* che *wifi-menu* continueranno a funzionare egregiamente. Tuttavia spesso è utile avere a che fare con servizi più user-friendly, che vi notifichino ad esempio quando cade la connessione, vi mostrino la potenza di segnale continuamente e facilitino l’inserimento di ogni tipo di credenziali, proteggendone anche il contenuto se siete in pubblico. 
+Dietro le quinte, quando nella guida si è fatto uso di `wifi-menu`, il servizio che permetteva di accedere ad internet, si stava richiamando nient’altro che **netctl**. Se avete seguito la guida dall’inizio, sia *netctl* che *wifi-menu* continueranno a funzionare egregiamente. Tuttavia, spesso è utile avere a che fare con servizi più user-friendly, che vi notifichino, ad esempio, quando cade la connessione, che vi mostrino la potenza di segnale continuamente oppure che facilitino l’inserimento di ogni tipo di credenziali, proteggendone anche il contenuto se siete in pubblico. 
 
-Il servizio di connessione per eccellenza sui sistemi linux è **NetworkManager**.
+Il servizio di connessione per eccellenza, sui sistemi linux, è **NetworkManager**.
 
 > <u>NOTE</u>:
 >
-> Usando NetworkManager disabiliterai netctl. Tentando di usare netctl quando nm è attivo causerai errori. Utilizza systemd per gestire il passaggio da un servizio all’altro se dovessi preferirne uno ad un altro in base alle situazioni
+> Usando NetworkManager disabiliterai netctl. Tentando di usare netctl quando NM è attivo causerai errori. Utilizza systemd per gestire il passaggio da un servizio all’altro, se dovessi preferire l'uno all'altro, in base alle varie situazioni da gestire.
 
-Quindi per installare networkmanager:
+Quindi, per installare networkmanager:
 
-` sudo pacman -S networkmanager`
+`sudo pacman -S networkmanager`
 
-Se eventualmente vi servono particolari tipi di connessione, come vpn o point-to-point protocol, potrebbero servirvi pacchetti aggiuntivi:
+Se, eventualmente, vi dovessero servire particolari tipi di connessione, come vpn o point-to-point protocol, potrebbero essere necessari dei pacchetti aggiuntivi:
+
 `sudo pacman -S networkmanager-pptp networkmanager-vpnc`
-Alcuni DE si portano nell’installazione completa un applet che interagisce con NetworkManager, tuttavia se non fosse così la wiki spiega quali pacchetti installare per connettersi comodamente con un click.
-Nel più comune dei casi comunque viene usato quello di gnome:
+
+Alcuni DE dispongono, nell’installazione completa, di un applet che interagisce con NetworkManager, tuttavia, se non fosse così, la wiki spiega quali pacchetti installare per connettersi comodamente con un click.
+Nel più comune dei casi, comunque, viene usato quello di gnome:
+
 `sudo pacman -S network-manager-applet`
-è necessario abilitare NetworkManager con **systemd**, altrimenti sarà necessario ogni riavvio richiamare manualmente il servizio. Quindi
+
+Per utilizzarlo, è necessario abilitare NetworkManager con **systemd**, altrimenti sarà necessario, ad ogni riavvio, richiamare manualmente il servizio. 
+Quindi si dovrà digitare:
+
 `sudo systemctl enable NetworkManager`
 
 ### netct ed eduroam
 
-Spesso si è demoralizzati dall’usare **netctl** poiché file di configurazioni più complessi vanno scritti a mano.
- Per mie esigenze personali ho dovuto cercare un modo di connettermi alla linea universitaria **eduroam**, ho quindi pensato di condividere la procedura che mi ha permesso di collegarmi.
+Spesso si è demoralizzati dall’usare **netctl** poiché i file di configurazioni più complessi vanno scritti a mano.
 
-Innanzitutto tentate una connessione con `wifi-menu`, inserendo anche una password a caso, non importa. Quando vi dirà che la connessione è fallita e vi chiederà se volete comunque tenere il file di configurazione rispondete <u>affermativamente</u>.
+Per mie esigenze personali ho dovuto cercare un modo di connettermi alla linea universitaria **eduroam**, perciò ho pensato di condividere la procedura che mi ha permesso di collegarmi.
 
-Andate quindi a modificare manualmente il file generato. Si supporrà adesso che la scheda di rete si chiami per il sistema <u>wlp3s0</u>, e il nome della linea semplicemente <u>eduroam</u> come nelle specifiche internazionali. Il nome del file dovrebbe essere quindi `<nome interfaccia>-<nome rete>` e essere nella cartella `/etc/netctl/`
+Innanzitutto, tentate una connessione con `wifi-menu`, inserendo anche una password a caso, non importa quale. Quando vi dirà che la connessione è fallita e vi chiederà se volete comunque tenere il file di configurazione rispondete <u>affermativamente</u>.
+
+Andate quindi a modificare manualmente il file generato. Si supporrà, adesso, che la scheda di rete si chiami per il sistema <u>wlp3s0</u> e che il nome della linea semplicemente <u>eduroam</u>, come nelle specifiche internazionali. 
+Il nome del file dovrebbe essere, quindi, `<nome interfaccia>-<nome rete>` e dovrebbe trovarsi nella cartella `/etc/netctl/`.
+
+Si digiti il seguente comando per modificarlo:
 
 `sudo nano /etc/netctl/wlp3s0-eduroam`
 
 > <u>NOTE</u>:
 >
-> per scoprire il nome dell’interfaccia potete usare `ip link` oppure `ifconfig`
+> Per scoprire il nome dell’interfaccia potete usare `ip link` oppure `ifconfig`
 
-Quindi scrivete all’interno del file quanto segue:
+A questo punto scrivete all’interno del file quanto segue:
 
 ```bash
 Description='Automatically generated profile by wifi-menu'
@@ -1089,17 +1116,17 @@ WPAConfigSection=(
 )
 ```
 
-eduroam ormai è una realtà abbastanza consolidata, con direttive precise, motivo per cui non dovrebbero esserci differenze tra le configurazioni qui scritte e la vostra. Tuttavia la struttura del file non è difficile da comprendere, quindi posso anche supporre che siate in grado di poterla modificare e metterci mano li dove cambi qualcosa.
+Eduroam ormai è una realtà abbastanza consolidata, con direttive precise, motivo per cui non dovrebbero esserci differenze tra le configurazioni scritte qui e la vostra. Tuttavia, siccome la struttura del file non è difficile da comprendere, posso anche supporre che sarete in grado di modificarla e quindi di metterci mano, laddove cambi qualcosa.
 
 ### Systemd: la bestia nera
 
-Systemd è un insieme di tool che gestiscono servizi e avvio del vostro sistema su base Linux. Non entrerò nel dettaglio spiegando perché molti lo odiano, perché altri lo amano e perché altri ancora, come il sottoscritto, se ne fregano altamente, basta che funzioni.
+Systemd è un insieme di tools che gestiscono i servizi e l'avvio del vostro sistema su base Linux. Non entrerò nel dettaglio spiegando perché molti lo odiano, perché altri lo amano e perché altri ancora, come il sottoscritto, se ne fregano altamente, basta che funzioni.
 
-Vi spiegherò invece come interfacciarvi al gestore facilmente, elencano una serie di comandi e spiegandone l’uso
+Vi spiegherò, invece, come interfacciarvi al gestore facilmente, elencano una serie di comandi e spiegandone l’uso.
 
 |       sudo?        | comando                                       | spiegazione                                                  |
 | :----------------: | :-------------------------------------------- | :----------------------------------------------------------- |
-| :white_check_mark: | `systemctl enable <servizio>`                 | abilita il servizio all’avvio, che viene quindi attivato ogni qualvolta accedete |
+| :white_check_mark: | `systemctl enable <servizio>`                 | abilita il servizio all’avvio, che viene quindi attivato ogni qualvolta effettuate l'accesso |
 | :white_check_mark: | `systemctl start <servizio>`                  | avvia immediatamente il servizio                             |
 | :white_check_mark: | `systemctl restart <servizio>`                | spegne e riavvia il servizio                                 |
 | :white_check_mark: | `systemctl stop <servizio>`                   | spegne il servizio, contrario di start                       |
@@ -1110,10 +1137,10 @@ Vi spiegherò invece come interfacciarvi al gestore facilmente, elencano una ser
 |                    | `systemctl reboot`                            | riavvia il sistema                                           |
 |                    | `systemctl hibernate`                         | iberna il sistema, da usare solo se avete  attivato l’ibernazione in modo corretto |
 |                    | `systemctl suspend`                           | sospende il sistema                                          |
-|                    | `systemctl suspend-then-hibernate`            | sospende per un certo periodo di tempo.  Poi iberna          |
-|                    | `systemctl hybrid-sleep`                      | Sospende e iberna il sistema. Così che se la batteria si scarica, il pc è comunque ibernato |
+|                    | `systemctl suspend-then-hibernate`            | sospende il sistema per un certo periodo di tempo e poi lo iberna          |
+|                    | `systemctl hybrid-sleep`                      | Sospende ed iberna il sistema, cosicchè, se la batteria si scarica, il pc è comunque ibernato |
 
-Prendiamo ad esempio che vogliate usare nuovamente *netctl* anzichè *NetworkManager*, la procedura corretta sarebbe: 
+Ad esempio, supponiamo che vogliate usare nuovamente *netctl* anzichè *NetworkManager*, allora la procedura corretta sarebbe: 
 
 ```bash
 sudo systemctl stop NetworkManager
@@ -1122,7 +1149,7 @@ wifi-menu
 sudo dhcpcd
 ```
 
-Al contrario invece
+Al contrario, invece, per abilitare nuovamente NetworkManager, si dovrà digitare:
 
 ```bash
 sudo dhcpcd -x
@@ -1132,19 +1159,19 @@ sudo systemctl start NetworkManager
 
 > <u>NOTE</u>:
 >
-> Spesso **NetworkManager**, anche a servizio spento, prende il sopravvento perchè il plugin ( in background tramite il DE ) resta attivo. In tal caso bisogna ripetere la procedura più volte se si vuole usare **netctl**.
+> Spesso **NetworkManager**, anche a servizio spento, prende il sopravvento, perchè il plugin resta attivo (in background, tramite il DE). In tal caso, se si vuole usare **netctl**, bisognerà ripetere la procedura più volte .
 
 ## Post-personalizzazioni di sistema by PsykeDady
 
-Seguiranno alcune personalizzazioni tipiche dei miei sistemi. Questo capitolo è assolutamente opzionale e non necessario al funzionamento del sistema
+Seguiranno alcune personalizzazioni tipiche dei miei sistemi. Questo capitolo è assolutamente opzionale e non necessario al funzionamento del sistema.
 
 ### I sette 'nano'
 
-da linea di comando, l’avrete capito, il mio editor preferito è **nano**. Premesso che io penso che la linea di comando serva giusto per piccole modifiche, non uso editor che consentono, anche da terminale, di progettare, sviluppare e scrivere documenti complessi come potrebbe essere *VIM*.
+Da linea di comando, l’avrete capito, il mio editor preferito è **nano**. Premesso che io penso che la linea di comando serva giusto per piccole modifiche, proprio per questo motivo non uso editor che consentano, anche da terminale, di progettare, sviluppare e scrivere documenti complessi, come potrebbe essere *VIM*.
 
-Detto ciò, piccole modifiche non significa che non si debba stare comodi no? quindi vediamo come fare a rendere più piacevole l'uso di nano.
+Detto ciò, piccole modifiche non significa che non si debba stare comodi no? Quindi vediamo come fare a rendere più piacevole l'utilizzo di nano.
 
-Creiamo con il nostro editor preferito il file *~/.nanorc* :
+Creiamo, con il nostro editor preferito, il file *~/.nanorc* :
 
 ```bash
 set softwrap
@@ -1153,25 +1180,27 @@ set linenumbers
 	
 include "/usr/share/nano/*.nanorc"
 ```
+Nello specifico:
 
-- **softwrap**: fa andare a capo le righe che superano la lunghezza del terminale, senza però generare un nuovo fine linea nel testo, così non vi dovrete spostare per vedere cosa contengono quelle lunghe infinite linee che scrivete
+- **softwrap** fa andare a capo le righe che superano la lunghezza del terminale, senza però generare un nuovo fine linea nel testo, così non vi dovrete spostare per vedere cosa contengono quelle lunghe ed infinite linee che scrivete;
 
-- **autoindent**: se programmate con nano, questo può essere davvero un aiuto importante. Abilitare questa opzione vi permette, una volta indentata una linea di codice, di mantenere sulle righe di sotto la stessa tabulazione precedente. <u>Se programmate e non indentate, o siete figli di satana o vi volete davvero male o ancora siete alle prime armi</u> (in questo caso vi perdono, ma <u>rimediate</u>)
+- **autoindent**, se programmate con nano, può essere davvero un aiuto importante. Infatti, abilitare questa opzione vi permette, una volta indentata una linea di codice, di mantenere sulle righe di sotto la stessa tabulazione precedente. <u>Se programmate e non indentate, o siete figli di satana o vi volete davvero male o ancora siete alle prime armi</u> (in questo caso vi perdono, ma <u>rimediate</u>);
 
-- **linenumbers**: una volta che avete abilitato softwrap non capirete quando inizia una riga e quando invece sta continuando quella precedente. Questa opzione mostra i numeri riga, in termini di numeri cardinali, ogni suo inizio
+- **linenumbers**, è un'opzione che mostra il numero di riga, in termini di numeri cardinali, in modo da ovviare al fatto che, dopo aver abilitato softwrap, non capirete più quando inizia una riga e quando invece sta continuando quella precedente;
 
-- **include** /bla/bla/bla: permette l’evidenziamento della sintassi dei linguaggi di programmazione supportati da nano. Il percorso indicato è dove normalmente sono salvati i template che descrivono come evidenziare la sintassi di quel linguaggio. Su sistemi diversi da arch potrebbe non essere lo stesso path.
+- **include** /bla/bla/bla, che permette l’evidenziamento della sintassi dei linguaggi di programmazione supportati da nano, secondo i relativi template, che descrivono proprio come evidenziare la sintassi di un linguaggio specifico, salvati al percorso indicato; si precisa che, su sistemi diversi da arch, il path potrebbe non essere lo stesso.
 
 ### Personalizzare GRUB
 
-GRUB è quel componente che ci consente di avviare il nostro sistema o altri sistemi installati, è perfettamente “modellabile” secondo diverse necessità, aumentare i tempi di scelta, diminuirli, aggiungere ulteriori menu, esistono anche dei bei temi (consiglio quello di breeze)
+Il GRUB è quel componente che ci consente di avviare il nostro sistema e/o altri sistemi installati, è perfettamente “modellabile” secondo diverse necessità, consente di aumentare i tempi di selezione del sistema operativo da eseguire, di diminuirli, di aggiungere ulteriori menu e di scegliere anche dei bei temi (consiglio quello di breeze).
 
-Il file di configurazione principale del grub si trova in */etc/default/grub*, Seguiranno ora una serie di spiegazioni per le variabili che modifico più spesso:
+Il file di configurazione principale del grub si trova in */etc/default/grub*.
+Seguiranno ora una serie di spiegazioni per le variabili che modifico più spesso:
 
-- ​	`GRUB_TIMEOUT ``->` In questa variabile ci andrà il tempo di selezione dell’OS di grub
-- ​	`GRUB_THEME ->` In questa variabile ci andrà il percorso del tema che vogliamo usare, bisogna indicare il percorso fino al file *theme.txt*
+- ​	`GRUB_TIMEOUT ``->` in questa variabile ci andrà il tempo di selezione dell’OS di grub;
+- ​	`GRUB_THEME ->` in questa variabile ci andrà il percorso del tema che vogliamo usare, bisogna indicare il percorso fino al file *theme.txt*;
 
-Inoltre possiamo aggiungere delle nuove voci al menu aggiungendole nel file `/etc/grub.d/40_custom`, vediamo come aggiungere il **riavvio**, la **chiusura** e (eventualmente se siamo su EFI) **l’accesso alle impostazioni EFI**:
+Inoltre, possiamo aggiungere delle nuove voci al menu inserendole nel file `/etc/grub.d/40_custom`. Ad esempio, vediamo come aggiungere il **riavvio**, la **chiusura** ed eventualmente, se siamo su EFI, **l’accesso alle impostazioni EFI**:
 
 ```bash
 menuentry "EFI Setup" {
@@ -1188,67 +1217,70 @@ menuentry "Spegni il pc" {
 }
 ```
 
-### oh zsh, mio amore :heart:
+### Oh zsh, mio amore :heart:
 
-*l terminale è vita, il terminale è amore.* Spesso per l’utilizzatore linux il terminale è davvero tutto. Ecco perchè abbellirlo e renderlo funzionare dovrebbe essere una priorità.
+*Il terminale è vita, il terminale è amore.* 
 
-Allora ecco che entrano in gioco le *‘alternative’* alla shell per eccellenza, sua maestà `bash`.
+Spesso, per l’utilizzatore linux, il terminale è davvero tutto. Ecco perchè abbellirlo e renderlo funzionante dovrebbe essere una priorità.
 
-La proposta più popolare è sicuramente `zsh`. In realtà l’avete già usata e non lo sapete (?), infatti la live di archlinux ne è equipaggiata.
+Allora entrano in gioco le *‘alternative’* alla shell per eccellenza, sua maestà `bash`.
 
-Quindi installiamo `zsh` e anche il suo famoso gestore di plugin: **oh-my-zsh**. Qui entra in gioco il famoso AUR con l’aur helper scelto, quindi non eseguite il prossimo comando da un account root.
+La proposta più popolare è sicuramente `zsh`. 
+In realtà l’avete già usata e non lo sapete (?), infatti la live di archlinux ne è equipaggiata.
+
+Quindi installiamo `zsh` ed anche il suo famoso gestore di plugin: **oh-my-zsh**. Per farlo, utilizzeremo il famoso AUR, con l’aur helper scelto, perciò non eseguite il prossimo comando da un account root.
 
 `yay -S zsh oh-my-zsh-git zsh-theme-powerlevel10k`
 
-Il terzo pacchetto è uno dei temi più famosi di zsh, la configurazione che vi propongo è proprio quella che si basa su questo pacchetto.
+Il terzo pacchetto è uno dei temi più famosi di zsh e la configurazione che vi propongo è proprio quella che si basa su questo pacchetto.
 
-In realtà solo oh-my-zsh si trova su AUR, gli altri si dovrebbero trovare sui repository standard, ma `yay` come già detto, installerà anche i pacchetti normali ( è come fosse un estensione di `pacman`)
+In realtà solo oh-my-zsh si trova su AUR, in quanto gli altri si dovrebbero trovare sui repository standard, ma `paru` come già detto, installerà anche i pacchetti normali (come se fosse un'estensione di `pacman`).
 
-Copiamoci nella home innanzitutto il file rc di oh-my-zsh:
+Innanzitutto, copiamoci, nella home, il file rc di oh-my-zsh:
 
 `cp /usr/share/oh-my-zsh/zshrc ~/.zshrc`
 
-Modifichiamo quindi il file appena creato con il nostro editor preferito, andiamo alla linea `ZSH_THEME` e scriviamo 
+Modifichiamo, quindi, il file appena creato con il nostro editor preferito, andando alla linea `ZSH_THEME` e scrivendo poi: 
 
 `ZSH_THEME="powerlevel10k/powerlevel10k"`
 
 > <u>NOTE</u>:
 >
-> Il tema 10K porta con sè anche il tema 9k, basta indicare  `powerlevel10k/powerlevel9k` per poterlo usare
+> Il tema 10K porta con sè anche il tema 9k, basta indicare  `powerlevel10k/powerlevel9k` per poterlo usare.
 
-per funzionare comunque bisogna anche copiare il tema nella cartella temi di zsh:
+Comunque, per funzionare, bisogna anche copiare il tema nella cartella temi di zsh:
 
 `sudo ln -sf /usr/share/zsh-theme-powerlevel10k /usr/share/oh-my-zsh/themes/powerlevel10k`
 
 
-
-Il nostro `zsh` dovrebbe essere pronto, possiamo testarlo digitando `zsh` ed eventualmente impostarlo come shell predefinita tramite `chsh`:
+Il nostro `zsh` dovrebbe essere pronto, dunque possiamo testarlo digitando `zsh` ed eventualmente impostarlo come shell predefinita tramite `chsh`:
 
 `chsh -s /usr/bin/zsh`
 
 > <u>NOTE</u>:
 >
-> La **powerline** (ovvero la barra che utilizza il tema **powerlevel**) potrebbe necessitare di un font in grado di visualizzare alcuni caratteri particolari. Consiglio di installare  il pacchetto font: `ttf-fira-code`  
+> La **powerline** (ovvero la barra che utilizza il tema **powerlevel**) potrebbe necessitare di un font in grado di visualizzare alcuni caratteri particolari. Consiglio di installare il pacchetto font: `ttf-fira-code`  
 
 ### fstab montare ~~la panna~~ partizioni all'avvio
 
 È possibile, volendo, montare altre partizioni all’avvio. 
 
-Innanzitutto individuiamo le partizioni interessate:
+Innanzitutto, individuiamo le partizioni interessate con il comando:
 
 `sudo blkid`
 
-ci apparirà una lista di file del tipo **/dev/sdXY** dove X è una lettera (parte da a in genere, e indica il disco) e Y è un numero (indica la partizione, parte da 1). Individuiamo (basandoci sulla Label, se ne abbiamo impostata una, oppure sul tipo di partizione) la riga corrispondente al disco che ci interessa e annotiamoci la **UUID**
+Ci apparirà, a questo punto, una lista di file del tipo **/dev/sdXY**, dove X è una lettera (che, in genere, parte da "a" ed indica il disco) ed Y è un numero (indica la partizione e parte da 1). 
+Individuiamo (basandoci sulla Label, se ne abbiamo impostata una, oppure sul tipo di partizione) la riga corrispondente al disco che ci interessa ed annotiamoci il corrispettivo **UUID**.
 
-Poi creiamo una cartella dove vogliamo trovare il nostro disco ad ogni avvio, ad esempio **/media/SharingVolume**, il nome e il percorso possono essere di pura fantasia, potreste avere la necessità di usare i permessi di amministratore per questo:
+Dopo di che creiamo la cartella in cui vogliamo trovare il nostro disco ad ogni avvio, ad esempio **/media/SharingVolume**, dove il nome ed il percorso possono essere di pura fantasia, ricordando che potreste avere la necessità di usare i permessi di amministratore per il comando:
 
 `sudo mkdir -p /media/Sharing Volume`
 
-Poi, assicurandoci che la partizione non sia montata ( `sudo umount /dev/sdXY `nel caso contrario) scriviamo questa riga nel nostro `/etc/fstab`
+Poi, assicurandoci che la partizione non sia montata (digitare `sudo umount /dev/sdXY ` nel caso contrario) scriviamo questa riga nel nostro `/etc/fstab`:
 
 `UUID=<uuid annotato> /percorso/creato/prima tipo_partizione defaults 0 0`
 
-Ad esempio supponiamo di voler montare **/dev/sdc3** con **UUID=123-123-123-123** sotto il nome di **Sharing****Volume**, considerando che è una partizione di tipo **ntfs**. Allora scriveremo:
+Ad esempio, supponiamo di voler montare **/dev/sdc3** con **UUID=123-123-123-123** sotto il nome di **Sharing****Volume**, considerando che è una partizione di tipo **ntfs**. Allora scriveremo:
 
 `UUID=123-123-123-123 /media/SharingVolume ntfs-3g defaults 0 0`
 
@@ -1256,25 +1288,26 @@ Salviamo e chiudiamo il file. Poi proviamo:
 
 `sudo mount -a`
 
-Se tutto va bene, la partizione è montata, e questo significa che sarà montata con successo ogni riavvio. Altrimenti cancellate immediatamente la riga inserita, e documentatevi sulla wiki per capire cosa avete sbagliato.
+Se tutto va bene, la partizione risulta montata e ciò significa che verrà montata con successo ad ogni riavvio. Altrimenti, cancellate immediatamente la riga inserita e documentatevi sulla wiki per capire cosa avete sbagliato.
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==la pena per un fstab mal fatto è l’impossibilità di avvio del sistema. Quindi assicuriamoci che sia tutto apposto prima di riavviare==
+>La pena per un fstab malfatto è l’impossibilità di eseguire l'avvio del sistema, quindi assicuriamoci che sia tutto apposto prima di riavviare.
 
-### fish, un ulteriore avanzatissima shell
+### fish, un'ulteriore avanzatissima shell
 
-Ancora più avanzata è la shell `fish`, che possiede per altro un proprio linguaggio di scripting, diverso da quello di bash.
+Ancora più avanzata è la shell `fish`, che possiede, per altro, un proprio linguaggio di scripting, diverso da quello di bash.
 
-Lo possiamo installare digitando
+La possiamo installare digitando:
 
 `sudo pacman -S fish`
 
 Fish è un po’ particolare da tutti i punti di vista, ad esempio il suo file rc lo trovate in *~/.config/config.fish*.
 
-Per personalizzare la shell dovrete usare `fish_config`, che aprirà un server web sul vostro browser dove potrete scegliere facilmente il tema, il prompt e altre funzionalità.
+Per personalizzare la shell dovrete usare `fish_config`, che aprirà un server web sul vostro browser, dove potrete scegliere facilmente il tema, il prompt ed altre funzionalità.
 
-Un altra particolare funzione di `fish` è il suo saluto di benvenuto, che può piacere come no. Per ridefinirlo scrivere nell’ rc queste righe: 
+Un'altra particolare funzione di `fish` è il suo saluto di benvenuto, che può piacere o meno.
+A questo proposito, per ridefinirlo, si può procedere scrivendo nell’ rc queste righe: 
 
 ```bash
 function fish_greeting
@@ -1288,8 +1321,9 @@ Per usarlo come shell predefinita si può digitare:
 
 ### neofetch
 
-Agli utenti linux piace avere tutto sotto controllo, e sopratutto piace che questo continuo monitorare sia esteticamente appagante.
- Ecco perché, chi per noi, ha creato dei tool che mostrano in modo sgargiante quello che tutte le informazioni di cui si ha bisogno. Uno di questi è `neofetch`, che possiamo semplicemente installare con 
+Agli utenti linux piace avere tutto sotto controllo e soprattutto piace che questo continuo monitorare sia esteticamente appagante.
+
+Ecco perché, chi per noi, ha creato dei tool che mostrano in modo sgargiante tutte le informazioni di cui si potrebbe avere bisogno. Uno di questi è `neofetch`, che possiamo semplicemente installare con:
 
 `sudo pacman -S neofetch`
 
@@ -1297,9 +1331,11 @@ Possiamo abilitare varie funzionalità installando i pacchetti aggiunti:
 
 `pacman -S catimg feh imagemagick jp2a libcaca nitrogen pacman-contrib w3m`
 
-Avviamolo almeno una volta scrivendo neofetch in modo da fargli creare i file di configurazione e poi andiamo a modificarli
+Avviamolo, almeno una volta, scrivendo `neofetch` in modo da fargli creare i file di configurazione e poi andiamo a modificarli con:
+
 `nano ~/.config/neofetch/config.conf`
-Ecco la mia semplicissima configurazione della sezione info, che è quella poi che determina cosa uscirà stampato sul terminale:
+
+Ecco la mia semplicissima configurazione della sezione info, che è quella che poi determina cosa verrà stampato sul terminale:
 
 ```bash
 print_info() {
@@ -1345,56 +1381,58 @@ print_info() {
 
 Se studiate bene la wiki e le documentazioni sul web potrete sfruttare al meglio il vostro neofetch.
 
-Poniamo di voler far partire neofetch con l’apertura del terminale (altra cosa che piace molto in genere) potete inserire `neofetch` nel file rc del vostro interprete preferito ( *~/.bashrc* per **bash**, *~/.zshrc* per **zsh**, etc...)
+Poniamo di voler far partire neofetch con l’apertura del terminale (altra cosa che piace molto in genere), allora potete inserire `neofetch` nel file rc del vostro interprete preferito ( *~/.bashrc* per **bash**, *~/.zshrc* per **zsh**, etc...).
 
 ### Se avete installato Su VirtualBox
 
-Se avete installato il tutto su virtual box, dopo aver installato le guest addiction (sezione [Server e driver](###Server-e-driver) della guida) e il pacchetto estensione sul sistema operativo ospitante, potreste volere condividere delle cartelle tra sistema host e guest.
+Se avete installato il tutto su virtual box, dopo aver installato le guest addiction (sezione [Server e driver](###Server-e-driver) della guida) ed il pacchetto estensione sul sistema operativo ospitante, potreste volere condividere delle cartelle tra sistema host e guest.
 
-Supponiamo che la cartella si chiami **Shared** (nome dato nelle impostazioni di Virtual Box) e la vogliamo montare nel percorso **/media/vboxshare**, le operazioni da eseguire saranno queste:
+Supponiamo che la cartella si chiami **Shared** (nome dato nelle impostazioni di Virtual Box) e che la si voglia montare nel percorso **/media/vboxshare**, allora le operazioni da eseguire saranno queste:
 
 ```bash
-# creiamo la cartella dove montare i dati condivisi
+# creiamo la cartella in cui montare i dati condivisi
 sudo mkdir -p /media/vboxshare
 	
 #quindi montiamola in Shared
 sudo mount -t vboxsf Shared /media/vboxshare
 ```
 
-Ricordo che (sezione: [fstab, montare ~~la panna~~ partizioni all’avvio](###fstab,-montare-la-panna-partizioni-all'avvio)) in genere è possibile, attraverso la modifica del file */etc/fstab*, aggiungere un punto nuovo di montaggio da caricare all’avvio del sistema. Nel particolare possiamo farlo anche con la cartella di virtual box: modifichiamo quindi il file in questione 
+Ricordo che, in genere, è possibile, attraverso la modifica del file */etc/fstab* (vedere la sezione: [fstab, montare ~~la panna~~ partizioni all’avvio](###fstab,-montare-la-panna-partizioni-all'avvio)), aggiungere un nuovo punto di montaggio, da caricare all’avvio del sistema. 
+In particolare possiamo farlo anche con la cartella di virtual box, modificando, quindi, il file in questione con: 
 
 `sudo nano /etc/fstab`
 
-e aggiungiamo una linea siffatta:
+Ed agigungendo una linea siffatta:
 
 `<NOME PUNTO DI MONTAGGIO> <PERCORSO PUNTO DI MONTAGGIO> vboxsf defaults 0 0`
 
-Nel caso dell’esempio di cui sopra
+Nel caso dell’esempio di cui sopra basterà scrivere:
 
 `Shared /media/vboxshared vboxsf defaults 0 0`
 
-Poi salviamo e, assicurandoci che non sia ancora montata la cartella, diamo un `sudo mount -a `
+Infine salviamo e, assicurandoci che non sia ancora montata la cartella, diamo un `sudo mount -a `.
 
 Se la cartella risulterà montata, allora possiamo stare certi che lo sarà ogni riavvio, altrimenti tentiamo di capire cosa c’è di sbagliato attraverso i messaggi di errore oppure <u>cancelliamo la modifica</u>. 
 
 ### Sotto effetto di LSD
 
-Se avete aperto questa sezione sperando che si parli di erbe, sarete abbastanza delusi. Nonostante questo vi assicuro che `lsd` è un piccolo software che merita di essere approfondito. 
- Grazie ad esso quando vorrete vedere la lista dei file da terminale, saranno visualizzate anche delle icone simbolo (tipo quella della cartella, oppure la nota per i filemusicali..etc)
+Se avete aperto questa sezione sperando che si parli di erbe, sarete abbastanza delusi. Nonostante questo, vi assicuro che `lsd` è un piccolo software che merita di essere approfondito. 
+
+Grazie ad esso, quando vorrete vedere la lista dei file da terminale, saranno visualizzate anche delle icone simbolo (tipo quella della cartella, oppure la nota per i file musicali..etc).
 
 ![](images/lsd.png)
 
-per installarlo basta dare:
+Per installarlo basterà dare:
 
 `sudo pacman -S lsd`
 
-Potete anche decidere di sostituirlo al normale ls ( solito strumento che da terminale fa vedere i file nella cartella) scrivendo nel file rc della shell questa riga:
+Potete anche decidere di sostituirlo al normale ls (solito strumento che, da terminale, fa vedere i file nella cartella) scrivendo, nel file rc della shell, questa riga:
 
 `alias "ls=lsd"`
 
 > <u>NOTE</u>:
 > 
-> Anche in questo caso potrebbe necessitare di un font in grado di visualizzare alcuni caratteri particolari. Consiglio sempre di installare  il pacchetto font: **ttf-fira-code**
+> Anche in questo caso si potrebbe avere la necessità di un font in grado di visualizzare alcuni caratteri particolari. Consiglio sempre di installare il pacchetto font: **ttf-fira-code**
 
 ### Il COMANDONE
 
@@ -1402,20 +1440,20 @@ Seguirà un elenco di comandi che include software o trick che normalmente appli
 
 > <u>NOTE</u>:
 >
-> verrà indicato yay come p.m. per aur, ma potete ovviamente usare il package manager da voi installato  
+> Verrà indicato paru come p.m. per aur, ma potete, ovviamente, usare il package manager da voi installato.  
 
 ```bash
 #media tool
-yay -S clementine audacity vlc gimp gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs alsa-firmware alsa-lib alsa-oss alsa-utils pulseaudio-alsa pavucontrol 
+paru -S clementine audacity vlc gimp gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-plugins-base gst-libav gvfs alsa-firmware alsa-lib alsa-oss alsa-utils pulseaudio-alsa pavucontrol 
 
 #work tool
-yay -S visual-studio-code-bin jdk8-openjdk jdk-openjdk jre-openjdk jre8-openjdk openjdk-doc openjdk-src openjdk8-doc openjdk8-src terminator octave xterm libreoffice-fresh libreoffice-fresh-it hyphen-it mythes-it hunspell-it python-pip mariadb 
+paru -S visual-studio-code-bin jdk8-openjdk jdk-openjdk jre-openjdk jre8-openjdk openjdk-doc openjdk-src openjdk8-doc openjdk8-src terminator octave xterm libreoffice-fresh libreoffice-fresh-it hyphen-it mythes-it hunspell-it python-pip mariadb 
 
 #net tool
-yay -S mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it deluge google-chrome
+paru -S mailspring firefox firefox-i18n-it thunderbird thunderbird-i18n-it deluge google-chrome
 
 #misc tool
-yay -S ponysay lolcat redshift wine wine-mono winetricks wine_gecko playonlinux  steam steam-native-runtime ntfs-3g nitrogen xdotool rar zip unzip p7zip sane hplip cups cups-pdf bluez-cups
+paru -S ponysay lolcat redshift wine wine-mono winetricks wine_gecko playonlinux  steam steam-native-runtime ntfs-3g nitrogen xdotool rar zip unzip p7zip sane hplip cups cups-pdf bluez-cups
 
 #altre istruzioni	
 sudo pip install youtube-dl 
@@ -1611,7 +1649,7 @@ If your document contains nontrivial examples of program code, we recommend rele
 
 # Template e legenda
 
-Seguono i template utilizzati per il file Markdown
+Seguono i template utilizzati per il file Markdown:
 
 `codice inline o singola linea di codice`
 
@@ -1620,19 +1658,19 @@ Seguono i template utilizzati per il file Markdown
 a blocchi o con sintassi da evidenziare
 ```
 
-Nei blocchi di codice l'introduzione di un cancelletto (#) è da intendersi come commento.
+Nei blocchi di codice l'introduzione di un cancelletto (#) è da intendersi come un commento.
 
-Tra parentesi angolate (&lt;&gt;) trovate il nome dei valori che dovreste sostituire voi (ad esempio `<nomeutente>` se il vostro nome è *Mario*, è da sostituire con **Mario**, eliminando le parentesi)
+Tra parentesi angolate (&lt;&gt;) trovate il nome dei valori che dovreste sostituire voi (ad esempio `<nomeutente>` se il vostro nome è *Mario*, è da sostituire con **Mario**, eliminando le parentesi).
 
-Tutti i comandi dati con sudo è da sottintendere che necessitino dei permessi di amministratore, perciò se li operate da account root può essere evitato il sudo
+Tutti i comandi dati con sudo è da sottintendere che necessitino dei permessi di amministratore, perciò se li eseguite da account root si può evitare il sudo.
 
 > <u>NOTE</u>:
 >
-> note 
+> Note 
 
 > **<u>ATTENZIONE</u>**:
 >
-> ==Un avvertimento. Il tratto appena spiegato non è stato testato oppure può fallire in alcuni casi ed è quindi sconsigliato da usare se non si sa esattamente quello che si fa. L’autore declina ogni responsabilità per danni che si possano verificare sul proprio sistema o dispositivo==
+>Un avvertimento. Il tratto appena spiegato non è stato testato oppure può fallire in alcuni casi ed è quindi sconsigliato da usare se non si sa esattamente quello che si fa. L’autore declina ogni responsabilità per danni che si possano verificare sul proprio sistema o dispositivo.
 
 > *<u>SUGGERIMENTO</u>*:
-> Un suggerimento orientato soprattutto ai meno esperti
+> Un suggerimento rivolto soprattutto ai meno esperti.
